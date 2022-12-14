@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
     height:40,
   },
   newUserBtn:{
-    width:180,
-    marginLeft:'45%',
+    width:181,
+    marginLeft:'40%',
     height:40,
     color:'blue'
 
