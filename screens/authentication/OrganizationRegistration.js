@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider as PaperProvider, Avatar, Text, TextInput, Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 
-export default function DoneeRegistration() {
+export default function OrganizationRegistration() {
   const navigation=useNavigation();
   const check=()=>{
     Alert.alert(

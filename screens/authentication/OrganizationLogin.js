@@ -12,7 +12,7 @@ export default function OrganizatonLogin() {
             <Text style={styles.heading} variant="displayMedium">Login</Text>
             <TextInput style={styles.usernameInput} mode={'outlined'} label={'Username'} ></TextInput>      
             <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} ></TextInput>      
-            <TouchableOpacity onPress={()=>navigation.navigate('DoneeRegistration')}>
+            <TouchableOpacity onPress={()=>navigation.navigate('OrganizationRegistration')}>
               <Text style={styles.newUserBtn} variant="labelLarge">New User? Register Here!</Text>
             </TouchableOpacity>
             <Button style={styles.loginBtn} mode='contained' onPress={()=>navigation.navigate('OrganizationPortal')}>Login</Button>
