@@ -8,7 +8,7 @@ export default function OrganizationRegistration() {
   const check=()=>{
     Alert.alert(
       'Congratulations!', 
-      "You've been registered as a Donee!",
+      "You've been registered as Organization!",
       [ 
       {text: 'Okay!', onPress: () => navigation.navigate("OrganizationLogin")},          
     ])
