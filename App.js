@@ -24,7 +24,7 @@ export default function App() {
         <Stack.Screen name="DoneeRegistration" component={DoneeRegistration}/>
         <Stack.Screen name="DoneePortal" component={DoneePortal}/>
         <Stack.Screen name="OrganizationLogin" component={OrganizationLogin}/>
-        <Stack.Screen name="OrganizartionRegistration" component={OrganizationRegistration}/>
+        <Stack.Screen name="OrganizationRegistration" component={OrganizationRegistration}/>
         <Stack.Screen name="OrganizationPortal" component={OrganizationPortal}/>
       </Stack.Navigator>
     </NavigationContainer>
