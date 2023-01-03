@@ -2,6 +2,7 @@ import { View, SafeAreaView, TouchableOpacity, StyleSheet, KeyboardAvoidingView}
 import React from 'react'
 import { Provider as PaperProvider, Avatar, Text, TextInput, Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../../firebase';
 
 export default function DoneeLogin() {
     const navigation=useNavigation();
