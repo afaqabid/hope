@@ -38,7 +38,7 @@ export default function DoneePortal (){
   const navigation = useNavigation();
 
   const handleLogout = () => {
-    auth.signOut(auth).then(() => {
+    auth.signOut().then(() => {
       console.log("User Signed Out Successfully!");
       navigation.navigate("SelectPortal")
       })
