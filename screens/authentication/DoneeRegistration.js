@@ -54,7 +54,7 @@ export default function DoneeRegistration() {
                 <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Address'} ></TextInput>      
                 <TextInput style={styles.usernameInput} mode={'outlined'} label={'CNIC'} ></TextInput>      
                 <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'CNIC Issue Date'} ></TextInput>      
-                <Button style={styles.loginBtn} mode='contained' onPress={handleSignUp()}>Register</Button>
+                <Button style={styles.loginBtn} mode='contained' onPress={handleSignUp}>Register</Button>
               </ScrollView>
             </KeyboardAvoidingView>
           </View>

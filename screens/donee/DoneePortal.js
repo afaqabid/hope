@@ -6,6 +6,10 @@ import ChatTab from '../chat/ChatTab';
 import DonationsTab from '../donations/DonationsTab';
 import NotificationsTab from '../notifications/NotificationsTab';
 import RequestsTab from '../requests/RequestsTab';
+import { auth } from '../../firebase';
+import { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 
 const TabOne = () => <DonationsTab/>
 const TabTwo = () => <RequestsTab/>
@@ -31,12 +35,29 @@ export default function DoneePortal (){
     tabFive: TabFive,
   });
 
+  const navigation = useNavigation();
+
+  const handleLogout = () => {
+    auth.signOut(auth).then(() => {
+      console.log("User Signed Out Successfully!");
+      navigation.navigate("SelectPortal")
+      })
+      .catch(error => alert(error.message))
+    }
+
   return (
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => {}} />
+        <Appbar.Content title="Title" />
+        <Appbar.Action icon="logout" onPress={handleLogout} />
+      </Appbar.Header>      
       <BottomNavigation
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
       />
+    </>
   );
 };
 
