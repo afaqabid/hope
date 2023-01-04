@@ -16,7 +16,7 @@ export default function DoneeLogin() {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
-        navigation.navigate("DonorPortal")
+        navigation.navigate("DoneePortal")
       })
       .catch(error => alert(error.message))
     }

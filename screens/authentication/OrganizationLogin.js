@@ -31,7 +31,7 @@ export default function OrganizatonLogin() {
             <TouchableOpacity onPress={()=>navigation.navigate('OrganizationRegistration')}>
               <Text style={styles.newUserBtn} variant="labelLarge">New User? Register Here!</Text>
             </TouchableOpacity>
-            <Button style={styles.loginBtn} mode='contained' onPress={handleLogin()}>Login</Button>
+            <Button style={styles.loginBtn} mode='contained' onPress={handleLogin}>Login</Button>
           </View>
         </SafeAreaView>
     </PaperProvider>

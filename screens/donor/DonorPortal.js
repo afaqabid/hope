@@ -46,9 +46,7 @@ export default function DonorPortal (){
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => {}} />
-        <Appbar.Content title="Title" />
-        <Appbar.Action icon="logout" onPress={handleLogout} />
+        <Appbar.Action style={styles.appbarLogout} icon="logout" onPress={handleLogout} />
       </Appbar.Header>      
       <BottomNavigation
         navigationState={{ index, routes }}
@@ -60,4 +58,7 @@ export default function DonorPortal (){
 };
 
 const styles = StyleSheet.create({
+  appbarLogout:{
+    marginLeft:'88%',
+  }
 })

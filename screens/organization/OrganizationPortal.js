@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BottomNavigation, Text, Provider as PaperProvider } from 'react-native-paper';
+import { BottomNavigation, Text, Provider as PaperProvider, Appbar } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import BlogTab from '../blog/BlogTab';
 import ChatTab from '../chat/ChatTab';
@@ -46,9 +46,7 @@ export default function OrganizationPortal (){
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => {}} />
-        <Appbar.Content title="Title" />
-        <Appbar.Action icon="logout" onPress={handleLogout} />
+        <Appbar.Action style={styles.appbarLogout} icon="logout" onPress={handleLogout} />
       </Appbar.Header>      
       <BottomNavigation
         navigationState={{ index, routes }}
@@ -60,4 +58,7 @@ export default function OrganizationPortal (){
 };
 
 const styles = StyleSheet.create({
+  appbarLogout:{
+    marginLeft:'88%',
+  }
 })
