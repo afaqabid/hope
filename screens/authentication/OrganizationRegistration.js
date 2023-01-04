@@ -2,18 +2,41 @@ import { View, SafeAreaView, TouchableOpacity, StyleSheet, KeyboardAvoidingView,
 import React from 'react'
 import { Provider as PaperProvider, Avatar, Text, TextInput, Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../../firebase';
+import { useState, useEffect } from 'react'
 
 export default function OrganizationRegistration() {
-  const navigation=useNavigation();
-  const check=()=>{
-    Alert.alert(
-      'Congratulations!', 
-      "You've been registered as Organization!",
-      [ 
-      {text: 'Okay!', onPress: () => navigation.navigate("OrganizationLogin")},          
-    ])
-  }
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        navigation.replace("DonorLogin")
+      }
+    })
+
+    return unsubscribe
+  }, [])
+
+  const handleSignUp = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
+        console.log('Registered with:', user.email);
+        Alert.alert(
+          'Congratulations!', 
+          "You've been registered as a Donor!",
+          [ 
+          {text: 'Okay!', onPress: () => navigation.navigate("DonorLogin")},          
+          ])
+
+      })
+      .catch(error => alert(error.message))
+  }
   return (
     <PaperProvider>
         <SafeAreaView style={styles.container}>
@@ -23,16 +46,16 @@ export default function OrganizationRegistration() {
                 <Text style={styles.heading} variant="displayMedium">Registration</Text>
                 <TextInput style={styles.usernameInput} mode={'outlined'}  label={'Name of Organization'} ></TextInput>      
                 <TextInput style={styles.usernameInput} mode={'outlined'}  label={'Build in'} ></TextInput>      
-                <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Email'} ></TextInput>      
+                <TextInput style={styles.passwordInput}  mode={'outlined'} label={'Email'} value={email} onChangeText={text => setEmail(text)}></TextInput>      
                 <TextInput style={styles.usernameInput} mode={'outlined'} label={'Username'} ></TextInput>      
-                <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} ></TextInput>      
+                <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} value={password} onChangeText={text => setPassword(text)}></TextInput>      
                 <TextInput style={styles.usernameInput} mode={'outlined'} label={'Confirm Password'} ></TextInput>      
                 <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} ></TextInput>      
                 <TextInput style={styles.usernameInput} mode={'outlined'} label={'Phone #'} ></TextInput>      
                 <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Address'} ></TextInput>      
                 <TextInput style={styles.usernameInput} mode={'outlined'} label={'CNIC'} ></TextInput>      
                 <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Certificate Number of Organization'} ></TextInput>      
-                <Button style={styles.loginBtn} mode='contained' onPress={()=>check()}>Login</Button>
+                <Button style={styles.loginBtn} mode='contained' onPress={()=>handleSignUp()}>Register</Button>
               </ScrollView>
             </KeyboardAvoidingView>
           </View>
