@@ -13,6 +13,20 @@ export default function BlogTab() {
             <Text variant="bodyMedium">Roughly 18,000 years ago an ancient lake in Siberia about 120 km </Text>
         </Card.Content>
      </Card>
+     <Card style={styles.container}>
+        <Card.Cover source={{ uri: 'https://media.geeksforgeeks.org/wp-content/uploads/20220217151648/download3-200x200.png' }} />
+          <Card.Content>
+            <Text variant="titleLarge">Flood In America</Text>
+            <Text variant="bodyMedium">Roughly 18,000 years ago an ancient lake in Siberia about 120 km </Text>
+        </Card.Content>
+     </Card>
+     <Card style={styles.container}>
+        <Card.Cover source={{ uri: 'https://media.geeksforgeeks.org/wp-content/uploads/20220217151648/download3-200x200.png' }} />
+          <Card.Content>
+            <Text variant="titleLarge">Flood In America</Text>
+            <Text variant="bodyMedium">Roughly 18,000 years ago an ancient lake in Siberia about 120 km </Text>
+        </Card.Content>
+     </Card>
    </ScrollView>
    </>
   );
@@ -22,6 +36,6 @@ export default function BlogTab() {
 const styles = StyleSheet.create({
   container :{
     alignContent:'center',
-    margin: 25,
+    margin: 20,
    }
 })
