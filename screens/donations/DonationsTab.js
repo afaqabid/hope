@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     marginTop:-45,
     width:'95%',
     marginLeft:10,
-    borderRadius:5
+    borderRadius:5,
+    marginBottom:10
 
   },
   lowerView:{
