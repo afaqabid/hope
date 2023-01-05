@@ -32,7 +32,6 @@ export default function BlogTab() {
   );
 };
 
-//const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
   container :{
     alignContent:'center',
