@@ -16,14 +16,14 @@ export default function BlogTab() {
      <Card style={styles.container}>
         <Card.Cover source={{ uri: 'https://propakistani.pk/wp-content/uploads/2022/03/Heatwave.jpg' }} />
           <Card.Content>
-            <Text variant="titleLarge">Heat Wave</Text>
+            <Text style={styles.heading} variant="titleLarge">Heat Wave</Text>
             <Text variant="bodyMedium">From March-May 2022, Pakistan recorded some of the highest temperatures in the country in the last 60 years. The heat waves from March to mid-June are now followed by the onset of the monsoon in parts of the country with flash flood warnings and torrential rains causing loss of life and damage to property. </Text>
         </Card.Content>
      </Card>
      <Card style={styles.container}>
         <Card.Cover source={{ uri: 'https://floodlist.com/wp-content/uploads/2021/07/Khyber-Pakhtunkhwa-damage-house-File-Photo.jpg' }} />
           <Card.Content>
-            <Text variant="titleLarge">Land-Slide</Text>
+            <Text style={styles.heading} variant="titleLarge">Land-Slide</Text>
             <Text variant="bodyMedium">Disaster authorities in Pakistan report that heavy rain has caused damage to homes and triggered landslides in Khyber Pakhtunkhwa (KP) Province from 20 January 2022</Text>
         </Card.Content>
      </Card>
