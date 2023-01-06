@@ -25,11 +25,11 @@ export default function NotificationHead() {
             {
                 notificationPostList.map(x=>
                     <>
-                        <View style={styles.donationCard}>
-                            <View style={styles.leftCard}>
-                                <TouchableOpacity onPress={()=>{alert(x.donationTitle + " is Toggled!")}} >
-                                    <Text style={styles.donationTitle}>{x.notificationTitle}</Text>
-                                    <Text style={styles.donorName}>{x.notificationName}</Text>
+                        <View style={styles. notificationCard}>
+                            <View style={styles.card}>
+                                <TouchableOpacity onPress={()=>{alert(x. notificationTitle + " is Toggled!")}} >
+                                    <Text style={styles. notificationTitle}>{x.notificationTitle}</Text>
+                                    <Text style={styles. notificationName}>{x.notificationName}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -38,3 +38,24 @@ export default function NotificationHead() {
             }
         </PaperProvider>
     )}
+
+    const styles = StyleSheet.create({
+        notificationCard:{
+            height:70,
+            width:'95%',
+            backgroundColor:'white',
+            marginTop:10,
+            marginLeft:10,
+            padding:10,
+            borderRadius:5,
+            display:'flex',
+            flexDirection:'row',
+            backgroundColor:'#EFECEB',
+        },
+        card:{
+            width:220
+        },
+        notificationTitle:{
+            fontSize:18
+        }
+    })
