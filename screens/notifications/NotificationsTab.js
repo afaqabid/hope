@@ -6,9 +6,11 @@ import { Provider as PaperProvider } from 'react-native-paper'
 export default function NotificationsTab() {
   return (
     <PaperProvider>
-        <SafeAreaView>
-            <Text>NotificationsTab</Text>
-        </SafeAreaView>
+        <View>
+          <ScrollView>
+            <NotificationHead></NotificationHead>
+          </ScrollView>
+        </View>
     </PaperProvider>
   )
 }
