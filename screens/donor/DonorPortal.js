@@ -44,7 +44,7 @@ export default function DonorPortal (){
       .catch(error => alert(error.message))
     }
   return (
-    <>
+    <PaperProvider>
       <Appbar.Header>
         <Appbar.Action style={styles.appbarLogout} icon="logout" onPress={handleLogout} />
       </Appbar.Header>      
@@ -52,8 +52,8 @@ export default function DonorPortal (){
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-      />
-    </>
+        />
+    </PaperProvider>
   );
 };
 
