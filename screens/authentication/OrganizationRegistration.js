@@ -31,7 +31,7 @@ export default function OrganizationRegistration() {
           'Congratulations!', 
           "You've been registered as a Donor!",
           [ 
-          {text: 'Okay!', onPress: () => navigation.navigate("DonorLogin")},          
+            {text: 'Okay!', onPress: () => navigation.navigate("DonorLogin")},          
           ])
 
       })

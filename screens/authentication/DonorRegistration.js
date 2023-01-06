@@ -5,11 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../firebase';
 import { useState, useEffect } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { db } from '../../firebase';
+import { ref, set, update } from "firebase/database";
 
 
 export default function DonorRegistration() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
 
   const navigation = useNavigation();
 
@@ -24,6 +27,27 @@ export default function DonorRegistration() {
   }, [])
 
   const handleSignUp = () => {
+
+
+    set(ref(db, 'email/' + username), {
+    username: username,
+    email: email,
+    password:password,
+    accountType:'Donor'
+  })
+  .then(()=>{
+    alert("Account Added!")
+  })
+  .catch((error)=>{
+    alert(error)
+  })
+
+
+
+
+
+
+
       createUserWithEmailAndPassword(auth,email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
@@ -48,7 +72,7 @@ export default function DonorRegistration() {
                 <TextInput style={styles.usernameInput} mode={'outlined'}  label={'Name'} ></TextInput>      
                 <TextInput style={styles.usernameInput} mode={'outlined'}  label={'Date Of Birth'} ></TextInput>      
                 <TextInput style={styles.passwordInput}  mode={'outlined'} label={'Email'} value={email} onChangeText={text => setEmail(text)}></TextInput>      
-                <TextInput style={styles.usernameInput} mode={'outlined'} label={'Username'} ></TextInput>      
+                <TextInput style={styles.usernameInput} mode={'outlined'} label={'Username'} value={username} onChangeText={text=>setUsername(text)} ></TextInput>      
                 <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} value={password} onChangeText={text => setPassword(text)}></TextInput>      
                 <TextInput style={styles.usernameInput} mode={'outlined'} label={'Confirm Password'} ></TextInput>      
                 <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} ></TextInput>      
