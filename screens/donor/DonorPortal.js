@@ -26,6 +26,8 @@ export default function DonorPortal (){
     { key: 'tabFive', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
   ]);
 
+  const appbarTitle = ['Donations', 'Requests', 'Chat', 'Blog', 'Notifications'];
+
   const renderScene = BottomNavigation.SceneMap({
     tabOne: TabOne,
     tabTwo: TabTwo,
@@ -45,20 +47,29 @@ export default function DonorPortal (){
     }
   return (
     <PaperProvider>
-      <Appbar.Header>
+      <Appbar.Header style={styles.topBar} >
+        <Appbar.Content title={appbarTitle[index]} />
         <Appbar.Action style={styles.appbarLogout} icon="logout" onPress={handleLogout} />
       </Appbar.Header>      
       <BottomNavigation
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
+        barStyle={{ backgroundColor: 'grey'}}
         />
     </PaperProvider>
   );
 };
 
 const styles = StyleSheet.create({
-  appbarLogout:{
-    marginLeft:'88%',
-  }
+  topBar:{
+    display:'flex',
+    flexDirection:'row',
+    backgroundColor:'grey',
+    color:'white',
+    alignItems:'center',
+    textAlign:'center',
+    justifyContent:'center'
+  },
+
 })

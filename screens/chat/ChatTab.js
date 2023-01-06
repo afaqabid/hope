@@ -7,11 +7,11 @@ import ChatHead from '../../components/ChatHead'
 export default function ChatTab() {
   return (
     <PaperProvider>
-        <SafeAreaView>
+        <View>
           <ScrollView>
             <ChatHead></ChatHead>
           </ScrollView>
-        </SafeAreaView>
+        </View>
     </PaperProvider>
   )
 }
