@@ -3,7 +3,7 @@ import React from 'react'
 import { Avatar, Divider, Text, Provider as PaperProvider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-class NotificationUser {
+class notificationPost {
         constructor(notificationTitle, notificationName) {
         this.notificationTitle = notificationTitle;
         this.notificationName = notificationName;
@@ -56,6 +56,7 @@ export default function NotificationHead() {
             width:220
         },
         notificationTitle:{
-            fontSize:18
+            fontSize:18,
+            fontWeight: 'bold',
         }
     })
