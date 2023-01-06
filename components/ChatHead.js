@@ -1,11 +1,12 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Avatar, Divider, Text, Provider as PaperProvider } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 class ChatUser {
     constructor(username, userImg) {
-    this.userImg = username;
-    this.username = userImg;
+    this.userImg = userImg;
+    this.username = username;
     }
 }
 
@@ -21,32 +22,33 @@ export default function ChatHead() {
         usersList.push(x);
     }
 
+    const navigation = useNavigation();
+
+    function goToChatScreen()
+    {
+
+    }
+
+
   return (
     <PaperProvider>
-        <View style={styles.chatCard}>
-            <Avatar.Image size={40} source={require('../assets/user.png')} style={{backgroundColor:'transparent'}} />    
-            <Text style={styles.username} >Username</Text>
-        </View>
-        <View style={styles.chatCard}>
-            <Avatar.Image size={40} source={require('../assets/user.png')} style={{backgroundColor:'transparent'}} />    
-            <Text style={styles.username} >Username</Text>
-        </View>
-        <View style={styles.chatCard}>
-            <Avatar.Image size={40} source={require('../assets/user.png')} style={{backgroundColor:'transparent'}} />    
-            <Text style={styles.username} >Username</Text>
-        </View>
-        <View style={styles.chatCard}>
-            <Avatar.Image size={40} source={require('../assets/user.png')} style={{backgroundColor:'transparent'}} />    
-            <Text style={styles.username} >Username</Text>
-        </View>
-        <View style={styles.chatCard}>
-            <Avatar.Image size={40} source={require('../assets/user.png')} style={{backgroundColor:'transparent'}} />    
-            <Text style={styles.username} >Username</Text>
-        </View>
+        {
+            usersList.map(user=>
+                <TouchableOpacity onPress={()=>{
+                    navigation.navigate('ChatScreen', {
+                        selectedUsername:user.username,
+                        selectedUserImg:user.userImg,
+                    });
+                }}>
+                    <View style={styles.chatCard}>
+                        <Avatar.Image size={40} source={require('../assets/user.png')} style={{backgroundColor:'transparent'}} />    
+                        <Text style={styles.username}>{user.username}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
     </PaperProvider>
-
-  )
-}
+)}
 
 const styles = StyleSheet.create({
     chatCard:{

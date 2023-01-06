@@ -7,6 +7,7 @@ import DonorRegistration from "./screens/authentication/DonorRegistration";
 import OrganizationLogin from "./screens/authentication/OrganizationLogin";
 import OrganizationRegistration from "./screens/authentication/OrganizationRegistration";
 import SelectPortal from "./screens/authentication/SelectPortal";
+import ChatScreen from "./screens/chat/ChatScreen";
 import DoneePortal from "./screens/donee/DoneePortal";
 import DonorPortal from "./screens/donor/DonorPortal";
 import OrganizationPortal from "./screens/organization/OrganizationPortal";
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name="OrganizationLogin" component={OrganizationLogin}/>
         <Stack.Screen name="OrganizationRegistration" component={OrganizationRegistration}/>
         <Stack.Screen name="OrganizationPortal" component={OrganizationPortal}/>
+        <Stack.Screen name="ChatScreen" component={ChatScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
