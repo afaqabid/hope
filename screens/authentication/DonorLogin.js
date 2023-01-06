@@ -4,6 +4,7 @@ import { Provider as PaperProvider, Avatar, Text, TextInput, Button } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import { auth } from '../../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function DonorLogin() {
   const [email, setEmail] = useState('')
@@ -11,8 +12,7 @@ export default function DonorLogin() {
 
   const navigation = useNavigation();
   const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
+      signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);

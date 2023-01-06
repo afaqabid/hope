@@ -4,6 +4,7 @@ import { Provider as PaperProvider, Avatar, Text, TextInput, Button } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../firebase';
 import { useState, useEffect } from 'react'
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 
 export default function DonorRegistration() {
@@ -23,8 +24,7 @@ export default function DonorRegistration() {
   }, [])
 
   const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
+      createUserWithEmailAndPassword(auth,email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
