@@ -45,9 +45,18 @@ export default function DoneePortal (){
       .catch(error => alert(error.message))
     }
 
+    // const handleProfile = () => {
+    //     navigation.navigate('ProfileScreen', {
+          
+    //     });
+    //   }
+//abhi profile screen ni bnai bss yahin changes ki hai
+    
+
   return (
     <>
       <Appbar.Header>
+      {/* <Appbar.Action  icon="user" onPress={handleProfile} /> */}
         <Appbar.Action style={styles.appbarLogout} icon="logout" onPress={handleLogout} />
       </Appbar.Header>      
       <BottomNavigation

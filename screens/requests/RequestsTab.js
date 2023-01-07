@@ -7,18 +7,12 @@ import RequestHead from '../../components/RequestHead'
 
 export default function RequestsTab() {
   return (
-    <PaperProvider>
-        <SafeAreaView style={styles.temp}>
-          
-          <View style={styles.lowerView}>
+    <PaperProvider>          
+          <View>
             <ScrollView>
               <RequestHead></RequestHead>
-
             </ScrollView>
-
-
           </View>
-        </SafeAreaView>
     </PaperProvider>
   )
 }
