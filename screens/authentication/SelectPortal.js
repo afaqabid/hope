@@ -2,26 +2,26 @@ import { SafeAreaView, TouchableOpacity, StyleSheet, Image, Button, View } from 
 import { Appbar, Avatar, IconButton, Provider as PaperProvider, TouchableRipple, Text } from 'react-native-paper'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { useFonts } from 'expo-font'
 
 export default function SelectPortal() {
+
+  let [fontLoaded]=useFonts({
+    'Chesnagro': require('../../assets/fonts/chesnagrotesk-black.otf'),
+  })
+  
   const navigation=useNavigation();
   return (
     <PaperProvider>
       <SafeAreaView style={styles.container}>
         <View style={styles.mainContainer}>
-          <Text style={styles.heading} variant="displayMedium">Select Portal</Text>      
-          <TouchableOpacity onPress={()=>navigation.navigate('DonorLogin')} >
-            <Avatar.Image style={styles.avatar} size={100} source={require('../../assets/user.png')} />
-            <Text style={styles.btnTxt} variant="titleMedium">Donor</Text>      
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('DoneeLogin')}>
-            <Avatar.Image style={styles.avatar} size={100} source={require('../../assets/user.png')} />      
-            <Text style={styles.btnTxt} variant="titleMedium">Donee</Text>      
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('OrganizationLogin')}>
-            <Avatar.Image style={styles.avatar} size={100} source={require('../../assets/organization.png')} />      
-            <Text style={styles.btnTxt} variant="titleMedium">Organization</Text>      
-          </TouchableOpacity>
+          <Text style={styles.heading} variant="displayMedium">Select Portal</Text>
+          <IconButton style={styles.avatar} mode='contained' containerColor='#293241' icon={'account-outline'} size={100} iconColor={'white'} backgroundColor={'#293241'} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
+          <Text style={styles.btnTxt} variant="titleLarge">Donor</Text>      
+          <IconButton style={styles.avatar} mode='contained' containerColor='#293241' icon={'account'} size={100} iconColor={'white'} backgroundColor={'#293241'} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>      
+          <Text style={styles.btnTxt} variant="titleLarge">Donee</Text>      
+          <IconButton style={styles.avatar} mode='contained' containerColor='#293241' icon={'bank'} size={100} iconColor={'white'} backgroundColor={'#293241'} onPress={()=>navigation.navigate('OrganizationLogin')} ></IconButton>      
+          <Text style={styles.btnTxt} variant="titleLarge">Organization</Text>      
         </View>
       </SafeAreaView>
     </PaperProvider>
@@ -31,28 +31,25 @@ export default function SelectPortal() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    // backgroundColor:'#F5F5DC'
+    backgroundColor:'#E0FBFC'
   },
   mainContainer:{
     flex:1,
-    // backgroundColor:'#F5F5DC'
+    alignItems:'center',
 
   },
   avatar:{
-    size:50,
-    height: 100,
-    marginLeft:'38%',
-    marginTop:'10%',
-    color: 'transparent',
-    backgroundColor: 'transparent',
   },
   btnTxt:{
     textAlign:'center',
-    marginLeft:'3%'
+    marginBottom:10,
+    fontFamily:'Chesnagro',
   },
   heading:{
     textAlign:'center',
     marginTop:'15%',
-    marginBottom:'15%'
+    marginBottom:'15%',
+    fontFamily:'Chesnagro',
+    color:'#293241'
   }
 });
