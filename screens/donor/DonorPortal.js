@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BottomNavigation, Text, Provider as PaperProvider, Appbar } from 'react-native-paper';
+import { BottomNavigation, Text, Provider as PaperProvider, Appbar, TouchableRipple } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import BlogTab from '../blog/BlogTab';
 import ChatTab from '../chat/ChatTab';
@@ -45,17 +45,25 @@ export default function DonorPortal (){
       })
       .catch(error => alert(error.message))
     }
+    const handleProfile = () => {
+        navigation.navigate('UserProfile');
+      }
+
+
   return (
     <PaperProvider>
       <Appbar.Header style={styles.topBar} >
+        <Appbar.Action  icon="account" size={40} onPress={handleProfile} />
         <Appbar.Content title={appbarTitle[index]} />
-        <Appbar.Action style={styles.appbarLogout} icon="logout" onPress={handleLogout} />
-      </Appbar.Header>      
+        <Appbar.Action style={styles.appbarLogout} size={30} icon="logout" onPress={handleLogout} />
+      </Appbar.Header>
       <BottomNavigation
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        barStyle={{ backgroundColor: 'grey'}}
+        barStyle={{ backgroundColor: 'grey', width:'100%', elevation:'none'}}
+        style={styles.bottomBar}
+
         />
     </PaperProvider>
   );
@@ -71,5 +79,8 @@ const styles = StyleSheet.create({
     textAlign:'center',
     justifyContent:'center'
   },
+  bottomBar:{
+
+  }
 
 })

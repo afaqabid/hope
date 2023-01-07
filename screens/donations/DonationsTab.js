@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   upperView:{
     backgroundColor:'black',
     height:300,
-    marginTop:-45,
+    marginTop:-40,
     width:'95%',
     marginLeft:10,
     borderRadius:5,

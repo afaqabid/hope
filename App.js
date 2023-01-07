@@ -11,6 +11,7 @@ import ChatScreen from "./screens/chat/ChatScreen";
 import DoneePortal from "./screens/donee/DoneePortal";
 import DonorPortal from "./screens/donor/DonorPortal";
 import OrganizationPortal from "./screens/organization/OrganizationPortal";
+import UserProfile from "./screens/userProfile/UserProfile";
 
 const Stack=createNativeStackNavigator();
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Screen name="OrganizationRegistration" component={OrganizationRegistration}/>
         <Stack.Screen name="OrganizationPortal" component={OrganizationPortal}/>
         <Stack.Screen name="ChatScreen" component={ChatScreen}/>
+        <Stack.Screen name="UserProfile" component={UserProfile}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
