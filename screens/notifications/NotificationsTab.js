@@ -7,7 +7,7 @@ import NotificationHead from '../../components/NotificationHead'
 export default function NotificationsTab() {
   return (
     <PaperProvider>
-        <View>
+        <View style={{backgroundColor:'#EFECEB'}} >
           <ScrollView>
             <NotificationHead></NotificationHead>
           </ScrollView>

@@ -43,14 +43,13 @@ export default function NotificationHead() {
         notificationCard:{
             height:70,
             width:'95%',
-            backgroundColor:'white',
             marginTop:10,
             marginLeft:10,
             padding:10,
             borderRadius:5,
             display:'flex',
             flexDirection:'row',
-            backgroundColor:'#EFECEB',
+            backgroundColor:'rgba(253, 250, 246, 0.5)',
         },
         card:{
             width:220

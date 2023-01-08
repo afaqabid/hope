@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     fontFamily:'Manrope-Regular',
   },
   registerBtn:{
-    backgroundColor: "#3F51B5",
+    backgroundColor: "#1C702B",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
