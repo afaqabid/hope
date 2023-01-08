@@ -21,33 +21,88 @@ export default function DonorRegistration() {
     'Manrope-SemiBold': require('../../assets/fonts/Manrope-SemiBold.ttf'),
   })
 
+  const [name, setName] = useState("")
+  const [dob, setDob] = useState('')
   const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
+  const [cnic, setCNIC] = useState('')
+  const [cnicIssueDate, setCNICIssueDate] = useState('')
+
 
   const navigation = useNavigation();
 
-  const handleSignUp = () => {
+
+  const saveDetailsToDatabase = () => {
     set(ref(db, 'email/' + username), {
-    username: username,
-    email: email,
-    password:password,
-    accountType:'Donor'
-  })
-  .then(()=>{
-    alert("Account Added!")
-  })
-  .catch((error)=>{
-    alert(error)
-  })
+      username: username,
+      email: email,
+      password:password,
+      accountType:'Donor'
+    })
+    .then()
+    .catch((error)=>{
+      alert(error)
+    })
+
+    set(ref(db, 'hope/users/donor/' + username), {
+      username: username,
+      email: email,
+      password:password,
+      address:address,
+      dob:dob,
+      name:name,
+    })
+    .then()
+    .catch((error)=>{
+      alert(error)
+    })
+
+    set(ref(db, 'hope/users/donor/' + username + '/location'), {
+      latitude: "",
+      longitude: "",
+    })
+    .then()
+    .catch((error)=>{
+      alert(error)
+    })
+
+    set(ref(db, 'hope/users/donor/' + username + '/cnicDetails'), {
+      cnicNo: cnic,
+      cnicIssueDate: cnicIssueDate,
+    })
+    .then()
+    .catch((error)=>{
+      alert(error)
+    })
+
+    set(ref(db, 'hope/users/donor/' + username + '/bankDetails'), {
+      accountHolderName: "",
+      accountNumber: "",
+    })
+    .then()
+    .catch((error)=>{
+      alert(error)
+    })
+
+    // set(ref(db, 'hope/users/donor/' + username + '/donations'), {
+    //   accountHolderName: "",
+    //   accountNumber: "",
+    // })
+    // .then()
+    // .catch((error)=>{
+    //   alert(error)
+    // })
 
 
 
+  }
 
-
-
-
-      createUserWithEmailAndPassword(auth,email, password)
+  const saveAuthenticationDetails = () =>{
+          createUserWithEmailAndPassword(auth,email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
@@ -61,6 +116,28 @@ export default function DonorRegistration() {
       })
       .catch(error => alert(error.message))
   }
+
+  const handleSignUp = () => {
+    if(name.trim() == "" || dob.trim()=="" || email.trim() == "" || username.trim()=="" || password.trim() == "" || confirmPassword.trim()=="" || phone.trim() == "" || address.trim()=="" || cnic.trim() == "" || cnicIssueDate.trim()=="")
+    {
+      alert("Please Enter All Fields!")
+    }
+    else
+    {
+      saveDetailsToDatabase();
+      saveAuthenticationDetails();
+    }
+  }
+
+  const validateName = (text) => {
+    const result = text.replace(/[^a-z]/gi, '');
+    console.log(result)
+    return result;
+  };
+
+
+
+
   return (
     <PaperProvider>
         <SafeAreaView style={styles.container}>
@@ -68,17 +145,16 @@ export default function DonorRegistration() {
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"}>
               <ScrollView>
                 <Text style={styles.heading} variant="displayMedium">Registration</Text>
-                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'}  label={'Name'} ></TextInput>      
-                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'}  label={'Date Of Birth'} ></TextInput>      
-                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'Email'} value={email} onChangeText={text => setEmail(text)}></TextInput>      
-                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'Username'} value={username} onChangeText={text=>setUsername(text)} ></TextInput>      
-                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' secureTextEntry mode={'outlined'} label={'Password'} value={password} onChangeText={text => setPassword(text)}></TextInput>      
-                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' secureTextEntry mode={'outlined'} label={'Password'} ></TextInput>      
-                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'Confirm Password'} ></TextInput>      
-                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'Phone #'} ></TextInput>      
-                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' secureTextEntry mode={'outlined'} label={'Address'} ></TextInput>      
-                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'CNIC'} ></TextInput>      
-                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' secureTextEntry mode={'outlined'} label={'CNIC Issue Date'} ></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={14}  label={'Name'} value={name} onChangeText={(text) => {setName(validateName(text))}} ></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={8} keyboardType='numeric' label={'Date Of Birth'} value={dob} onChangeText={text => setDob(text)} placeholder={"DDMMYYYY"}></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={18} label={'Email'} value={email} onChangeText={text => setEmail(text)} keyboardType='email-address' ></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={10} label={'Username'} value={username} onChangeText={text=>setUsername(text)} ></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={16} label={'Password'} value={password} onChangeText={text => setPassword(text)}></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={16} label={'Confirm Password'} value={confirmPassword} onChangeText={text => setConfirmPassword(text)}></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={11} label={'Phone #'} value={phone} onChangeText={text => setPhone(text)} keyboardType = 'numeric' ></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={24} multiline label={'Address'} value={address} onChangeText={text => setAddress(text)}></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'CNIC'} maxLength={13} value={cnic} onChangeText={text => setCNIC(text)} keyboardType = 'numeric' ></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'CNIC Issue Date'} value={cnicIssueDate} onChangeText={text => setCNICIssueDate(text)} placeholder={"DDMMYYYY"}></TextInput>      
                 <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp} >
                   <Text style={styles.btnTxt} variant='titleMedium'>Register</Text>
                 </TouchableOpacity>
@@ -107,13 +183,9 @@ const styles = StyleSheet.create({
     fontFamily:'Manrope-ExtraBold',
     color:'#293241'
   },
-  usernameInput:{
+  inputFields:{
     height:40,
     fontFamily:'Manrope-Regular',
-
-  },
-  passwordInput:{
-    height:40,
   },
   registerBtn:{
     backgroundColor: "#3F51B5",
