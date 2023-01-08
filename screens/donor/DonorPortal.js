@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BottomNavigation, Text, Provider as PaperProvider, Appbar, TouchableRipple } from 'react-native-paper';
-import { Easing, StyleSheet } from 'react-native';
+import { Alert, Easing, Platform, StyleSheet } from 'react-native';
 import BlogTab from '../blog/BlogTab';
 import ChatTab from '../chat/ChatTab';
 import DonationsTab from '../donations/DonationsTab';
@@ -50,11 +50,16 @@ export default function DonorPortal (){
   const navigation = useNavigation();
 
   const handleLogout = () => {
-    auth.signOut().then(() => {
-      console.log("User Signed Out Successfully!");
-      navigation.navigate("SelectPortal")
-      })
-      .catch(error => alert(error.message))
+      Alert.alert("Are You Sure?","You'll be logged out!",[
+        {text:"Yes", onPress: ()=>{
+          auth.signOut().then(() => {
+            console.log("User Signed Out Successfully!");
+            navigation.navigate("SelectPortal")
+            })
+            .catch(error => alert(error.message))
+        }},
+        {text:"No"},
+      ])
     }
     const handleProfile = () => {
         navigation.navigate('UserProfile');

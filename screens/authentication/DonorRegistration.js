@@ -124,19 +124,22 @@ export default function DonorRegistration() {
     }
     else
     {
-      saveDetailsToDatabase();
-      saveAuthenticationDetails();
+      if(password==confirmPassword)
+      {
+        saveDetailsToDatabase();
+        saveAuthenticationDetails();
+      }
+      else
+      {
+        alert("Password & ConfirmPassword doesn't match!");
+      }
     }
   }
 
   const validateName = (text) => {
     const result = text.replace(/[^a-z]/gi, '');
-    console.log(result)
     return result;
   };
-
-
-
 
   return (
     <PaperProvider>
@@ -145,14 +148,14 @@ export default function DonorRegistration() {
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"}>
               <ScrollView>
                 <Text style={styles.heading} variant="displayMedium">Registration</Text>
-                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={14}  label={'Name'} value={name} onChangeText={(text) => {setName(validateName(text))}} ></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={20}  label={'Name'} value={name} onChangeText={(text) => {setName(validateName(text))}} ></TextInput>      
                 <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={8} keyboardType='numeric' label={'Date Of Birth'} value={dob} onChangeText={text => setDob(text)} placeholder={"DDMMYYYY"}></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={18} label={'Email'} value={email} onChangeText={text => setEmail(text)} keyboardType='email-address' ></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={25} label={'Email'} value={email} onChangeText={text => setEmail(text)} keyboardType='email-address' ></TextInput>      
                 <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={10} label={'Username'} value={username} onChangeText={text=>setUsername(text)} ></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={16} label={'Password'} value={password} onChangeText={text => setPassword(text)}></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={16} label={'Confirm Password'} value={confirmPassword} onChangeText={text => setConfirmPassword(text)}></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={16} label={'Password'} value={password} secureTextEntry onChangeText={text => setPassword(text)}></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={16} label={'Confirm Password'} value={confirmPassword} secureTextEntry onChangeText={text => setConfirmPassword(text)} ></TextInput>
                 <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={11} label={'Phone #'} value={phone} onChangeText={text => setPhone(text)} keyboardType = 'numeric' ></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={24} multiline label={'Address'} value={address} onChangeText={text => setAddress(text)}></TextInput>      
+                <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} maxLength={50} multiline label={'Address'} value={address} onChangeText={text => setAddress(text)}></TextInput>      
                 <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'CNIC'} maxLength={13} value={cnic} onChangeText={text => setCNIC(text)} keyboardType = 'numeric' ></TextInput>      
                 <TextInput style={styles.inputFields} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'CNIC Issue Date'} value={cnicIssueDate} onChangeText={text => setCNICIssueDate(text)} placeholder={"DDMMYYYY"}></TextInput>      
                 <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp} >
