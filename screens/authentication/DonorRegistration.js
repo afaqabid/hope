@@ -7,28 +7,27 @@ import { useState, useEffect } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../../firebase';
 import { ref, set, update } from "firebase/database";
+import { useFonts } from 'expo-font';
 
 
 export default function DonorRegistration() {
+  let [fontLoaded]=useFonts({
+    'Manrope-Bold': require('../../assets/fonts/Manrope-Bold.ttf'),
+    'Manrope-ExtraBold': require('../../assets/fonts/Manrope-ExtraBold.ttf'),
+    'Manrope-ExtraLight': require('../../assets/fonts/Manrope-ExtraLight.ttf'),
+    'Manrope-Light': require('../../assets/fonts/Manrope-Light.ttf'),
+    'Manrope-Medium': require('../../assets/fonts/Manrope-Medium.ttf'),
+    'Manrope-Regular': require('../../assets/fonts/Manrope-Regular.ttf'),
+    'Manrope-SemiBold': require('../../assets/fonts/Manrope-SemiBold.ttf'),
+  })
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('');
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("DonorLogin")
-      }
-    })
-
-    return unsubscribe
-  }, [])
-
   const handleSignUp = () => {
-
-
     set(ref(db, 'email/' + username), {
     username: username,
     email: email,
@@ -69,18 +68,20 @@ export default function DonorRegistration() {
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"}>
               <ScrollView>
                 <Text style={styles.heading} variant="displayMedium">Registration</Text>
-                <TextInput style={styles.usernameInput} mode={'outlined'}  label={'Name'} ></TextInput>      
-                <TextInput style={styles.usernameInput} mode={'outlined'}  label={'Date Of Birth'} ></TextInput>      
-                <TextInput style={styles.passwordInput}  mode={'outlined'} label={'Email'} value={email} onChangeText={text => setEmail(text)}></TextInput>      
-                <TextInput style={styles.usernameInput} mode={'outlined'} label={'Username'} value={username} onChangeText={text=>setUsername(text)} ></TextInput>      
-                <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} value={password} onChangeText={text => setPassword(text)}></TextInput>      
-                <TextInput style={styles.usernameInput} mode={'outlined'} label={'Confirm Password'} ></TextInput>      
-                <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} ></TextInput>      
-                <TextInput style={styles.usernameInput} mode={'outlined'} label={'Phone #'} ></TextInput>      
-                <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Address'} ></TextInput>      
-                <TextInput style={styles.usernameInput} mode={'outlined'} label={'CNIC'} ></TextInput>      
-                <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'CNIC Issue Date'} ></TextInput>      
-                <Button style={styles.loginBtn} mode='contained' onPress={handleSignUp}>Register</Button>
+                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'}  label={'Name'} ></TextInput>      
+                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'}  label={'Date Of Birth'} ></TextInput>      
+                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'Email'} value={email} onChangeText={text => setEmail(text)}></TextInput>      
+                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'Username'} value={username} onChangeText={text=>setUsername(text)} ></TextInput>      
+                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' secureTextEntry mode={'outlined'} label={'Password'} value={password} onChangeText={text => setPassword(text)}></TextInput>      
+                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' secureTextEntry mode={'outlined'} label={'Password'} ></TextInput>      
+                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'Confirm Password'} ></TextInput>      
+                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'Phone #'} ></TextInput>      
+                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' secureTextEntry mode={'outlined'} label={'Address'} ></TextInput>      
+                <TextInput style={styles.usernameInput} outlineColor='#293241' activeOutlineColor='#293241' mode={'outlined'} label={'CNIC'} ></TextInput>      
+                <TextInput style={styles.passwordInput} outlineColor='#293241' activeOutlineColor='#293241' secureTextEntry mode={'outlined'} label={'CNIC Issue Date'} ></TextInput>      
+                <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp} >
+                  <Text style={styles.btnTxt} variant='titleMedium'>Register</Text>
+                </TouchableOpacity>
               </ScrollView>
             </KeyboardAvoidingView>
           </View>
@@ -93,36 +94,40 @@ export default function DonorRegistration() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
+    backgroundColor:'#FFFFFF',
   },
   mainContainer:{
     flex:1,
+    alignItems:'center',    
   },
   heading:{
     textAlign:'center',
     marginTop:'15%',
-    marginBottom:'15%'
+    marginBottom:'15%',
+    fontFamily:'Manrope-ExtraBold',
+    color:'#293241'
   },
   usernameInput:{
-    width:'75%',
-    marginLeft:'12%',
-    height:40
-  },
-  passwordInput:{
-    width:'75%',
-    marginLeft:'12%',
     height:40,
-  },
-  newUserBtn:{
-    width:180,
-    marginLeft:'45%',
-    height:40,
-    color:'blue'
+    fontFamily:'Manrope-Regular',
 
   },
-  loginBtn:{
-    width:'75%',
-    marginLeft:'12%',
+  passwordInput:{
     height:40,
-    marginTop:10
-  }
-});
+  },
+  registerBtn:{
+    backgroundColor: "#3F51B5",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    paddingLeft: 16,
+    paddingRight: 16,
+    width:'70%',
+    height:40,
+    marginTop:10,
+    marginLeft:'15%'
+  },
+  btnTxt: {
+    color: "#fff",
+    fontSize: 18
+  }});

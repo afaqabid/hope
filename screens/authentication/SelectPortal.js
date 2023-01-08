@@ -5,8 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 
 export default function SelectPortal() {
-
-  let [fontLoaded]=useFonts({
+    let [fontLoaded]=useFonts({
     'Manrope-Bold': require('../../assets/fonts/Manrope-Bold.ttf'),
     'Manrope-ExtraBold': require('../../assets/fonts/Manrope-ExtraBold.ttf'),
     'Manrope-ExtraLight': require('../../assets/fonts/Manrope-ExtraLight.ttf'),

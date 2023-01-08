@@ -1,6 +1,6 @@
-import { View, SafeAreaView, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Button} from 'react-native'
+import { View, SafeAreaView, TouchableOpacity, StyleSheet, KeyboardAvoidingView} from 'react-native'
 import React from 'react'
-import { Provider as PaperProvider, Avatar, Text, TextInput, Divider } from 'react-native-paper'
+import { Provider as PaperProvider, Avatar, Text, TextInput, Divider, Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import { auth } from '../../firebase';
@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useFonts } from 'expo-font';
 
 export default function DonorLogin() {
+  
     let [fontLoaded]=useFonts({
     'Manrope-Bold': require('../../assets/fonts/Manrope-Bold.ttf'),
     'Manrope-ExtraBold': require('../../assets/fonts/Manrope-ExtraBold.ttf'),
@@ -61,7 +62,8 @@ const styles = StyleSheet.create({
   },
   mainContainer:{
     flex:1,
-    alignItems:'center'
+    alignItems:'center',
+
   },
   heading:{
     textAlign:'center',

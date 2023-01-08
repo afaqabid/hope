@@ -12,16 +12,6 @@ export default function OrganizationRegistration() {
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("DonorLogin")
-      }
-    })
-
-    return unsubscribe
-  }, [])
-
   const handleSignUp = () => {
       createUserWithEmailAndPassword(auth,email, password)
       .then(userCredentials => {
