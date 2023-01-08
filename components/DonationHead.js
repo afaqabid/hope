@@ -1,6 +1,7 @@
 import { StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Button, Provider as PaperProvider } from 'react-native-paper';
+import { useFonts } from 'expo-font';
 
 
 class donationPost {
@@ -13,6 +14,17 @@ class donationPost {
 
 
 export default function DonationHead() {
+    
+    let [fontLoaded]=useFonts({
+    'Manrope-Bold': require('../assets/fonts/Manrope-Bold.ttf'),
+    'Manrope-ExtraBold': require('../assets/fonts/Manrope-ExtraBold.ttf'),
+    'Manrope-ExtraLight': require('../assets/fonts/Manrope-ExtraLight.ttf'),
+    'Manrope-Light': require('../assets/fonts/Manrope-Light.ttf'),
+    'Manrope-Medium': require('../assets/fonts/Manrope-Medium.ttf'),
+    'Manrope-Regular': require('../assets/fonts/Manrope-Regular.ttf'),
+    'Manrope-SemiBold': require('../assets/fonts/Manrope-SemiBold.ttf'),
+  })
+
     var donationPostList=[]
     var i=0;
     var size=10;
@@ -39,36 +51,47 @@ export default function DonationHead() {
                         <View style={styles.rightCard}>
                             <Button style={styles.msgBtn} mode='contained' onPress={()=>{alert("Want to Send a message to " + x.donationTitle + "?")}}>Message</Button>
                         </View>
-
                     </View>
                 </>
             )
         }
+
+        <View style={{height:150}}></View>
     </PaperProvider>
 )}
 
 const styles = StyleSheet.create({
     donationCard:{
-        height:70,
+        height:'9%',
         width:'95%',
-        backgroundColor:'white',
+        backgroundColor:'#577399',
         marginTop:10,
         marginLeft:10,
         padding:10,
         borderRadius:5,
         display:'flex',
         flexDirection:'row',
-        backgroundColor:'#EFECEB',
+        alignItems:'center'
     },
     leftCard:{
         width:220
     },
     msgBtn:{
         width:120,
-        marginTop:6,
-        backgroundColor:'green'
+        backgroundColor:'#FE5F55'
     },
     donationTitle:{
-        fontSize:18
+        fontSize:18,
+        color:'white',
+        fontFamily:'Manrope-Bold',
+        marginBottom:5
+    },
+    donorName:{
+        color:'white',
+        fontFamily:'Manrope-Bold'
+    },
+    donorLocation:{
+        color:'white',
+        fontFamily:'Manrope-Regular'
     }
 })

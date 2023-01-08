@@ -1,26 +1,28 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Provider as PaperProvider } from 'react-native-paper'
-import MapView from 'react-native-maps'
+import MapView, {Marker} from 'react-native-maps'
 import DonationHead from '../../components/DonationHead'
 
 export default function DonationsTab() {
+
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 31.4504,
+    longitude:73.1350,
+  })
   return (
     <PaperProvider>
         <SafeAreaView style={styles.temp}>
           <View>
             <MapView style={styles.upperView}>
-
+              <Marker coordinate={mapRegion} title='Home' />
             </MapView>
           </View>
           <View style={styles.lowerView}>
             <ScrollView>
               <DonationHead></DonationHead>
-
             </ScrollView>
-
-
           </View>
         </SafeAreaView>
     </PaperProvider>
@@ -41,6 +43,6 @@ const styles = StyleSheet.create({
 
   },
   lowerView:{
-    height:'55%',
+    height:'52%',
   },
 })
