@@ -31,8 +31,8 @@ export default function RequestHead() {
                         <View style={styles.leftCard}>
                             <TouchableOpacity onPress={()=>{alert(x.requestTitle + " is Toggled!")}} >
                                 <Text style={styles.requestTitle}>{x.requestTitle}</Text>
-                                <Text style={styles.requestName}>{x.requestName}</Text>
-                                <Text style={styles.requestLocation}>{x.requestLocation}</Text>
+                                <Text style={styles.doneeName}>{x.requestName}</Text>
+                                <Text style={styles.doneeLocation}>{x.requestLocation}</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -49,26 +49,36 @@ export default function RequestHead() {
 
 const styles = StyleSheet.create({
     requestCard:{
-        height:70,
+        height:'9%',
         width:'95%',
-        backgroundColor:'white',
+        backgroundColor:'#577399',
         marginTop:10,
         marginLeft:10,
         padding:10,
         borderRadius:5,
         display:'flex',
         flexDirection:'row',
-        backgroundColor:'#EFECEB',
+        alignItems:'center'
     },
     leftCard:{
         width:220
     },
     msgBtn:{
         width:120,
-        marginTop:6,
-        backgroundColor:'green'
+        backgroundColor:'#FE5F55'
     },
     requestTitle:{
-        fontSize:18
+        fontSize:18,
+        color:'white',
+        fontFamily:'Manrope-Bold',
+        marginBottom:5
+    },
+    doneeName:{
+        color:'white',
+        fontFamily:'Manrope-Bold'
+    },
+    doneeLocation:{
+        color:'white',
+        fontFamily:'Manrope-Regular'
     }
 })
