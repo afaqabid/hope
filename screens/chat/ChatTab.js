@@ -7,7 +7,7 @@ import ChatHead from '../../components/ChatHead'
 export default function ChatTab() {
   return (
     <PaperProvider>
-        <View>
+        <View style={{backgroundColor:'#FDFAF6'}} >
           <ScrollView>
             <ChatHead></ChatHead>
           </ScrollView>

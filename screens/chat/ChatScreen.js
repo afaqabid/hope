@@ -1,5 +1,5 @@
-import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
-import { Avatar, Provider as PaperProvider, Text, Appbar, TextInput, IconButton } from 'react-native-paper'
+import { KeyboardAvoidingView, ScrollView, StyleSheet, View,TextInput } from 'react-native'
+import { Avatar, Provider as PaperProvider, Text, Appbar, IconButton } from 'react-native-paper'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native';
@@ -12,8 +12,8 @@ export default function ChatScreen({route}){
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"}>
             <View style={styles.mainContainer}>
             <Appbar.Header style={styles.header} >
-                <Avatar.Image size={40} source={require('../../assets/user.png')} style={{backgroundColor:'transparent'}} />    
-                <Text variant='titleLarge' style={{marginLeft:10, fontWeight:'bold'}} >{username}</Text>
+                <Avatar.Image size={55} source={require('../../assets/person.png')} style={{backgroundColor:'transparent'}} />    
+                <Text variant='titleLarge' style={{marginLeft:10, fontWeight:'bold', color:'#1C702B'}}>{username}</Text>
             </Appbar.Header>
 
             <View style={styles.mainScreen}>
@@ -21,11 +21,12 @@ export default function ChatScreen({route}){
                 </ScrollView>
             </View>
             <View style={styles.inputScreen}>
-                <TextInput underlineColor='transparent' activeUnderlineColor='grey' underlineStyle='outlined' style={styles.userInput} placeholder={"Write your message here ..."} ></TextInput>      
+                {/* <TextInput underlineColor='transparent' activeUnderlineColor='blue' underlineStyle='flat' style={styles.userInput} placeholder={"Write your message here ..."} ></TextInput>       */}
+                <TextInput style={styles.userInput} placeholder="Write your message here ..."></TextInput>
                 <IconButton
                     icon="send"
                     size={30}
-                    iconColor={'#3D405B'}
+                    iconColor={'#1C702B'}
                     onPress={() => console.log('Pressed')}
                     />
             </View>
@@ -39,7 +40,7 @@ export default function ChatScreen({route}){
 const styles = StyleSheet.create({
     header:{
         paddingLeft:15,
-        backgroundColor:'#81B29A'
+        backgroundColor:'#FDFAF6',
     },
     mainContainer:{
         height:"100%",
@@ -51,20 +52,24 @@ const styles = StyleSheet.create({
 
     },
     inputScreen:{
-        backgroundColor:'#81B29A',
+        backgroundColor:'#FDFAF6',
         display:'flex',
         flexDirection:'row',
         height:100
     },
     userInput:{
         width:'80%',
-        height:30,
+        height:40,
         marginLeft:15,
-        padding:5,
+        padding:10,
         marginTop:10,
         maxHeight:40,
         borderRadius:70,
         borderTopLeftRadius:70,
         borderTopRightRadius:70,
+        backgroundColor:'#F0F1F4',
+        fontFamily:'Manrope-Bold',
+        fontSize:15
+
     }
 })

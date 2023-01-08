@@ -5,9 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 
 class ChatUser {
-    constructor(username, userImg) {
+    constructor(username, userImg, lastMsg) {
     this.userImg = userImg;
     this.username = username;
+    this.lastMsg = lastMsg;
     }
 }
 
@@ -30,7 +31,7 @@ export default function ChatHead() {
     var size=10;
     for(i=0; i<size; i++)
     {
-        var x = new ChatUser('User'+(i+1), '../assets/user.png');
+        var x = new ChatUser('User'+(i+1), '../assets/user.png', 'Hello World!');
         usersList.push(x);
     }
 
@@ -44,6 +45,7 @@ export default function ChatHead() {
 
   return (
     <PaperProvider>
+        <View>
         {
             usersList.map(user=>
                 <TouchableOpacity onPress={()=>{
@@ -53,12 +55,16 @@ export default function ChatHead() {
                     });
                 }}>
                     <View style={styles.chatCard}>
-                        <Avatar.Image size={40} source={require('../assets/user.png')}  style={{backgroundColor:'transparent'}} />    
-                        <Text style={styles.username}>{user.username}</Text>
+                        <Avatar.Image size={60} source={require('../assets/person.png')}  style={{backgroundColor:'transparent'}} />    
+                        <View>
+                            <Text style={styles.username}>{user.username}</Text>
+                            <Text style={styles.lastMsg}>{user.lastMsg}</Text>
+                        </View>
                     </View>
                 </TouchableOpacity>
             )
         }
+        </View>
     </PaperProvider>
 )}
 
@@ -70,13 +76,19 @@ const styles = StyleSheet.create({
         padding:10,
         borderRadius:5,
         marginBottom:0,
-        backgroundColor:'#577399',
-        alignItems:'center'
+        backgroundColor:'transparent',
+        alignItems:'center',
     },
     username:{
         marginLeft:10,
         fontSize:18,
         fontFamily:'Manrope-ExtraBold',
-        color:'white'
+        color:'#1C702B'
+    },
+    lastMsg:{
+        marginLeft:10,
+        fontSize:15,
+        fontFamily:'Manrope-Regular',
+        color:'black'
     }
 })
