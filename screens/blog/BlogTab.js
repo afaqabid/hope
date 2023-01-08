@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView } from 'react-native'
+import { StyleSheet, Text, ScrollView, View } from 'react-native'
 import React from 'react'
 import { Card, Provider as PaperProvider } from 'react-native-paper'
 
@@ -33,11 +33,16 @@ export default function BlogTab() {
   blogPostList.push(blog1);
   blogPostList.push(blog2);
   blogPostList.push(blog3);
+  blogPostList.push(blog1);
+  blogPostList.push(blog2);
+  blogPostList.push(blog3);
 
 
   return (
     <PaperProvider>
       <ScrollView >
+        <View style={{backgroundColor:'#EFECEB'}} >
+
         {
           blogPostList.map( post =>
             <>
@@ -51,6 +56,7 @@ export default function BlogTab() {
             </>
           )
         }
+        </View>
       </ScrollView>
     </PaperProvider>
   );

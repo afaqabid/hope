@@ -42,5 +42,6 @@ const styles = StyleSheet.create({
   },
   lowerView:{
     height:'56%',
+    backgroundColor:'#EFECEB'
   },
 })

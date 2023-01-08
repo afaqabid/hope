@@ -8,7 +8,7 @@ import RequestHead from '../../components/RequestHead'
 export default function RequestsTab() {
   return (
     <PaperProvider>          
-          <View>
+          <View style={{backgroundColor:'#EFECEB'}}>
             <ScrollView>
               <RequestHead></RequestHead>
             </ScrollView>
