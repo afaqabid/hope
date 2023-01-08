@@ -21,11 +21,11 @@ export default function SelectPortal() {
       <SafeAreaView style={styles.container}>
         <View style={styles.mainContainer}>
           <Text style={styles.heading} variant="displayMedium">Select Portal</Text>
-          <IconButton style={styles.avatar} mode='contained' containerColor='#4f5d75' icon={'account-outline'} size={100} iconColor={'white'} backgroundColor={'#4f5d75'} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor='#1C702B' icon={'account-outline'} size={100} iconColor={'#FDFAF6'} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Donor</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor='#4f5d75' icon={'account'} size={100} iconColor={'white'} backgroundColor={'#4f5d75'} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor='#1C702B' icon={'account'} size={100} iconColor={'#FDFAF6'} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Donee</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor='#4f5d75' icon={'bank'} size={100} iconColor={'white'} backgroundColor={'#4f5d75'} onPress={()=>navigation.navigate('OrganizationLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor='#1C702B' icon={'bank'} size={100} iconColor={'#FDFAF6'} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('OrganizationLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Organization</Text>      
         </View>
       </SafeAreaView>
@@ -36,7 +36,7 @@ export default function SelectPortal() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:'#FFFFFF'
+    backgroundColor:'#FDFAF6'
   },
   mainContainer:{
     flex:1,
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     textAlign:'center',
     marginBottom:10,
     fontFamily:'Manrope-Bold',
+    color:'#1C702B'
   },
   heading:{
     textAlign:'center',
@@ -56,6 +57,6 @@ const styles = StyleSheet.create({
     marginBottom:'15%',
     fontFamily:'Manrope-ExtraBold',
     fontWeight:'bold',
-    color:'#293241'
+    color:'#1C702B'
   }
 });

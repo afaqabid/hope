@@ -39,13 +39,13 @@ export default function DonorLogin() {
           <View style={styles.mainContainer}>
             <Text style={styles.heading} variant="displayMedium">Login</Text>
             <TextInput style={styles.usernameInput} mode={'outlined'} outlineColor='#293241' activeOutlineColor='#293241' label={'Email'} value={email} onChangeText={text=>setEmail(text)} ></TextInput>      
-            <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} value={password} onChangeText={text=>setPassword(text)}></TextInput>      
+            <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} outlineColor='#293241' activeOutlineColor='#1C702B' label={'Password'} value={password} onChangeText={text=>setPassword(text)}></TextInput>      
             <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} >
               <Text style={styles.btnTxt} variant='titleMedium'>Login</Text>
             </TouchableOpacity>
               <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width:'80%', marginLeft:'10%', marginTop:10, marginBottom:10 }}></View>
             <TouchableOpacity style={styles.registerBtn} onPress={()=>navigation.navigate('DonorRegistration')} >
-              <Text style={styles.btnTxt} variant='titleMedium'>Register</Text>
+              <Text style={styles.btnTxtReg} variant='titleMedium'>Register</Text>
             </TouchableOpacity>
             </View>
 
@@ -58,7 +58,7 @@ export default function DonorLogin() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:'#FFFFFF',
+    backgroundColor:'#FDFAF6',
   },
   mainContainer:{
     flex:1,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginTop:'15%',
     marginBottom:'15%',
     fontFamily:'Manrope-ExtraBold',
-    color:'#293241'
+    color:'#1C702B'
 
   },
   usernameInput:{
@@ -84,15 +84,8 @@ const styles = StyleSheet.create({
     width:'75%',
     height:40,
   },
-  newUserBtn:{
-    width:181,
-    height:40,
-    color:'blue',
-    borderRadius:0
-
-  },
   loginBtn:{
-    backgroundColor: "#3F51B5",
+    backgroundColor: "#1C702B",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -104,7 +97,7 @@ const styles = StyleSheet.create({
     marginTop:10    
   },
   registerBtn:{
-    backgroundColor: "#FE5F55",
+    backgroundColor: "#FDFAF6",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -113,9 +106,15 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     width:'50%',
     height:40,
+    borderColor:'#1C702B',
+    borderWidth:2
   },
   btnTxt: {
     color: "#fff",
+    fontSize: 18
+  },
+  btnTxtReg: {
+    color: "#1C702B",
     fontSize: 18
   }
 });

@@ -173,7 +173,7 @@ export default function DonorRegistration() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:'#FFFFFF',
+    backgroundColor:'#FDFAF6',
   },
   mainContainer:{
     flex:1,
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     marginTop:'15%',
     marginBottom:'15%',
     fontFamily:'Manrope-ExtraBold',
-    color:'#293241'
+    color:'#1C702B'
   },
   inputFields:{
     height:40,
