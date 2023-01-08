@@ -61,9 +61,9 @@ export default function DonorPortal (){
         {text:"No"},
       ])
     }
-    const handleProfile = () => {
-        navigation.navigate('UserProfile');
-      }
+  const handleProfile = () => {
+      navigation.navigate('UserProfile');
+  }
 
 
   return (

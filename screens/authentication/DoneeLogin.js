@@ -36,12 +36,15 @@ export default function DoneeLogin() {
         <SafeAreaView style={styles.container}>
           <View style={styles.mainContainer}>
             <Text style={styles.heading} variant="displayMedium">Login</Text>
-            <TextInput style={styles.usernameInput} mode={'outlined'} label={'Username'} value={email} onChangeText={text=>setEmail(text)} ></TextInput>      
-            <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} label={'Password'} value={password} onChangeText={text=>setPassword(text)}></TextInput>      
-            <TouchableOpacity onPress={()=>navigation.navigate('DoneeRegistration')}>
-              <Text style={styles.newUserBtn} variant="labelLarge">New User? Register Here!</Text>
+            <TextInput style={styles.usernameInput} mode={'outlined'} outlineColor='#293241' activeOutlineColor='#293241' label={'Email'} value={email} onChangeText={text=>setEmail(text)} ></TextInput>      
+            <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} outlineColor='#293241' activeOutlineColor='#1C702B' label={'Password'} value={password} onChangeText={text=>setPassword(text)}></TextInput>      
+            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} >
+              <Text style={styles.btnTxt} variant='titleMedium'>Login</Text>
             </TouchableOpacity>
-            <Button style={styles.loginBtn} mode='contained' onPress={handleLogin}>Login</Button>
+              <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, width:'80%', marginLeft:'10%', marginTop:10, marginBottom:10 }}></View>
+            <TouchableOpacity style={styles.registerBtn} onPress={()=>navigation.navigate('DoneeRegistration')} >
+              <Text style={styles.btnTxtReg} variant='titleMedium'>Register</Text>
+            </TouchableOpacity>
           </View>
         </SafeAreaView>
     </PaperProvider>
@@ -52,36 +55,63 @@ export default function DoneeLogin() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:'#E0FBFC'
+    backgroundColor:'#FDFAF6',
   },
   mainContainer:{
     flex:1,
+    alignItems:'center',
+
   },
   heading:{
     textAlign:'center',
     marginTop:'15%',
-    marginBottom:'15%'
+    marginBottom:'15%',
+    fontFamily:'Manrope-ExtraBold',
+    color:'#1C702B'
+
   },
   usernameInput:{
     width:'75%',
-    marginLeft:'12%',
-    height:40
+    height:40,
+    fontFamily:'Manrope-Regular',
+    marginTop:100,
+
   },
   passwordInput:{
     width:'75%',
-    marginLeft:'12%',
     height:40,
-  },
-  newUserBtn:{
-    width:181,
-    marginLeft:'40%',
-    height:40,
-    color:'blue'
-
   },
   loginBtn:{
-    width:'75%',
-    marginLeft:'12%',
+    backgroundColor: "#1C702B",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    borderRadius: 5,
+    paddingLeft: 16,
+    paddingRight: 16,
+    width:'50%',
     height:40,
+    marginTop:10    
+  },
+  registerBtn:{
+    backgroundColor: "#FDFAF6",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    borderRadius: 5,
+    paddingLeft: 16,
+    paddingRight: 16,
+    width:'50%',
+    height:40,
+    borderColor:'#1C702B',
+    borderWidth:2
+  },
+  btnTxt: {
+    color: "#fff",
+    fontSize: 18
+  },
+  btnTxtReg: {
+    color: "#1C702B",
+    fontSize: 18
   }
 });
