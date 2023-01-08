@@ -2,6 +2,7 @@ import { StyleSheet, TouchableHighlight, TouchableOpacity, View } from 'react-na
 import React from 'react'
 import { Avatar, Divider, Text, Provider as PaperProvider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 
 class ChatUser {
     constructor(username, userImg) {
@@ -12,6 +13,17 @@ class ChatUser {
 
 
 export default function ChatHead() {
+    
+    let [fontLoaded]=useFonts({
+    'Manrope-Bold': require('../assets/fonts/Manrope-Bold.ttf'),
+    'Manrope-ExtraBold': require('../assets/fonts/Manrope-ExtraBold.ttf'),
+    'Manrope-ExtraLight': require('../assets/fonts/Manrope-ExtraLight.ttf'),
+    'Manrope-Light': require('../assets/fonts/Manrope-Light.ttf'),
+    'Manrope-Medium': require('../assets/fonts/Manrope-Medium.ttf'),
+    'Manrope-Regular': require('../assets/fonts/Manrope-Regular.ttf'),
+    'Manrope-SemiBold': require('../assets/fonts/Manrope-SemiBold.ttf'),
+  })
+
 
     var usersList=[]
     var i=0;
@@ -41,7 +53,7 @@ export default function ChatHead() {
                     });
                 }}>
                     <View style={styles.chatCard}>
-                        <Avatar.Image size={40} source={require('../assets/user.png')} style={{backgroundColor:'transparent'}} />    
+                        <Avatar.Image size={40} source={require('../assets/user.png')}  style={{backgroundColor:'transparent'}} />    
                         <Text style={styles.username}>{user.username}</Text>
                     </View>
                 </TouchableOpacity>
@@ -56,16 +68,15 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         margin:10,
         padding:10,
-        borderRadius:10,
+        borderRadius:5,
         marginBottom:0,
-        backgroundColor:'#dad7cd'
-
-
+        backgroundColor:'#577399',
+        alignItems:'center'
     },
     username:{
         marginLeft:10,
-        marginTop:10,
         fontSize:18,
-        fontWeight: 'bold',
+        fontFamily:'Manrope-ExtraBold',
+        color:'white'
     }
 })

@@ -25,7 +25,7 @@ export default function ChatScreen({route}){
                 <IconButton
                     icon="send"
                     size={30}
-                    iconColor={'green'}
+                    iconColor={'#3D405B'}
                     onPress={() => console.log('Pressed')}
                     />
             </View>
@@ -39,7 +39,7 @@ export default function ChatScreen({route}){
 const styles = StyleSheet.create({
     header:{
         paddingLeft:15,
-        backgroundColor:'grey'
+        backgroundColor:'#81B29A'
     },
     mainContainer:{
         height:"100%",
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 
     },
     inputScreen:{
-        backgroundColor:'grey',
+        backgroundColor:'#81B29A',
         display:'flex',
         flexDirection:'row',
         height:100
