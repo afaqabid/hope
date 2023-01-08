@@ -37,7 +37,7 @@ export default function RequestHead() {
                         </View>
 
                         <View style={styles.rightCard}>
-                            <Button style={styles.msgBtn} mode='contained' onPress={()=>{alert("Want to Send a message to " + x.requestTitle + "?")}}>Message</Button>
+                            <Button style={styles.msgBtn} textColor='#1C702B' mode='contained' onPress={()=>{alert("Want to Send a message to " + x.requestTitle + "?")}}>Message</Button>
                         </View>
 
                     </View>
@@ -51,21 +51,21 @@ const styles = StyleSheet.create({
     requestCard:{
         height:'9%',
         width:'95%',
-        backgroundColor:'#577399',
+        backgroundColor:'rgba(28, 112, 43, 0.85)',
         marginTop:10,
         marginLeft:10,
         padding:10,
         borderRadius:5,
         display:'flex',
         flexDirection:'row',
-        alignItems:'center'
+        alignItems:'center',
     },
     leftCard:{
         width:220
     },
     msgBtn:{
         width:120,
-        backgroundColor:'#FE5F55'
+        backgroundColor:'#FDFAF6'
     },
     requestTitle:{
         fontSize:18,

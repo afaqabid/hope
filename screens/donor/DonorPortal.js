@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BottomNavigation, Text, Provider as PaperProvider, Appbar, TouchableRipple } from 'react-native-paper';
+import { BottomNavigation, Text, Provider as PaperProvider, Appbar, TouchableRipple, Surface } from 'react-native-paper';
 import { Alert, Easing, Platform, StyleSheet } from 'react-native';
 import BlogTab from '../blog/BlogTab';
 import ChatTab from '../chat/ChatTab';
@@ -68,22 +68,24 @@ export default function DonorPortal (){
 
   return (
     <PaperProvider>
+        <Surface style={styles.surface} elevation={4}>
       <Appbar.Header style={styles.topBar} >
-        <Appbar.Action iconColor='white' icon="account" size={40} onPress={handleProfile} />
+        <Appbar.Action iconColor='#1C702B' icon="account" size={40} onPress={handleProfile} />
         <Text style={styles.appbarTitle}>{appbarTitle[index]}</Text>
-        <Appbar.Action iconColor='white' style={styles.appbarLogout} size={30} icon="logout" onPress={handleLogout} />
+        <Appbar.Action iconColor='#1C702B' style={styles.appbarLogout} size={30} icon="logout" onPress={handleLogout} />
       </Appbar.Header>
+  </Surface>
       <BottomNavigation
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        barStyle={{ backgroundColor: '#293241', width:'100%', elevation:'none', color:'white',}}
+        barStyle={{ backgroundColor: '#FDFAF6', width:'100%', elevation:'none', color:'#FDFAF6', borderTopWidth:0.2, borderTopColor:'grey'}}
         style={styles.bottomBar}
         theme={{
           "colors": {
             "secondaryContainer": "transparent",
-            "onSecondaryContainer":"white",
-            "onSurface": "white",
+            "onSecondaryContainer":"#1C702B",
+            "onSurface": "#1C702B",
             "onSurfaceVariant": "grey",
           },
           "fonts": {
@@ -102,17 +104,21 @@ const styles = StyleSheet.create({
   topBar:{
     display:'flex',
     flexDirection:'row',
-    backgroundColor:'#293241',
-    color:'white',
-    justifyContent:'space-between'
+    backgroundColor:'#FDFAF6',
+    justifyContent:'space-between',
+    
   },
   bottomBar:{
 
   },
   appbarTitle:{
-    color:'white',
+    color:'#1C702B',
     fontFamily:'Manrope-ExtraBold',
     fontSize:18
   },
+    surface: {
+    width: '100%',
+  },
+
 
 })
