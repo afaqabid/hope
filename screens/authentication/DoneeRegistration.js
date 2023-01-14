@@ -6,6 +6,7 @@ import { auth, db } from '../../firebase';
 import { useState, useEffect } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useFonts } from 'expo-font';
+import { ref, set } from 'firebase/database';
 
 export default function DoneeRegistration() {
 
@@ -33,6 +34,7 @@ export default function DoneeRegistration() {
   const navigation = useNavigation();
 
   const saveDetailsToDatabase = () => {
+    
     set(ref(db, 'email/' + username), {
       username: username,
       email: email,

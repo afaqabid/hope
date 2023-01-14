@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider as PaperProvider, Avatar, Text, TextInput, Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useFonts } from 'expo-font';
 
