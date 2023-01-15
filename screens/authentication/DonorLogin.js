@@ -4,7 +4,7 @@ import { Provider as PaperProvider, Avatar, Text, TextInput, Divider, Button } f
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import { auth } from '../../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { useFonts } from 'expo-font';
 
 export default function DonorLogin() {
@@ -30,7 +30,17 @@ export default function DonorLogin() {
         const user = userCredentials.user;
         if(!auth.currentUser.emailVerified)
         {
-          Alert.alert("Error!", "Email is not verified! \nKindly verify by the email sent to your registered email");
+          Alert.alert("Email Verification Required","Kindly verify by the email sent to your registered email!",[
+            {text:"Send Email Again", onPress: ()=>{
+              sendEmailVerification(auth.currentUser)
+              .then(
+              )
+              .catch((error)=>{
+                alert(error.message)
+              })            
+            }},
+            {text:"Okay"},
+          ])
         }
         else
         {
