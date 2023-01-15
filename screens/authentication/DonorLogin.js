@@ -1,4 +1,4 @@
-import { View, SafeAreaView, TouchableOpacity, StyleSheet, KeyboardAvoidingView} from 'react-native'
+import { View, SafeAreaView, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Alert} from 'react-native'
 import React from 'react'
 import { Provider as PaperProvider, Avatar, Text, TextInput, Divider, Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
@@ -28,8 +28,16 @@ export default function DonorLogin() {
       signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-        navigation.navigate("DonorPortal")
+        if(!auth.currentUser.emailVerified)
+        {
+          Alert.alert("Error!", "Email is not verified! \nKindly verify by the email sent to your registered email");
+        }
+        else
+        {
+          console.log('Logged in with:', user.email);
+          navigation.navigate("DonorPortal");
+        }
+
       })
       .catch(error => alert(error.message))
     }

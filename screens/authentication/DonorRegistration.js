@@ -4,7 +4,7 @@ import { Provider as PaperProvider, Avatar, Text, TextInput, Button } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../firebase';
 import { useState, useEffect } from 'react'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { db } from '../../firebase';
 import { ref, set, update } from "firebase/database";
 import { useFonts } from 'expo-font';
@@ -102,13 +102,19 @@ export default function DonorRegistration() {
   }
 
   const saveAuthenticationDetails = () =>{
-          createUserWithEmailAndPassword(auth,email, password)
+    createUserWithEmailAndPassword(auth,email, password)
       .then(userCredentials => {
+        sendEmailVerification(auth.currentUser)
+        .then(
+        )
+        .catch((error)=>{
+          alert(error.message)
+        })
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
         Alert.alert(
           'Congratulations!', 
-          "You've been registered as a Donor!",
+          "You've been registered as a Donor, Please verify through the link sent to your registered email!",
           [ 
           {text: 'Okay!', onPress: () => navigation.navigate("DonorLogin")},          
           ])
