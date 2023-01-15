@@ -27,8 +27,16 @@ export default function OrganizatonLogin() {
       signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-        navigation.navigate("OrganizationPortal")
+        if(!auth.currentUser.emailVerified)
+        {
+          Alert.alert("Error!", "Email is not verified! \nKindly verify by the email sent to your registered email");
+        }
+        else
+        {
+          console.log('Logged in with:', user.email);
+          navigation.navigate("OrganizationPortal");
+        }
+
       })
       .catch(error => alert(error.message))
     }

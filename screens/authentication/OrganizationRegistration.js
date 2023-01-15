@@ -99,13 +99,19 @@ export default function OrganizationRegistration() {
   }
 
   const saveAuthenticationDetails = () =>{
-      createUserWithEmailAndPassword(auth,email, password)
+    createUserWithEmailAndPassword(auth,email, password)
       .then(userCredentials => {
+        sendEmailVerification(auth.currentUser)
+        .then(
+        )
+        .catch((error)=>{
+          alert(error.message)
+        })
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
         Alert.alert(
           'Congratulations!', 
-          "You've been registered as an Organization!",
+          "You've been registered as an Organization, Please verify through the link sent to your registered email!",
           [ 
           {text: 'Okay!', onPress: () => navigation.navigate("OrganizationLogin")},          
           ])
