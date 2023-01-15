@@ -23,11 +23,19 @@ export default function DoneeLogin() {
 
   const navigation = useNavigation();
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth,email, password)
+      signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-        navigation.navigate("DoneePortal")
+        if(!auth.currentUser.emailVerified)
+        {
+          Alert.alert("Error!", "Email is not verified! \nKindly verify by the email sent to your registered email");
+        }
+        else
+        {
+          console.log('Logged in with:', user.email);
+          navigation.navigate("DoneePortal");
+        }
+
       })
       .catch(error => alert(error.message))
     }
