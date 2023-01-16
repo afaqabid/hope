@@ -2,7 +2,6 @@ import moment from 'moment';
 import { Icon } from 'native-base';
 import { View, Text, StyleSheet } from 'react-native';
 
-// create a component
 const TimeDelivery = (props) => {
     const { sender, item } = props;
     return (
@@ -29,3 +28,10 @@ const TimeDelivery = (props) => {
 };
 
 export default TimeDelivery;
+
+const styles = StyleSheet.create({
+    mainView: {
+
+    }
+});
+
