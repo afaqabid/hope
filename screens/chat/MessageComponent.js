@@ -6,8 +6,7 @@ import TimeDelivery from './TimeDelivery';
 const MessageComponent = (props) => {
     const { sender, item, sendTime } = props;
 
-    // console.log("item",item)
-    return (
+  return (
         <Pressable
             style={{ marginVertical: 0 }}
         >
