@@ -27,3 +27,5 @@ const TimeDelivery = (props) => {
         </View>
     );
 };
+
+export default TimeDelivery;
