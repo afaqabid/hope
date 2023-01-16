@@ -40,3 +40,5 @@ const MessageComponent = (props) => {
     );
 };
 export default MessageComponent;
+
+const styles = StyleSheet.create({ });
