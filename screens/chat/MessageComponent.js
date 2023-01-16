@@ -39,3 +39,4 @@ const MessageComponent = (props) => {
         </Pressable>
     );
 };
+export default MessageComponent;
