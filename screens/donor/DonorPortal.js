@@ -10,8 +10,10 @@ import { auth } from '../../firebase';
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
+import DonorDonationsTab from '../donations/donor/DonorDonationsTab';
 
-const TabOne = () => <DonationsTab/>
+
+const TabOne = () => <DonorDonationsTab/>
 const TabTwo = () => <RequestsTab/>
 const TabThree = () => <ChatTab/>
 const TabFour = () => <BlogTab/>
@@ -28,8 +30,9 @@ export default function DonorPortal (){
     'Manrope-SemiBold': require('../../assets/fonts/Manrope-SemiBold.ttf'),
   })
 
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
+
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
     { key: 'tabOne', title: 'Donations', focusedIcon: 'charity'},
     { key: 'tabTwo', title: 'Requests', focusedIcon: 'note-edit' },
     { key: 'tabThree', title: 'Chat', focusedIcon: 'chat' },
