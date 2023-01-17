@@ -21,7 +21,6 @@ export default function ChatScreen({route}){
                 </ScrollView>
             </View>
             <View style={styles.inputScreen}>
-                {/* <TextInput underlineColor='transparent' activeUnderlineColor='blue' underlineStyle='flat' style={styles.userInput} placeholder={"Write your message here ..."} ></TextInput>       */}
                 <TextInput style={styles.userInput} placeholder="Write your message here ..."></TextInput>
                 <IconButton
                     icon="send"
