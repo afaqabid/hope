@@ -12,6 +12,9 @@ import DoneePortal from "./screens/donee/DoneePortal";
 import DonorPortal from "./screens/donor/DonorPortal";
 import OrganizationPortal from "./screens/organization/OrganizationPortal";
 import UserProfile from "./screens/userProfile/UserProfile";
+import NewDonationPost from "./screens/donations/donor/NewDonationPost";
+import NewPhysicalItemDonationPost from "./screens/donations/donor/NewPhysicalItemDonationPost";
+import NewMonetaryDonationPost from "./screens/donations/donor/NewMonetaryDonationPost";
 
 const Stack=createNativeStackNavigator();
 export default function App() {
@@ -30,6 +33,9 @@ export default function App() {
         <Stack.Screen name="OrganizationPortal" component={OrganizationPortal}/>
         <Stack.Screen name="ChatScreen" component={ChatScreen}/>
         <Stack.Screen name="UserProfile" component={UserProfile}/>
+        <Stack.Screen name="NewDonationPost" component={NewDonationPost}/>
+        <Stack.Screen name="NewPhysicalItemDonationPost" component={NewPhysicalItemDonationPost}/>
+        <Stack.Screen name="NewMonetaryDonationPost" component={NewMonetaryDonationPost}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
