@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { BottomNavigation, Text, Provider as PaperProvider, Appbar, Surface } from 'react-native-paper';
 import { Alert, StyleSheet } from 'react-native';
-import BlogTab from '../blog/BlogTab';
-import ChatTab from '../chat/ChatTab';
 import DonationsTab from '../donations/DonationsTab';
 import NotificationsTab from '../notifications/NotificationsTab';
-import RequestsTab from '../requests/RequestsTab';
 import { auth } from '../../firebase';
-import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 
@@ -110,6 +106,4 @@ const styles = StyleSheet.create({
     surface: {
     width: '100%',
   },
-
-
 })
