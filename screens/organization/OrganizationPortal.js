@@ -12,10 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 
 const TabOne = () => <DonationsTab/>
-const TabTwo = () => <RequestsTab/>
-const TabThree = () => <ChatTab/>
-const TabFour = () => <BlogTab/>
-const TabFive = () => <NotificationsTab/>
+const TabTwo = () => <NotificationsTab/>
 
 export default function OrganizationPortal (){
   let [fontLoaded]=useFonts({
@@ -32,20 +29,14 @@ export default function OrganizationPortal (){
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'tabOne', title: 'Donations', focusedIcon: 'charity'},
-    { key: 'tabTwo', title: 'Requests', focusedIcon: 'note-edit' },
-    { key: 'tabThree', title: 'Chat', focusedIcon: 'chat' },
-    { key: 'tabFour', title: 'Blog', focusedIcon: 'book'},
-    { key: 'tabFive', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
+    { key: 'tabTwo', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
   ]);
 
-  const appbarTitle = ['Donations', 'Requests', 'Chat', 'Blog', 'Notifications'];
+  const appbarTitle = ['Donation', 'Notifications'];
 
   const renderScene = BottomNavigation.SceneMap({
     tabOne: TabOne,
     tabTwo: TabTwo,
-    tabThree: TabThree,
-    tabFour: TabFour,
-    tabFive: TabFive,
   });
 
   const navigation = useNavigation();
