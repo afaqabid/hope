@@ -20,7 +20,9 @@ export default function CollectedDonationTab() {
 
     return (
     <PaperProvider>
-        <text>Total Donation is 00000/rs</text>
+        <View>
+        <Text>Total Donation is 00000/rs</Text>
+        </View>
     </PaperProvider>
   )
 }
