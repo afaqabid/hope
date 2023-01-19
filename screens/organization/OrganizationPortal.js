@@ -2,7 +2,6 @@ import * as React from 'react';
 import { BottomNavigation, Text, Provider as PaperProvider, Appbar, Surface } from 'react-native-paper';
 import { Alert, StyleSheet } from 'react-native';
 import CollectedDonationTab from '../donations/organization/CollectedDonationTab';
-import DonationsTab from '../donations/DonationsTab';
 import NotificationsTab from '../notifications/NotificationsTab';
 import { auth } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
