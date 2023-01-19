@@ -22,7 +22,7 @@ export default function CheckDonation() {
     <PaperProvider>
         <View style={styles.mainContainer}>
         <TouchableOpacity style={styles.btn} onPress={()=>{navigation.navigate('NewDonationPost')}}>
-            <Text style={styles.btnTxt}>Post a Donation</Text>
+            <Text style={styles.btnTxt}>Collected Donation</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.btn}>
