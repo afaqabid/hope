@@ -24,7 +24,7 @@ export default function OrganizationPortal (){
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'tabOne', title: 'Donations', focusedIcon: 'charity'},
+    { key: 'tabOne', title: 'Collected Donations', focusedIcon: 'charity'},
     { key: 'tabTwo', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
   ]);
 

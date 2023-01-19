@@ -19,13 +19,27 @@ export default function CollectedDonationTab() {
     const navigation = useNavigation();
 
     return (
-    <PaperProvider>
-        <View>
-        <Text>Total Donation is 00000/rs</Text>
+    <PaperProvider >
+        <View style={styles.mainContainer}>
+        <Text style={styles.Txt} variant="displayMedium">Total Donation is 00000/rs</Text>
         </View>
     </PaperProvider>
   )
 }
 
 const styles = StyleSheet.create({
+    Txt:{
+        textAlign:'center',
+        marginTop:'15%',
+        marginBottom:'15%',
+        fontFamily:'Manrope-ExtraBold',
+        fontWeight:'bold',
+        color:'#1C702B'},
+        
+    mainContainer:{
+            display:'flex',
+            justifyContent:'center',
+            alignItems:'center',
+            backgroundColor:'#FDFAF6'
+        },
 })
