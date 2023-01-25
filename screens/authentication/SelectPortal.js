@@ -3,6 +3,7 @@ import { Appbar, Avatar, IconButton, Provider as PaperProvider, TouchableRipple,
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
+import Colors from '../../assets/constants/Colors'
 
 export default function SelectPortal() {
     let [fontLoaded]=useFonts({
@@ -21,11 +22,11 @@ export default function SelectPortal() {
       <SafeAreaView style={styles.container}>
         <View style={styles.mainContainer}>
           <Text style={styles.heading} variant="displayMedium">Select Portal</Text>
-          <IconButton style={styles.avatar} mode='contained' containerColor='#1C702B' icon={'account-outline'} size={100} iconColor={'#FDFAF6'} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'account-outline'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Donor</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor='#1C702B' icon={'account'} size={100} iconColor={'#FDFAF6'} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'account'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Donee</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor='#1C702B' icon={'bank'} size={100} iconColor={'#FDFAF6'} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('OrganizationLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'bank'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('OrganizationLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Organization</Text>      
         </View>
       </SafeAreaView>
@@ -36,7 +37,7 @@ export default function SelectPortal() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:'#FDFAF6'
+    backgroundColor:Colors.background
   },
   mainContainer:{
     flex:1,
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     textAlign:'center',
     marginBottom:10,
     fontFamily:'Manrope-Bold',
-    color:'#1C702B'
+    color:Colors.main,
   },
   heading:{
     textAlign:'center',
@@ -57,6 +58,6 @@ const styles = StyleSheet.create({
     marginBottom:'15%',
     fontFamily:'Manrope-ExtraBold',
     fontWeight:'bold',
-    color:'#1C702B'
+    color:Colors.main,
   }
 });
