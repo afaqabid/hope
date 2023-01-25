@@ -1,6 +1,6 @@
 const Colors = {
-  main:'#1C702B',
-  background:'#FDFAF6',
-  white:'#FFF'
+  background:'#FDFDF6',
+  main:'#2A6049',
+  white:'#FDFDF6',
 };
 module.exports = Colors ;
