@@ -1,21 +1,14 @@
 import * as React from 'react';
 import { BottomNavigation, Text, Provider as PaperProvider, Appbar, Surface } from 'react-native-paper';
 import { Alert, StyleSheet } from 'react-native';
-import BlogTab from '../blog/BlogTab';
-import ChatTab from '../chat/ChatTab';
-import DonationsTab from '../donations/DonationsTab';
+import CollectedDonationTab from '../donations/organization/CollectedDonationTab';
 import NotificationsTab from '../notifications/NotificationsTab';
-import RequestsTab from '../requests/RequestsTab';
 import { auth } from '../../firebase';
-import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 
-const TabOne = () => <DonationsTab/>
-const TabTwo = () => <RequestsTab/>
-const TabThree = () => <ChatTab/>
-const TabFour = () => <BlogTab/>
-const TabFive = () => <NotificationsTab/>
+const TabOne = () => <CollectedDonationTab/>
+const TabTwo = () => <NotificationsTab/>
 
 export default function OrganizationPortal (){
   let [fontLoaded]=useFonts({
@@ -31,21 +24,15 @@ export default function OrganizationPortal (){
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'tabOne', title: 'Donations', focusedIcon: 'charity'},
-    { key: 'tabTwo', title: 'Requests', focusedIcon: 'note-edit' },
-    { key: 'tabThree', title: 'Chat', focusedIcon: 'chat' },
-    { key: 'tabFour', title: 'Blog', focusedIcon: 'book'},
-    { key: 'tabFive', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
+    { key: 'tabOne', title: 'Collected Donations', focusedIcon: 'charity'},
+    { key: 'tabTwo', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
   ]);
 
-  const appbarTitle = ['Donations', 'Requests', 'Chat', 'Blog', 'Notifications'];
+  const appbarTitle = ['Donation', 'Notifications'];
 
   const renderScene = BottomNavigation.SceneMap({
     tabOne: TabOne,
     tabTwo: TabTwo,
-    tabThree: TabThree,
-    tabFour: TabFour,
-    tabFive: TabFive,
   });
 
   const navigation = useNavigation();
@@ -119,6 +106,4 @@ const styles = StyleSheet.create({
     surface: {
     width: '100%',
   },
-
-
 })
