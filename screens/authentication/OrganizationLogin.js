@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { auth } from '../../firebase';
 import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { useFonts } from 'expo-font';
+import Colors from '../../assets/constants/Colors';
 
 export default function OrganizatonLogin() {
   let [fontLoaded]=useFonts({
@@ -56,8 +57,8 @@ export default function OrganizatonLogin() {
         <SafeAreaView style={styles.container}>
           <View style={styles.mainContainer}>
             <Text style={styles.heading} variant="displayMedium">Login</Text>
-            <TextInput style={styles.usernameInput} mode={'outlined'} outlineColor='#293241' activeOutlineColor='#293241' label={'Email'} value={email} onChangeText={text=>setEmail(text)} ></TextInput>      
-            <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} outlineColor='#293241' activeOutlineColor='#1C702B' label={'Password'} value={password} onChangeText={text=>setPassword(text)}></TextInput>      
+            <TextInput style={styles.usernameInput} mode={'outlined'} outlineColor={Colors.main} activeOutlineColor={Colors.main} label={'Email'} value={email} onChangeText={text=>setEmail(text)} ></TextInput>      
+            <TextInput style={styles.passwordInput} secureTextEntry mode={'outlined'} outlineColor={Colors.main} activeOutlineColor='#1C702B' label={'Password'} value={password} onChangeText={text=>setPassword(text)}></TextInput>      
             {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} > */}
             <TouchableOpacity style={styles.loginBtn} onPress={()=>navigation.navigate('OrganizationPortal')} >
               <Text style={styles.btnTxt} variant='titleMedium'>Login</Text>
@@ -76,7 +77,7 @@ export default function OrganizatonLogin() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:'#FDFAF6',
+    backgroundColor:Colors.background,
   },
   mainContainer:{
     flex:1,
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     marginTop:'15%',
     marginBottom:'15%',
     fontFamily:'Manrope-ExtraBold',
-    color:'#1C702B'
+    color:Colors.main
 
   },
   usernameInput:{
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     height:40,
   },
   loginBtn:{
-    backgroundColor: "#1C702B",
+    backgroundColor: Colors.main,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop:10    
   },
   registerBtn:{
-    backgroundColor: "#FDFAF6",
+    backgroundColor: Colors.background,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -124,11 +125,11 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     width:'50%',
     height:40,
-    borderColor:'#1C702B',
+    borderColor:Colors.main,
     borderWidth:2
   },
   btnTxt: {
-    color: "#fff",
+    color: Colors.white,
     fontSize: 18
   },
   btnTxtReg: {
