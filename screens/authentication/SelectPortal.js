@@ -22,11 +22,11 @@ export default function SelectPortal() {
       <SafeAreaView style={styles.container}>
         <View style={styles.mainContainer}>
           <Text style={styles.heading} variant="displayMedium">Select Portal</Text>
-          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'account-outline'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'account-outline'} size={100} iconColor={Colors.background} backgroundColor={Colors.main} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Donor</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'account'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'account'} size={100} iconColor={Colors.background} backgroundColor={Colors.main} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Donee</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'bank'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('OrganizationLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'bank'} size={100} iconColor={Colors.background} backgroundColor={Colors.main} onPress={()=>navigation.navigate('OrganizationLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Organization</Text>      
         </View>
       </SafeAreaView>
