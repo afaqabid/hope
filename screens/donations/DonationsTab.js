@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Provider as PaperProvider } from 'react-native-paper'
 import MapView, {Marker} from 'react-native-maps'
 import DonationHead from '../../components/DonationHead'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
+import Colors from '../../assets/constants/Colors';
 
 export default function DonationsTab() {
   const [mapRegion, setMapRegion] = useState({
@@ -31,7 +33,7 @@ export default function DonationsTab() {
 const styles = StyleSheet.create({
   mainContainer:{
     flex:1,
-    backgroundColor:'#FDFAF6'
+    backgroundColor: Colors.background,
   },
   upperView:{
     backgroundColor:'black',
