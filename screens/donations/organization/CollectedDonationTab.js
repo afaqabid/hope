@@ -4,7 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Provider as PaperProvider, Button, Text } from 'react-native-paper'
 import { useFonts } from 'expo-font'
 import { useNavigation } from '@react-navigation/native'
- 
+import Colors from '../../../assets/constants/Colors';
+
 export default function CollectedDonationTab() {
     let [fontLoaded]=useFonts({
         'Manrope-Bold': require('../../../assets/fonts/Manrope-Bold.ttf'),
@@ -34,12 +35,13 @@ const styles = StyleSheet.create({
         marginBottom:'15%',
         fontFamily:'Manrope-ExtraBold',
         fontWeight:'bold',
-        color:'#1C702B'},
+        color:Colors.main,
+    },
         
     mainContainer:{
             display:'flex',
             justifyContent:'center',
             alignItems:'center',
-            backgroundColor:'#FDFAF6'
+            backgroundColor:Colors.background,
         },
 })
