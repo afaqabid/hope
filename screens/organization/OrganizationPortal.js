@@ -6,6 +6,7 @@ import NotificationsTab from '../notifications/NotificationsTab';
 import { auth } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
+import Colors from '../../assets/constants/Colors';
 
 const TabOne = () => <CollectedDonationTab/>
 const TabTwo = () => <NotificationsTab/>
@@ -66,13 +67,13 @@ export default function OrganizationPortal (){
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        barStyle={{ backgroundColor: '#FDFAF6', width:'100%', elevation:'none', color:'#FDFAF6', borderTopWidth:0.2, borderTopColor:'grey'}}
+        barStyle={{ backgroundColor: Colors.background, width:'100%', elevation:'none', color:Colors.background, borderTopWidth:0.2, borderTopColor:'grey'}}
         style={styles.bottomBar}
         theme={{
           "colors": {
             "secondaryContainer": "transparent",
-            "onSecondaryContainer":"#1C702B",
-            "onSurface": "#1C702B",
+            "onSecondaryContainer":Colors.main,
+            "onSurface": Colors.main,
             "onSurfaceVariant": "grey",
           },
           "fonts": {
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
   topBar:{
     display:'flex',
     flexDirection:'row',
-    backgroundColor:'#FDFAF6',
+    backgroundColor:Colors.background,
     justifyContent:'space-between',
     
   },
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
 
   },
   appbarTitle:{
-    color:'#1C702B',
+    color:Colors.main,
     fontFamily:'Manrope-ExtraBold',
     fontSize:18
   },
