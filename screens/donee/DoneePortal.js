@@ -10,6 +10,7 @@ import { auth } from '../../firebase';
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
+import Colors from '../../assets/constants/Colors';
 
 
 const TabOne = () => <DonationsTab/>
