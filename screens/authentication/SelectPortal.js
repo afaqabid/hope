@@ -22,11 +22,11 @@ export default function SelectPortal() {
       <SafeAreaView style={styles.container}>
         <View style={styles.mainContainer}>
           <Text style={styles.heading} variant="displayMedium">Select Portal</Text>
-          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'account-outline'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.background} icon={'account-outline'} size={100} iconColor={Colors.main} backgroundColor={Colors.background} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Donor</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'account'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.background} icon={'account'} size={100} iconColor={Colors.main} backgroundColor={Colors.background} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>       
           <Text style={styles.btnTxt} variant="titleLarge">Donee</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.main} icon={'bank'} size={100} iconColor={Colors.background} backgroundColor={'#1C702B'} onPress={()=>navigation.navigate('OrganizationLogin')} ></IconButton>      
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.background} icon={'bank'} size={100} iconColor={Colors.main} backgroundColor={Colors.background} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Organization</Text>      
         </View>
       </SafeAreaView>
@@ -37,7 +37,7 @@ export default function SelectPortal() {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:Colors.background
+    backgroundColor:Colors.main
   },
   mainContainer:{
     flex:1,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     textAlign:'center',
     marginBottom:10,
     fontFamily:'Manrope-Bold',
-    color:Colors.main,
+    color:Colors.background,
   },
   heading:{
     textAlign:'center',
@@ -58,6 +58,6 @@ const styles = StyleSheet.create({
     marginBottom:'15%',
     fontFamily:'Manrope-ExtraBold',
     fontWeight:'bold',
-    color:Colors.main,
+    color:Colors.background,
   }
 });
