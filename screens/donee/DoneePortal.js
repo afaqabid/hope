@@ -75,7 +75,7 @@ export default function DoneePortal (){
     <PaperProvider>
         <Surface style={styles.surface} elevation={4}>
       <Appbar.Header style={styles.topBar} >
-        <Appbar.Action iconColor='#1C702B' icon="account" size={40} onPress={handleProfile} />
+        <Appbar.Action iconColor= '#1C702B' icon="account" size={40} onPress={handleProfile} />
         <Text style={styles.appbarTitle}>{appbarTitle[index]}</Text>
         <Appbar.Action iconColor='#1C702B' style={styles.appbarLogout} size={30} icon="logout" onPress={handleLogout} />
       </Appbar.Header>
