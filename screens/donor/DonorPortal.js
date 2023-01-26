@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import DonorDonationsTab from '../donations/donor/DonorDonationsTab';
+import Colors from '../../assets/constants/Colors';
 
 
 const TabOne = () => <DonorDonationsTab/>
@@ -82,7 +83,7 @@ export default function DonorPortal (){
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        barStyle={{ backgroundColor: '#FDFAF6', width:'100%', elevation:'none', color:'#FDFAF6', borderTopWidth:0.2, borderTopColor:'grey'}}
+        barStyle={{ backgroundColor: Colors.background, width:'100%', elevation:'none', color:Colors.main, borderTopWidth:0.2, borderTopColor:'grey'}}
         style={styles.bottomBar}
         theme={{
           "colors": {
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   topBar:{
     display:'flex',
     flexDirection:'row',
-    backgroundColor:'#FDFAF6',
+    backgroundColor:Colors.background,
     justifyContent:'space-between',
     
   },
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
 
   },
   appbarTitle:{
-    color:'#1C702B',
+    color:Colors.main,
     fontFamily:'Manrope-ExtraBold',
     fontSize:18
   },
