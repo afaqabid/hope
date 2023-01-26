@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import DonorDonationsTab from '../donations/donor/DonorDonationsTab';
+import Colors from '../../assets/constants/Colors';
 
 
 const TabOne = () => <DonorDonationsTab/>
