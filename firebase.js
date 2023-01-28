@@ -12,14 +12,14 @@ import {getDatabase} from "firebase/database"
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBDWD_79n2SKotwXWpksMDpnmz7wZP2XYo",
-  authDomain: "hope-7eb45.firebaseapp.com",
-  databaseURL: "https://hope-7eb45-default-rtdb.firebaseio.com",
-  projectId: "hope-7eb45",
-  storageBucket: "hope-7eb45.appspot.com",
-  messagingSenderId: "111878929482",
-  appId: "1:111878929482:web:e33a312bcfe55f97ea3ab3",
-  measurementId: "G-CFX07RD7BC"
+  apiKey: "AIzaSyC3Bphr92rI554kCbXDh-5NzysOltMLbNc",
+  authDomain: "hope-makeliveseasier.firebaseapp.com",
+  // databaseURL: "https://hope-makeliveseasier-default-rtdb.firebaseio.com",
+  projectId: "hope-makeliveseasier",
+  storageBucket: "hope-makeliveseasier.appspot.com",
+  messagingSenderId: "593452194882",
+  appId: "1:593452194882:web:9299f61c48b034bb3ca1db",
+  measurementId: "G-4236BSR8TL"
 };
 
 // Initialize Firebase
@@ -36,3 +36,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 export { auth, db };
+
+
+
