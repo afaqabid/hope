@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   usernameInput:{
     width:'75%',
-    height:80,
+    height:40,
     fontFamily:'Manrope-Regular',
     marginTop:100,
 
