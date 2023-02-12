@@ -10,7 +10,7 @@ class donationPost {
     this.donorName = donorName;
     this.donorLocation = donorLocation;
     }
-}
+
 
 
 export default function DonationHead() {
