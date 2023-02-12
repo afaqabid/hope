@@ -4,13 +4,7 @@ import { Button, Provider as PaperProvider } from 'react-native-paper';
 import { useFonts } from 'expo-font';
 
 
-class donationPost {
-    constructor(donationTitle, donorName, donorLocation) {
-    this.donationTitle = donationTitle;
-    this.donorName = donorName;
-    this.donorLocation = donorLocation;
-    }
-}
+
 
 
 export default function DonationHead() {
