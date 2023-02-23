@@ -30,6 +30,11 @@ export default function NewDonationPost() {
             <Text style={styles.btnTxt}>Monetary Donation</Text>
             <Text style={styles.btnDetails}>Donate money to help people ease out their living.</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('NewScheduleDonationPost')}>
+            <Text style={styles.btnTxt}>Schedule Donation</Text>
+            <Text style={styles.btnDetails}>Post a donation on a specific time.</Text>
+        </TouchableOpacity>
         </SafeAreaView>
     </PaperProvider>  )
 }
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
     },
 
     btnDetails:{
-        color:'white',
+          color:'white',
         fontSize:15,
         fontFamily:'Manrope-Regular'
     }    
