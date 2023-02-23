@@ -15,6 +15,7 @@ import UserProfile from "./screens/userProfile/UserProfile";
 import NewDonationPost from "./screens/donations/donor/NewDonationPost";
 import NewPhysicalItemDonationPost from "./screens/donations/donor/NewPhysicalItemDonationPost";
 import NewMonetaryDonationPost from "./screens/donations/donor/NewMonetaryDonationPost";
+import NewScheduleDonationPost from "./screens/donations/donor/NewScheduleDonationPost";
 
 const Stack=createNativeStackNavigator();
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
         <Stack.Screen name="NewDonationPost" component={NewDonationPost}/>
         <Stack.Screen name="NewPhysicalItemDonationPost" component={NewPhysicalItemDonationPost}/>
         <Stack.Screen name="NewMonetaryDonationPost" component={NewMonetaryDonationPost}/>
+        <Stack.Screen name="NewScheduleDonationPost" component={NewScheduleDonationPost}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

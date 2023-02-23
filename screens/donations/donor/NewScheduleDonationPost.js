@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useFonts } from 'expo-font'
 import { useNavigation } from '@react-navigation/native'
 
-export default function NewMonetaryDonationPost() {
+export default function NewScheduleDonationPost() {
   let [fontLoaded]=useFonts({
         'Manrope-Bold': require('../../../assets/fonts/Manrope-Bold.ttf'),
         'Manrope-ExtraBold': require('../../../assets/fonts/Manrope-ExtraBold.ttf'),
@@ -27,12 +27,15 @@ export default function NewMonetaryDonationPost() {
   return (
     <PaperProvider>
       <HideKeyboard>
+
+        
       <SafeAreaView style={styles.mainContainer}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} >
         <ScrollView>
+        <View style={styles.imageContainer}>
+          <Text style={styles.titleTxt}>Images</Text>
+        </View>
         <View style={styles.detailsContainer}>
-          <Text style={styles.titleTxt}>Donation Amount</Text>
-          <TextInput style={styles.donationTitle} placeholder="Enter Amount" ></TextInput>
           <Text style={styles.titleTxt}>Donation Title</Text>
           <TextInput style={styles.donationTitle} placeholder="Write Donation Title Here." ></TextInput>
           <Text style={styles.titleTxt}>Description</Text>
@@ -72,8 +75,7 @@ const styles = StyleSheet.create({
   },
 
   detailsContainer:{
-    marginTop:'40%',
-    height:'60%',
+    height:'55%',
     backgroundColor:'transparent',
     width:'100%',
     margin:10,
