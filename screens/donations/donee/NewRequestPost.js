@@ -31,6 +31,11 @@ export default function NewDonationPost() {
             <Text style={styles.btnDetails}>Donate money to help people ease out their living.</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('NewScheduleRequestPost')}>
+            <Text style={styles.btnTxt}>Schedule Donation</Text>
+            <Text style={styles.btnDetails}>Post a donation on a specific time.</Text>
+        </TouchableOpacity>
+
         </SafeAreaView>
     </PaperProvider>  )
 }
