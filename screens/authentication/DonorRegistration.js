@@ -1,92 +1,120 @@
-import { View, SafeAreaView, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Alert} from 'react-native'
-import React from 'react'
-import { Provider as PaperProvider, Avatar, Text, TextInput, Button } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native';
-import { auth } from '../../firebase';
-import { useState, useEffect } from 'react'
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { db } from '../../firebase';
+import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Alert,
+} from "react-native";
+import React from "react";
+import {
+  Provider as PaperProvider,
+  Avatar,
+  Text,
+  TextInput,
+  Button,
+} from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { auth } from "../../firebase";
+import { useState, useEffect } from "react";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { db } from "../../firebase";
 import { ref, set, update } from "firebase/database";
-import { useFonts } from 'expo-font';
-import Colors from '../../assets/constants/Colors';
+import { useFonts } from "expo-font";
+import Colors from "../../assets/constants/Colors";
 
 export default function DonorRegistration() {
-  let [fontLoaded]=useFonts({
-    'Manrope-Bold': require('../../assets/fonts/Manrope-Bold.ttf'),
-    'Manrope-ExtraBold': require('../../assets/fonts/Manrope-ExtraBold.ttf'),
-    'Manrope-ExtraLight': require('../../assets/fonts/Manrope-ExtraLight.ttf'),
-    'Manrope-Light': require('../../assets/fonts/Manrope-Light.ttf'),
-    'Manrope-Medium': require('../../assets/fonts/Manrope-Medium.ttf'),
-    'Manrope-Regular': require('../../assets/fonts/Manrope-Regular.ttf'),
-    'Manrope-SemiBold': require('../../assets/fonts/Manrope-SemiBold.ttf'),
-  })
+  let [fontLoaded] = useFonts({
+    "Manrope-Bold": require("../../assets/fonts/Manrope-Bold.ttf"),
+    "Manrope-ExtraBold": require("../../assets/fonts/Manrope-ExtraBold.ttf"),
+    "Manrope-ExtraLight": require("../../assets/fonts/Manrope-ExtraLight.ttf"),
+    "Manrope-Light": require("../../assets/fonts/Manrope-Light.ttf"),
+    "Manrope-Medium": require("../../assets/fonts/Manrope-Medium.ttf"),
+    "Manrope-Regular": require("../../assets/fonts/Manrope-Regular.ttf"),
+    "Manrope-SemiBold": require("../../assets/fonts/Manrope-SemiBold.ttf"),
+  });
 
-  const [name, setName] = useState("")
-  const [dob, setDob] = useState('')
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState('')
-  const [cnic, setCNIC] = useState('')
-  const [cnicIssueDate, setCNICIssueDate] = useState('')
+  const HideKeyboard = ({ children }) => (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+        alert("Hello");
+      }}
+    >
+      {children}
+    </TouchableWithoutFeedback>
+  );
 
+  const [name, setName] = useState("");
+  const [dob, setDob] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [cnic, setCNIC] = useState("");
+  const [cnicIssueDate, setCNICIssueDate] = useState("");
 
   const navigation = useNavigation();
 
-
   const saveDetailsToDatabase = () => {
-    set(ref(db, 'email/' + username), {
+    set(ref(db, "email/" + username), {
       username: username,
       email: email,
-      password:password,
-      accountType:'Donor'
+      password: password,
+      accountType: "Donor",
     })
-    .then()
-    .catch((error)=>{
-      alert(error)
-    })
+      .then()
+      .catch((error) => {
+        alert(error);
+      });
 
-    set(ref(db, 'hope/users/donor/' + username), {
+    set(ref(db, "hope/users/donor/" + username), {
       username: username,
       email: email,
-      password:password,
-      address:address,
-      dob:dob,
-      name:name,
+      password: password,
+      address: address,
+      dob: dob,
+      name: name,
     })
-    .then()
-    .catch((error)=>{
-      alert(error)
-    })
+      .then()
+      .catch((error) => {
+        alert(error);
+      });
 
-    set(ref(db, 'hope/users/donor/' + username + '/location'), {
+    set(ref(db, "hope/users/donor/" + username + "/location"), {
       latitude: "",
       longitude: "",
     })
-    .then()
-    .catch((error)=>{
-      alert(error)
-    })
+      .then()
+      .catch((error) => {
+        alert(error);
+      });
 
-    set(ref(db, 'hope/users/donor/' + username + '/cnicDetails'), {
+    set(ref(db, "hope/users/donor/" + username + "/cnicDetails"), {
       cnicNo: cnic,
       cnicIssueDate: cnicIssueDate,
     })
-    .then()
-    .catch((error)=>{
-      alert(error)
-    })
+      .then()
+      .catch((error) => {
+        alert(error);
+      });
 
-    set(ref(db, 'hope/users/donor/' + username + '/bankDetails'), {
+    set(ref(db, "hope/users/donor/" + username + "/bankDetails"), {
       accountHolderName: "",
       accountNumber: "",
     })
-    .then()
-    .catch((error)=>{
-      alert(error)
-    })
+      .then()
+      .catch((error) => {
+        alert(error);
+      });
 
     // set(ref(db, 'hope/users/donor/' + username + '/donations'), {
     //   accountHolderName: "",
@@ -96,119 +124,229 @@ export default function DonorRegistration() {
     // .catch((error)=>{
     //   alert(error)
     // })
+  };
 
-
-
-  }
-
-  const saveAuthenticationDetails = () =>{
-    createUserWithEmailAndPassword(auth,email, password)
-      .then(userCredentials => {
+  const saveAuthenticationDetails = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        saveDetailsToDatabase();
         sendEmailVerification(auth.currentUser)
-        .then(
-        )
-        .catch((error)=>{
-          alert(error.message)
-        })
+          .then()
+          .catch((error) => {
+            alert(error.message);
+          });
         const user = userCredentials.user;
-        console.log('Registered with:', user.email);
+        console.log("Registered with:", user.email);
         Alert.alert(
-          'Congratulations!', 
+          "Congratulations!",
           "You've been registered as a Donor, Please verify through the link sent to your registered email!",
-          [ 
-          {text: 'Okay!', onPress: () => navigation.navigate("DonorLogin")},          
-          ])
-
+          [{ text: "Okay!", onPress: () => navigation.navigate("DonorLogin") }]
+        );
       })
-      .catch(error => alert(error.message))
-  }
+      .catch((error) => alert(error.message));
+  };
 
   const handleSignUp = () => {
-    if(name.trim() == "" || dob.trim()=="" || email.trim() == "" || username.trim()=="" || password.trim() == "" || confirmPassword.trim()=="" || phone.trim() == "" || address.trim()=="" || cnic.trim() == "" || cnicIssueDate.trim()=="")
-    {
-      alert("Please Enter All Fields!")
-    }
-    else
-    {
-      if(password==confirmPassword)
-      {
-        saveDetailsToDatabase();
+    if (
+      name.trim() == "" ||
+      dob.trim() == "" ||
+      email.trim() == "" ||
+      username.trim() == "" ||
+      password.trim() == "" ||
+      confirmPassword.trim() == "" ||
+      phone.trim() == "" ||
+      address.trim() == "" ||
+      cnic.trim() == "" ||
+      cnicIssueDate.trim() == ""
+    ) {
+      alert("Please Enter All Fields!");
+    } else {
+      if (password == confirmPassword) {
         saveAuthenticationDetails();
-      }
-      else
-      {
+      } else {
         alert("Password & ConfirmPassword doesn't match!");
       }
     }
-  }
+  };
 
   const validateName = (text) => {
-    const result = text.replace(/[^a-z]/gi, '');
+    const result = text.replace(/[^a-z]/gi, "");
     return result;
   };
 
   return (
     <PaperProvider>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.mainContainer}>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"}>
-              <ScrollView>
-                <Text style={styles.heading} variant="displayMedium">Registration</Text>
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} maxLength={20}  label={'Name'} value={name} onChangeText={(text) => {setName(validateName(text))}} ></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} maxLength={8} keyboardType='numeric' label={'Date Of Birth'} value={dob} onChangeText={text => setDob(text)} placeholder={"DDMMYYYY"}></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} maxLength={25} label={'Email'} value={email} onChangeText={text => setEmail(text)} keyboardType='email-address' ></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} maxLength={10} label={'Username'} value={username} onChangeText={text=>setUsername(text)} ></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} maxLength={16} label={'Password'} value={password} secureTextEntry onChangeText={text => setPassword(text)}></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} maxLength={16} label={'Confirm Password'} value={confirmPassword} secureTextEntry onChangeText={text => setConfirmPassword(text)} ></TextInput>
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} maxLength={11} label={'Phone #'} value={phone} onChangeText={text => setPhone(text)} keyboardType = 'numeric' ></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} maxLength={50} multiline label={'Address'} value={address} onChangeText={text => setAddress(text)}></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} label={'CNIC'} maxLength={13} value={cnic} onChangeText={text => setCNIC(text)} keyboardType = 'numeric' ></TextInput>      
-                <TextInput style={styles.inputFields} outlineColor={Colors.main} activeOutlineColor={Colors.main} mode={'outlined'} label={'CNIC Issue Date'} value={cnicIssueDate} onChangeText={text => setCNICIssueDate(text)} placeholder={"DDMMYYYY"}></TextInput>      
-                <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp} >
-                  <Text style={styles.btnTxt} variant='titleMedium'>Register</Text>
-                </TouchableOpacity>
-              </ScrollView>
-            </KeyboardAvoidingView>
-          </View>
-        </SafeAreaView>
+      {/* <HideKeyboard> */}
+      <SafeAreaView style={styles.container}>
+        <View style={styles.mainContainer}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "position" : "height"}
+          >
+            <ScrollView>
+              <Text style={styles.heading} variant="displayMedium">
+                Registration
+              </Text>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                maxLength={20}
+                label={"Name"}
+                value={name}
+                onChangeText={(text) => {
+                  setName(validateName(text));
+                }}
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                maxLength={8}
+                keyboardType="numeric"
+                label={"Date Of Birth"}
+                value={dob}
+                onChangeText={(text) => setDob(text)}
+                placeholder={"DDMMYYYY"}
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                maxLength={25}
+                label={"Email"}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                keyboardType="email-address"
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                maxLength={10}
+                label={"Username"}
+                value={username}
+                onChangeText={(text) => setUsername(text)}
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                maxLength={16}
+                label={"Password"}
+                value={password}
+                secureTextEntry
+                onChangeText={(text) => setPassword(text)}
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                maxLength={16}
+                label={"Confirm Password"}
+                value={confirmPassword}
+                secureTextEntry
+                onChangeText={(text) => setConfirmPassword(text)}
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                maxLength={11}
+                label={"Phone #"}
+                value={phone}
+                onChangeText={(text) => setPhone(text)}
+                keyboardType="numeric"
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                maxLength={50}
+                multiline
+                label={"Address"}
+                value={address}
+                onChangeText={(text) => setAddress(text)}
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                label={"CNIC"}
+                maxLength={13}
+                value={cnic}
+                onChangeText={(text) => setCNIC(text)}
+                keyboardType="numeric"
+              ></TextInput>
+              <TextInput
+                style={styles.inputFields}
+                outlineColor={Colors.main}
+                activeOutlineColor={Colors.main}
+                mode={"outlined"}
+                label={"CNIC Issue Date"}
+                value={cnicIssueDate}
+                onChangeText={(text) => setCNICIssueDate(text)}
+                placeholder={"DDMMYYYY"}
+              ></TextInput>
+              <TouchableOpacity
+                style={styles.registerBtn}
+                onPress={handleSignUp}
+              >
+                <Text style={styles.btnTxt} variant="titleMedium">
+                  Register
+                </Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </View>
+      </SafeAreaView>
+      {/* </HideKeyboard> */}
     </PaperProvider>
-  )
+  );
 }
 
-
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:Colors.background,
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
   },
-  mainContainer:{
-    flex:1,
-    alignItems:'center',    
+  mainContainer: {
+    flex: 1,
+    alignItems: "center",
   },
-  heading:{
-    textAlign:'center',
-    marginTop:'15%',
-    marginBottom:'15%',
-    fontFamily:'Manrope-ExtraBold',
-    color:Colors.main
+  heading: {
+    textAlign: "center",
+    marginTop: "15%",
+    marginBottom: "15%",
+    fontFamily: "Manrope-ExtraBold",
+    color: Colors.main,
   },
-  inputFields:{
-    height:40,
-    fontFamily:'Manrope-Regular',
+  inputFields: {
+    height: 40,
+    fontFamily: "Manrope-Regular",
   },
-  registerBtn:{
+  registerBtn: {
     backgroundColor: Colors.main,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
     paddingLeft: 16,
     paddingRight: 16,
-    width:'70%',
-    height:40,
-    marginTop:10,
-    marginLeft:'15%'
+    width: "70%",
+    height: 40,
+    marginTop: 10,
+    marginLeft: "15%",
   },
   btnTxt: {
     color: Colors.white,
-    fontSize: 18
-  }});
+    fontSize: 18,
+  },
+});

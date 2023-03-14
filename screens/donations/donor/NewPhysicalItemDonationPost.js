@@ -65,7 +65,6 @@ const pickImage = async () => {
   };
 
     const uploadImage = async () => {
-      alert("i'm here!");
       // convert image into blob image
       const blobImage = await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();

@@ -24,7 +24,7 @@ export default function SelectPortal() {
           <Text style={styles.heading} variant="displayMedium">Select Portal</Text>
           <IconButton style={styles.avatar} mode='contained' containerColor={Colors.background} icon={'account-outline'} size={100} iconColor={Colors.main} backgroundColor={Colors.background} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Donor</Text>      
-          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.background} icon={'account'} size={100} iconColor={Colors.main} backgroundColor={Colors.background} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>       
+          <IconButton style={styles.avatar} mode='contained' containerColor={Colors.background} icon={'account'} size={100} iconColor={Colors.main} backgroundColor={Colors.background} onPress={()=>navigation.navigate('DoneeLogin')} ></IconButton>       
           <Text style={styles.btnTxt} variant="titleLarge">Donee</Text>      
           <IconButton style={styles.avatar} mode='contained' containerColor={Colors.background} icon={'bank'} size={100} iconColor={Colors.main} backgroundColor={Colors.background} onPress={()=>navigation.navigate('DonorLogin')} ></IconButton>      
           <Text style={styles.btnTxt} variant="titleLarge">Organization</Text>      
