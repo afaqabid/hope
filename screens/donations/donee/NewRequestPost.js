@@ -26,7 +26,11 @@ export default function NewDonationPost() {
             <Text style={styles.btnDetails}>Donate any sort of physical goods, which may include food, old clothes, wheelchair, portable toilets e.t.c.</Text>
         </TouchableOpacity>
 
-    
+        <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('NewMonetaryItemPost')}>
+            <Text style={styles.btnTxt}>Monetary Donation</Text>
+            <Text style={styles.btnDetails}>Donate money to help people ease out their living.</Text>
+        </TouchableOpacity>
+
         </SafeAreaView>
     </PaperProvider>  )
 }
