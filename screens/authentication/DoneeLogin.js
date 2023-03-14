@@ -72,61 +72,61 @@ export default function DoneeLogin() {
   };
   return (
     <PaperProvider>
-      <HideKeyboard>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.mainContainer}>
-            <Text style={styles.heading} variant="displayMedium">
+      {/* <HideKeyboard> */}
+      <SafeAreaView style={styles.container}>
+        <View style={styles.mainContainer}>
+          <Text style={styles.heading} variant="displayMedium">
+            Login
+          </Text>
+          <TextInput
+            style={styles.usernameInput}
+            mode={"outlined"}
+            outlineColor="#293241"
+            activeOutlineColor="#293241"
+            label={"Email"}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          ></TextInput>
+          <TextInput
+            style={styles.passwordInput}
+            secureTextEntry
+            mode={"outlined"}
+            outlineColor="#293241"
+            activeOutlineColor="#1C702B"
+            label={"Password"}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+          ></TextInput>
+          {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} > */}
+          <TouchableOpacity
+            style={styles.loginBtn}
+            onPress={() => navigation.navigate("DoneePortal")}
+          >
+            <Text style={styles.btnTxt} variant="titleMedium">
               Login
             </Text>
-            <TextInput
-              style={styles.usernameInput}
-              mode={"outlined"}
-              outlineColor="#293241"
-              activeOutlineColor="#293241"
-              label={"Email"}
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-            ></TextInput>
-            <TextInput
-              style={styles.passwordInput}
-              secureTextEntry
-              mode={"outlined"}
-              outlineColor="#293241"
-              activeOutlineColor="#1C702B"
-              label={"Password"}
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-            ></TextInput>
-            {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} > */}
-            <TouchableOpacity
-              style={styles.loginBtn}
-              onPress={() => navigation.navigate("DoneePortal")}
-            >
-              <Text style={styles.btnTxt} variant="titleMedium">
-                Login
-              </Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                borderBottomColor: "black",
-                borderBottomWidth: 1,
-                width: "80%",
-                marginLeft: "10%",
-                marginTop: 10,
-                marginBottom: 10,
-              }}
-            ></View>
-            <TouchableOpacity
-              style={styles.registerBtn}
-              onPress={() => navigation.navigate("DoneeRegistration")}
-            >
-              <Text style={styles.btnTxtReg} variant="titleMedium">
-                Register
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </HideKeyboard>
+          </TouchableOpacity>
+          <View
+            style={{
+              borderBottomColor: "black",
+              borderBottomWidth: 1,
+              width: "80%",
+              marginLeft: "10%",
+              marginTop: 10,
+              marginBottom: 10,
+            }}
+          ></View>
+          <TouchableOpacity
+            style={styles.registerBtn}
+            onPress={() => navigation.navigate("DoneeRegistration")}
+          >
+            <Text style={styles.btnTxtReg} variant="titleMedium">
+              Register
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+      {/* </HideKeyboard> */}
     </PaperProvider>
   );
 }
