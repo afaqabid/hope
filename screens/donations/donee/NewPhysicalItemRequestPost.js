@@ -19,7 +19,7 @@ import {
   import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
   import * as ImagePicker from "expo-image-picker";
   
-  export default function NewPhysicalItemDonationPost() {
+  export default function NewPhysicalItemRequestPost() {
     let [fontLoaded] = useFonts({
       "Manrope-Bold": require("../../../assets/fonts/Manrope-Bold.ttf"),
       "Manrope-ExtraBold": require("../../../assets/fonts/Manrope-ExtraBold.ttf"),

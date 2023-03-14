@@ -5,7 +5,7 @@ import { Provider as PaperProvider, Button, Text } from 'react-native-paper'
 import { useFonts } from 'expo-font'
 import { useNavigation } from '@react-navigation/native'
 
-export default function NewDonationPost() {
+export default function NewRequestPost() {
     let [fontLoaded]=useFonts({
         'Manrope-Bold': require('../../../assets/fonts/Manrope-Bold.ttf'),
         'Manrope-ExtraBold': require('../../../assets/fonts/Manrope-ExtraBold.ttf'),
