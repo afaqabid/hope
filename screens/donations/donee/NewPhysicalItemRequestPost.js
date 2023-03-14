@@ -164,16 +164,16 @@ import {
               </Button> */}
                 <ButtonNative title="Upload Image" onPress={pickImage} />
                 <View style={styles.detailsContainer}>
-                  <Text style={styles.titleTxt}>Donation Title</Text>
+                  <Text style={styles.titleTxt}>Request Title</Text>
                   <TextInput
                     style={styles.donationTitle}
-                    placeholder="Write Donation Title Here."
+                    placeholder="Write Request Title Here."
                   ></TextInput>
                   <Text style={styles.titleTxt}>Description</Text>
                   <TextInput
                     multiline={true}
                     style={styles.description}
-                    placeholder="Write Donation Description Here."
+                    placeholder="Write Request Description Here."
                   ></TextInput>
                   <View style={styles.btnContainer}>
                     <Button style={styles.btnPost} onPress={uploadPost}>
@@ -183,7 +183,7 @@ import {
                       <Text
                         style={styles.btnTxtCancel}
                         onPress={() => {
-                          navigation.navigate("NewDonationPost");
+                          navigation.navigate("NewRequestPost");
                         }}
                       >
                         Cancel
