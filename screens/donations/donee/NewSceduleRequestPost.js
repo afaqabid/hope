@@ -37,15 +37,15 @@ export default function NewScheduleDonationPost() {
         </View>
         <View style={styles.detailsContainer}>
           <Text style={styles.titleTxt}>Donation Title</Text>
-          <TextInput style={styles.donationTitle} placeholder="Write Donation Title Here." ></TextInput>
+          <TextInput style={styles.donationTitle} placeholder="Write Request Title Here." ></TextInput>
           <Text style={styles.titleTxt}>Description</Text>
-          <TextInput multiline={true} style={styles.description} placeholder="Write Donation Description Here."></TextInput>
+          <TextInput multiline={true} style={styles.description} placeholder="Write Reqiuest Description Here."></TextInput>
           <View style={styles.btnContainer}>
             <Button style={styles.btnPost}>
               <Text style={styles.btnTxtPost}>Post</Text>
             </Button>
             <Button style={styles.btnCancel}>
-              <Text style={styles.btnTxtCancel} onPress={()=>{navigation.navigate('NewDonationPost')}}>Cancel</Text>
+              <Text style={styles.btnTxtCancel} onPress={()=>{navigation.navigate('NewRequestPost')}}>Cancel</Text>
             </Button>
           </View>
         </View>
