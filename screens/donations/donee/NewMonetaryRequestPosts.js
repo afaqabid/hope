@@ -81,15 +81,7 @@ const styles = StyleSheet.create({
     display:'flex',
   },
 
-  titleTxt:{
-    fontSize:20,
-    color:'#1C702B',
-    fontFamily:'Manrope-ExtraBold',
-    marginLeft:5,
-    marginBottom:0
-
-  },
-
+ 
   donationTitle:{
     height:45,
     fontFamily:'Manrope-Regular',
