@@ -21,7 +21,7 @@ export default function DonorDonationsTab() {
     return (
     <PaperProvider>
         <View style={styles.mainContainer}>
-        <TouchableOpacity style={styles.btn} onPress={()=>{navigation.navigate('NewDonationPost')}}>
+        <TouchableOpacity style={styles.btn} onPress={()=>{navigation.navigate('NewRequestPost')}}>
             <Text style={styles.btnTxt}>Post a Requests</Text>
         </TouchableOpacity>
 
