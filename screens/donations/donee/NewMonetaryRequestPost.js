@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useFonts } from 'expo-font'
 import { useNavigation } from '@react-navigation/native'
 
-export default function NewMonetaryRequestPosts() {
+export default function NewMonetaryRequestPost() {
   let [fontLoaded]=useFonts({
         'Manrope-Bold': require('../../../assets/fonts/Manrope-Bold.ttf'),
         'Manrope-ExtraBold': require('../../../assets/fonts/Manrope-ExtraBold.ttf'),

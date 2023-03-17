@@ -16,6 +16,9 @@ import NewDonationPost from "./screens/donations/donor/NewDonationPost";
 import NewPhysicalItemDonationPost from "./screens/donations/donor/NewPhysicalItemDonationPost";
 import NewMonetaryDonationPost from "./screens/donations/donor/NewMonetaryDonationPost";
 import NewScheduleDonationPost from "./screens/donations/donor/NewScheduleDonationPost";
+import NewPhysicalItemRequestPost from "./screens/donations/donee/NewPhysicalItemRequestPost";
+import NewMonetaryDonationPost from "./screens/donations/donor/NewMonetaryDonationPost";
+import NewScheduleDonationPost from "./screens/donations/donor/NewScheduleDonationPost";
 
 const Stack=createNativeStackNavigator();
 export default function App() {
