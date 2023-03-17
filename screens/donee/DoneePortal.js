@@ -3,7 +3,7 @@ import { BottomNavigation, Text, Provider as PaperProvider, Appbar, Surface } fr
 import { Alert, StyleSheet } from 'react-native';
 import BlogTab from '../blog/BlogTab';
 import ChatTab from '../chat/ChatTab';
-import DonationsTab from '../donations/DonationsTab';
+import DoneeDonationsTab from '../donations/donee/DoneeDonationTab';
 import NotificationsTab from '../notifications/NotificationsTab';
 import RequestsTab from '../requests/RequestsTab';
 import { auth } from '../../firebase';
@@ -13,7 +13,7 @@ import { useFonts } from 'expo-font';
 import Colors from '../../assets/constants/Colors';
 
 
-const TabOne = () => <DonationsTab/>
+const TabOne = () => <DoneeDonationsTab/>
 const TabTwo = () => <RequestsTab/>
 const TabThree = () => <ChatTab/>
 const TabFour = () => <BlogTab/>
