@@ -23,17 +23,17 @@ export default function NewRequestPost() {
         <SafeAreaView style={styles.mainContainer}>
         <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('NewPhysicalItemRequestPost')}>
             <Text style={styles.btnTxt}>Physical Item</Text>
-            <Text style={styles.btnDetails}>Donate any sort of physical goods, which may include food, old clothes, wheelchair, portable toilets e.t.c.</Text>
+            <Text style={styles.btnDetails}>Request any sort of physical goods, which may include food, old clothes, wheelchair, portable toilets e.t.c.</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('NewMonetaryRequestPosts')}>
-            <Text style={styles.btnTxt}>Monetary Donation</Text>
-            <Text style={styles.btnDetails}>Donate money to help people ease out their living.</Text>
+        <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('NewMonetaryRequestPost')}>
+            <Text style={styles.btnTxt}>Monetary Request</Text>
+            <Text style={styles.btnDetails}>Request money to fulfill donee needs.</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('NewScheduleRequestPost')}>
-            <Text style={styles.btnTxt}>Schedule Donation</Text>
-            <Text style={styles.btnDetails}>Post a donation on a specific time.</Text>
+            <Text style={styles.btnTxt}>Schedule Request</Text>
+            <Text style={styles.btnDetails}>Post a Request on a specific time.</Text>
         </TouchableOpacity>
 
         </SafeAreaView>

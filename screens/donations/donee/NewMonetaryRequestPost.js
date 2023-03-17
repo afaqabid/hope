@@ -31,9 +31,9 @@ export default function NewMonetaryRequestPost() {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} >
         <ScrollView>
         <View style={styles.detailsContainer}>
-          <Text style={styles.titleTxt}>Donation Amount</Text>
+          <Text style={styles.titleTxt}>Request Amount</Text>
           <TextInput style={styles.donationTitle} placeholder="Enter Amount" ></TextInput>
-          <Text style={styles.titleTxt}>Donation Title</Text>
+          <Text style={styles.titleTxt}>Request Title</Text>
           <TextInput style={styles.donationTitle} placeholder="Write Request Title Here." ></TextInput>
           <Text style={styles.titleTxt}>Description</Text>
           <TextInput multiline={true} style={styles.description} placeholder="Write Request Description Here."></TextInput>

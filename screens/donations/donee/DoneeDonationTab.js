@@ -42,11 +42,12 @@ const styles = StyleSheet.create({
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        backgroundColor:'#FDFAF6'
+        backgroundColor:'#FDFAF6',
+        flex:1,
     
     },
     btn:{
-        height:'23.3%',
+        height:'27%',
         width:'95%',
         backgroundColor:'#1C702B',
         color:'white',
