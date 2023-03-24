@@ -20,34 +20,62 @@ import NewRequestPost from "./screens/donations/donee/NewRequestPost";
 import NewPhysicalItemRequestPost from "./screens/donations/donee/NewPhysicalItemRequestPost";
 import NewMonetaryRequestPost from "./screens/donations/donee/NewMonetaryRequestPost";
 import NewScheduleRequestPost from "./screens/donations/donee/NewScheduleRequestPost";
+import ActiveDonationsPosts from "./screens/donations/donor/ActiveDonationsPosts";
 
-const Stack=createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-    <NavigationContainer >
-      <Stack.Navigator screenOptions={{headerShown:false}}> 
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="SelectPortal" component={SelectPortal} />
-        <Stack.Screen name="DonorLogin" component={DonorLogin}/>
-        <Stack.Screen name="DonorRegistration" component={DonorRegistration}/>
-        <Stack.Screen name="DonorPortal" component={DonorPortal}/>
-        <Stack.Screen name="DoneeLogin" component={DoneeLogin}/>
-        <Stack.Screen name="DoneeRegistration" component={DoneeRegistration}/>
-        <Stack.Screen name="DoneePortal" component={DoneePortal}/>
-        <Stack.Screen name="OrganizationLogin" component={OrganizationLogin}/>
-        <Stack.Screen name="OrganizationRegistration" component={OrganizationRegistration}/>
-        <Stack.Screen name="OrganizationPortal" component={OrganizationPortal}/>
-        <Stack.Screen name="ChatScreen" component={ChatScreen}/>
-        <Stack.Screen name="UserProfile" component={UserProfile}/>
-        <Stack.Screen name="NewDonationPost" component={NewDonationPost}/>
-        <Stack.Screen name="NewPhysicalItemDonationPost" component={NewPhysicalItemDonationPost}/>
-        <Stack.Screen name="NewMonetaryDonationPost" component={NewMonetaryDonationPost}/>
-        <Stack.Screen name="NewScheduleDonationPost" component={NewScheduleDonationPost}/>
-        <Stack.Screen name="NewRequestPost" component={NewRequestPost}/>
-        <Stack.Screen name="NewPhysicalItemRequestPost" component={NewPhysicalItemRequestPost}/>
-        <Stack.Screen name="NewMonetaryRequestPost" component={NewMonetaryRequestPost}/>
-        <Stack.Screen name="NewScheduleRequestPost" component={NewScheduleRequestPost}/>
+        <Stack.Screen name="DonorLogin" component={DonorLogin} />
+        <Stack.Screen name="DonorRegistration" component={DonorRegistration} />
+        <Stack.Screen name="DonorPortal" component={DonorPortal} />
+        <Stack.Screen name="DoneeLogin" component={DoneeLogin} />
+        <Stack.Screen name="DoneeRegistration" component={DoneeRegistration} />
+        <Stack.Screen name="DoneePortal" component={DoneePortal} />
+        <Stack.Screen name="OrganizationLogin" component={OrganizationLogin} />
+        <Stack.Screen
+          name="OrganizationRegistration"
+          component={OrganizationRegistration}
+        />
+        <Stack.Screen
+          name="OrganizationPortal"
+          component={OrganizationPortal}
+        />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="NewDonationPost" component={NewDonationPost} />
+        <Stack.Screen
+          name="NewPhysicalItemDonationPost"
+          component={NewPhysicalItemDonationPost}
+        />
+        <Stack.Screen
+          name="NewMonetaryDonationPost"
+          component={NewMonetaryDonationPost}
+        />
+        <Stack.Screen
+          name="NewScheduleDonationPost"
+          component={NewScheduleDonationPost}
+        />
+        <Stack.Screen name="NewRequestPost" component={NewRequestPost} />
+        <Stack.Screen
+          name="NewPhysicalItemRequestPost"
+          component={NewPhysicalItemRequestPost}
+        />
+        <Stack.Screen
+          name="NewMonetaryRequestPost"
+          component={NewMonetaryRequestPost}
+        />
+        <Stack.Screen
+          name="NewScheduleRequestPost"
+          component={NewScheduleRequestPost}
+        />
+        <Stack.Screen
+          name="ActiveDonationsPosts"
+          component={ActiveDonationsPosts}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
