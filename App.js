@@ -16,6 +16,10 @@ import NewDonationPost from "./screens/donations/donor/NewDonationPost";
 import NewPhysicalItemDonationPost from "./screens/donations/donor/NewPhysicalItemDonationPost";
 import NewMonetaryDonationPost from "./screens/donations/donor/NewMonetaryDonationPost";
 import NewScheduleDonationPost from "./screens/donations/donor/NewScheduleDonationPost";
+import NewRequestPost from "./screens/donations/donee/NewRequestPost";
+import NewPhysicalItemRequestPost from "./screens/donations/donee/NewPhysicalItemRequestPost";
+import NewMonetaryRequestPost from "./screens/donations/donee/NewMonetaryRequestPost";
+import NewScheduleRequestPost from "./screens/donations/donee/NewScheduleRequestPost";
 
 const Stack=createNativeStackNavigator();
 export default function App() {
@@ -38,6 +42,10 @@ export default function App() {
         <Stack.Screen name="NewPhysicalItemDonationPost" component={NewPhysicalItemDonationPost}/>
         <Stack.Screen name="NewMonetaryDonationPost" component={NewMonetaryDonationPost}/>
         <Stack.Screen name="NewScheduleDonationPost" component={NewScheduleDonationPost}/>
+        <Stack.Screen name="NewRequestPost" component={NewRequestPost}/>
+        <Stack.Screen name="NewPhysicalItemRequestPost" component={NewPhysicalItemRequestPost}/>
+        <Stack.Screen name="NewMonetaryRequestPost" component={NewMonetaryRequestPost}/>
+        <Stack.Screen name="NewScheduleRequestPost" component={NewScheduleRequestPost}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
