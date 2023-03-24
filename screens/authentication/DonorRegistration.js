@@ -28,6 +28,7 @@ import { db } from "../../firebase";
 import { ref, set, update } from "firebase/database";
 import { useFonts } from "expo-font";
 import Colors from "../../assets/constants/Colors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function DonorRegistration() {
   let [fontLoaded] = useFonts({
@@ -44,7 +45,6 @@ export default function DonorRegistration() {
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
-        alert("Hello");
       }}
     >
       {children}
@@ -179,133 +179,126 @@ export default function DonorRegistration() {
       {/* <HideKeyboard> */}
       <SafeAreaView style={styles.container}>
         <View style={styles.mainContainer}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "position" : "height"}
-          >
-            <ScrollView>
-              <Text style={styles.heading} variant="displayMedium">
-                Registration
+          <KeyboardAwareScrollView scrollEnabled={false}>
+            <Text style={styles.heading} variant="displayMedium">
+              Registration
+            </Text>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              maxLength={20}
+              label={"Name"}
+              value={name}
+              onChangeText={(text) => {
+                setName(validateName(text));
+              }}
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              maxLength={8}
+              keyboardType="numeric"
+              label={"Date Of Birth"}
+              value={dob}
+              onChangeText={(text) => setDob(text)}
+              placeholder={"DDMMYYYY"}
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              maxLength={25}
+              label={"Email"}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              keyboardType="email-address"
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              maxLength={10}
+              label={"Username"}
+              value={username}
+              onChangeText={(text) => setUsername(text)}
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              maxLength={16}
+              label={"Password"}
+              value={password}
+              secureTextEntry
+              onChangeText={(text) => setPassword(text)}
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              maxLength={16}
+              label={"Confirm Password"}
+              value={confirmPassword}
+              secureTextEntry
+              onChangeText={(text) => setConfirmPassword(text)}
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              maxLength={11}
+              label={"Phone #"}
+              value={phone}
+              onChangeText={(text) => setPhone(text)}
+              keyboardType="numeric"
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              maxLength={50}
+              multiline
+              label={"Address"}
+              value={address}
+              onChangeText={(text) => setAddress(text)}
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              label={"CNIC"}
+              maxLength={13}
+              value={cnic}
+              onChangeText={(text) => setCNIC(text)}
+              keyboardType="numeric"
+            ></TextInput>
+            <TextInput
+              style={styles.inputFields}
+              outlineColor={Colors.main}
+              activeOutlineColor={Colors.main}
+              mode={"outlined"}
+              label={"CNIC Issue Date"}
+              value={cnicIssueDate}
+              onChangeText={(text) => setCNICIssueDate(text)}
+              placeholder={"DDMMYYYY"}
+            ></TextInput>
+            <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}>
+              <Text style={styles.btnTxt} variant="titleMedium">
+                Register
               </Text>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                maxLength={20}
-                label={"Name"}
-                value={name}
-                onChangeText={(text) => {
-                  setName(validateName(text));
-                }}
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                maxLength={8}
-                keyboardType="numeric"
-                label={"Date Of Birth"}
-                value={dob}
-                onChangeText={(text) => setDob(text)}
-                placeholder={"DDMMYYYY"}
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                maxLength={25}
-                label={"Email"}
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-                keyboardType="email-address"
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                maxLength={10}
-                label={"Username"}
-                value={username}
-                onChangeText={(text) => setUsername(text)}
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                maxLength={16}
-                label={"Password"}
-                value={password}
-                secureTextEntry
-                onChangeText={(text) => setPassword(text)}
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                maxLength={16}
-                label={"Confirm Password"}
-                value={confirmPassword}
-                secureTextEntry
-                onChangeText={(text) => setConfirmPassword(text)}
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                maxLength={11}
-                label={"Phone #"}
-                value={phone}
-                onChangeText={(text) => setPhone(text)}
-                keyboardType="numeric"
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                maxLength={50}
-                multiline
-                label={"Address"}
-                value={address}
-                onChangeText={(text) => setAddress(text)}
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                label={"CNIC"}
-                maxLength={13}
-                value={cnic}
-                onChangeText={(text) => setCNIC(text)}
-                keyboardType="numeric"
-              ></TextInput>
-              <TextInput
-                style={styles.inputFields}
-                outlineColor={Colors.main}
-                activeOutlineColor={Colors.main}
-                mode={"outlined"}
-                label={"CNIC Issue Date"}
-                value={cnicIssueDate}
-                onChangeText={(text) => setCNICIssueDate(text)}
-                placeholder={"DDMMYYYY"}
-              ></TextInput>
-              <TouchableOpacity
-                style={styles.registerBtn}
-                onPress={handleSignUp}
-              >
-                <Text style={styles.btnTxt} variant="titleMedium">
-                  Register
-                </Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </KeyboardAvoidingView>
+            </TouchableOpacity>
+          </KeyboardAwareScrollView>
         </View>
       </SafeAreaView>
       {/* </HideKeyboard> */}
