@@ -90,40 +90,6 @@ export default function ActiveDonationPostHead() {
           </View>
         </>
       ))}
-
-      {/* <View style={styles.activePostCard}>
-        <View style={styles.card}>
-          <View style={styles.mainCard}>
-            <View style={styles.leftCard}>
-              <Image
-                source={{
-                  uri: "https://firebasestorage.googleapis.com/v0/b/hope-makeliveseasier.appspot.com/o/DonationPostImages%2F1677939646898?alt=media&token=aa0b3308-f242-4b2e-99d6-0ac40713e951",
-                }}
-                style={styles.postImg}
-              />
-            </View>
-            <View style={styles.rightCard}>
-              <Text style={styles.postTitle}>{"Donating a Wheelchair"}</Text>
-              <Text style={styles.postDesc}>
-                {"This wheelchair is only used for 10 Months...."}
-              </Text>
-              <View style={styles.timeAndDateCard}>
-                <Text style={styles.postTime}>{"11:11 AM"}</Text>
-                <Text style={styles.postDate}>{"March 24, 2023"}</Text>
-              </View>
-              <Text style={styles.postStatus}>{"Status: " + "Active"}</Text>
-              <View style={styles.btnCard}>
-                <Button style={styles.btnPost}>
-                  <Text style={styles.btnTxtPost}>Mark as Done</Text>
-                </Button>
-                <Button style={styles.btnCancel}>
-                  <Text style={styles.btnTxtCancel}>Cancel</Text>
-                </Button>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View> */}
     </PaperProvider>
   );
 }
@@ -170,6 +136,10 @@ const styles = StyleSheet.create({
   postImg: {
     height: "100%",
     width: "100%",
+  },
+  postStatus: {
+    fontSize: 12,
+    fontFamily: "Manrope-Regular",
   },
   mainCard: {
     display: "flex",
