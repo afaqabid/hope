@@ -112,7 +112,6 @@ export default function DonorLogin() {
               borderBottomColor: "black",
               borderBottomWidth: 1,
               width: "80%",
-              marginLeft: "10%",
               marginTop: 10,
               marginBottom: 10,
             }}
@@ -123,6 +122,22 @@ export default function DonorLogin() {
           >
             <Text style={styles.btnTxtReg} variant="titleMedium">
               Register
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              borderBottomColor: "black",
+              borderBottomWidth: 0,
+              width: "80%",
+              marginTop: "60%",
+              marginBottom: 10,
+            }}
+          ></View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ResetPassword")}
+          >
+            <Text style={styles.btnTxtReg} variant="titleMedium">
+              Reset Password
             </Text>
           </TouchableOpacity>
         </View>
