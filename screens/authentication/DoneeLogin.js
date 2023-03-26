@@ -124,6 +124,22 @@ export default function DoneeLogin() {
               Register
             </Text>
           </TouchableOpacity>
+          <View
+            style={{
+              borderBottomColor: "black",
+              borderBottomWidth: 0,
+              width: "80%",
+              marginTop: "60%",
+              marginBottom: 10,
+            }}
+          ></View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ResetPassword")}
+          >
+            <Text style={styles.btnTxtReg} variant="titleMedium">
+              Reset Password
+            </Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
       {/* </HideKeyboard> */}
