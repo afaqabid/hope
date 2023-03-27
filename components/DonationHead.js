@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Alert,
 } from "react-native";
 import React from "react";
 import { Button, Provider as PaperProvider } from "react-native-paper";
 import { useFonts } from "expo-font";
 import Colors from "../assets/constants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 class PostHead {
   constructor(imgUrl, title, desc, time, date, status, donorName) {
@@ -34,6 +36,43 @@ export default function DonationHead() {
     "Manrope-SemiBold": require("../assets/fonts/Manrope-SemiBold.ttf"),
   });
 
+  const navigation = useNavigation();
+
+  const showDetails = (donation) => {
+    navigation.navigate("DonationDetails", {
+      donationTitle: donation.title,
+      donationDesc: donation.desc,
+      donationDonorName: donation.donorName,
+      donationTime: donation.time,
+      donationDate: donation.date,
+      donationStatus: donation.status,
+      donationImgUrl: donation.imgUrl,
+    });
+  };
+  // const sendMessage = (donation) => {
+  //   Alert.alert(
+  //     "Send Message",
+  //     " Do you want to send message to " + donation.donorName,
+  //     [
+  //       {
+  //         text: "Yes",
+  //         onPress: () => {
+  //           navigation.navigate("DonationDetails", {
+  //             donationTitle: donation.title,
+  //             donationDesc: donation.desc,
+  //             donationDonorName: donation.donorName,
+  //             donationTime: donation.time,
+  //             donationDate: donation.date,
+  //             donationStatus: donation.status,
+  //             donationImgUrl: donation.imgUrl,
+  //           });
+  //         },
+  //       },
+  //       { text: "No" },
+  //     ]
+  //   );
+  // };
+
   var donationsPostsList = [];
   var i = 0;
   var size = 10;
@@ -51,7 +90,7 @@ export default function DonationHead() {
   }
   return (
     <PaperProvider>
-      {donationsPostsList.map((c) => (
+      {donationsPostsList.map((donation) => (
         <>
           <View style={styles.donationPostCard}>
             <View style={styles.card}>
@@ -59,27 +98,32 @@ export default function DonationHead() {
                 <View style={styles.leftCard}>
                   <Image
                     source={{
-                      uri: c.imgUrl,
+                      uri: donation.imgUrl,
                     }}
                     style={styles.postImg}
                   />
                 </View>
                 <View style={styles.rightCard}>
-                  <Text style={styles.postTitle}>{c.title}</Text>
-                  <Text style={styles.postDesc}>{c.desc}</Text>
+                  <Text style={styles.postTitle}>{donation.title}</Text>
+                  <Text style={styles.postDesc}>{donation.desc}</Text>
                   <Text style={styles.postDonorName}>{x.donorName}</Text>
                   <View style={styles.timeAndDateCard}>
-                    <Text style={styles.postTime}>{c.time}</Text>
-                    <Text style={styles.postDate}>{c.date}</Text>
+                    <Text style={styles.postTime}>{donation.time}</Text>
+                    <Text style={styles.postDate}>{donation.date}</Text>
                   </View>
-                  <Text style={styles.postStatus}>{"Status: " + c.status}</Text>
+                  <Text style={styles.postStatus}>
+                    {"Status: " + donation.status}
+                  </Text>
                   <View style={styles.btnCard}>
-                    <Button style={styles.btnShowDetails}>
+                    <Button
+                      style={styles.btnShowDetails}
+                      onPress={() => showDetails(donation)}
+                    >
                       <Text style={styles.btnShowDetailsTxt}>Show Details</Text>
                     </Button>
                     <Button
                       style={styles.btnMsg}
-                      onPress={() => alert("Send Message for " + c.donorName)}
+                      // onPress={() => sendMessage(donation)}
                     >
                       <Text style={styles.btnMsgTxt}>Send Message</Text>
                     </Button>
