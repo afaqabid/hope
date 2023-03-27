@@ -78,14 +78,7 @@ const DonationDetails = ({ route }) => {
           </View>
           <View style={styles.btnContainer}>
             <Button style={styles.btnSendMsg}>
-              <Text
-                style={styles.btnTxtSendMsg}
-                onPress={() => {
-                  navigation.navigate("NewDonationPost");
-                }}
-              >
-                Send Message
-              </Text>
+              <Text style={styles.btnTxtSendMsg}>Send Message</Text>
             </Button>
           </View>
         </ScrollView>
