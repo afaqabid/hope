@@ -65,11 +65,8 @@ export default function DonorRegistration() {
   const navigation = useNavigation();
 
   const saveDetailsToDatabase = () => {
-    set(ref(db, "email/" + username), {
-      username: username,
+    set(ref(db, "hope/usertype/donor/" + username), {
       email: email,
-      password: password,
-      accountType: "Donor",
     })
       .then()
       .catch((error) => {
@@ -173,7 +170,6 @@ export default function DonorRegistration() {
     const result = text.replace(/[^a-z]/gi, "");
     return result;
   };
-
   return (
     <PaperProvider>
       {/* <HideKeyboard> */}
@@ -266,8 +262,6 @@ export default function DonorRegistration() {
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
               mode={"outlined"}
-              maxLength={50}
-              multiline
               label={"Address"}
               value={address}
               onChangeText={(text) => setAddress(text)}
@@ -287,11 +281,13 @@ export default function DonorRegistration() {
               style={styles.inputFields}
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
+              maxLength={8}
               mode={"outlined"}
               label={"CNIC Issue Date"}
               value={cnicIssueDate}
               onChangeText={(text) => setCNICIssueDate(text)}
               placeholder={"DDMMYYYY"}
+              keyboardType="numeric"
             ></TextInput>
             <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}>
               <Text style={styles.btnTxt} variant="titleMedium">
