@@ -49,11 +49,8 @@ export default function OrganizationRegistration() {
   const navigation = useNavigation();
 
   const saveDetailsToDatabase = () => {
-    set(ref(db, "email/" + username), {
-      username: username,
+    set(ref(db, "hope/usertype/organization/" + username), {
       email: email,
-      password: password,
-      accountType: "Organization",
     })
       .then()
       .catch((error) => {
@@ -276,8 +273,10 @@ export default function OrganizationRegistration() {
               style={styles.inputFields}
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
+              maxLength={8}
               mode={"outlined"}
               label={"CNIC Issue Date"}
+              keyboardType="numeric"
               value={cnicIssueDate}
               onChangeText={(text) => setCNICIssueDate(text)}
               placeholder={"DDMMYYYY"}
@@ -286,11 +285,12 @@ export default function OrganizationRegistration() {
               style={styles.inputFields}
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
+              keyboardType="numeric"
               mode={"outlined"}
               label={"Certificate Number"}
               value={certificateNumber}
               onChangeText={(text) => setCertificateNumber(text)}
-              placeholder={"DDMMYYYY"}
+              placeholder={"xxxxxxxx"}
             ></TextInput>
             <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}>
               <Text style={styles.btnTxt} variant="titleMedium">
