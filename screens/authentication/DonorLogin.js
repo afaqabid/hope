@@ -42,34 +42,40 @@ export default function DonorLogin() {
 
   const navigation = useNavigation();
 
+  const isDonor = () => {};
+
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        if (!auth.currentUser.emailVerified) {
-          Alert.alert(
-            "Email Verification Required",
-            "Kindly verify by the email sent to your registered email!",
-            [
-              {
-                text: "Send Email Again",
-                onPress: () => {
-                  sendEmailVerification(auth.currentUser)
-                    .then()
-                    .catch((error) => {
-                      alert(error.message);
-                    });
+    if (email.trim() == "" || password.trim() == "") {
+      alert("Please Enter All Fields!");
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
+          if (!auth.currentUser.emailVerified) {
+            Alert.alert(
+              "Email Verification Required",
+              "Kindly verify by the email sent to your registered email!",
+              [
+                {
+                  text: "Send Email Again",
+                  onPress: () => {
+                    sendEmailVerification(auth.currentUser)
+                      .then()
+                      .catch((error) => {
+                        alert(error.message);
+                      });
+                  },
                 },
-              },
-              { text: "Okay" },
-            ]
-          );
-        } else {
-          console.log("Logged in with:", user.email);
-          navigation.navigate("DonorPortal");
-        }
-      })
-      .catch((error) => alert(error.message));
+                { text: "Okay" },
+              ]
+            );
+          } else {
+            console.log("Logged in with:", user.email);
+            navigation.navigate("DonorPortal");
+          }
+        })
+        .catch((error) => alert(error.message));
+    }
   };
 
   return (
@@ -98,11 +104,11 @@ export default function DonorLogin() {
             value={password}
             onChangeText={(text) => setPassword(text)}
           ></TextInput>
-          {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} > */}
-          <TouchableOpacity
+          <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+            {/* <TouchableOpacity
             style={styles.loginBtn}
             onPress={() => navigation.navigate("DonorPortal")}
-          >
+          > */}
             <Text style={styles.btnTxt} variant="titleMedium">
               Login
             </Text>
