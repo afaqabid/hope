@@ -49,11 +49,8 @@ export default function DoneeRegistration() {
   const navigation = useNavigation();
 
   const saveDetailsToDatabase = () => {
-    set(ref(db, "email/" + username), {
-      username: username,
+    set(ref(db, "hope/usertype/donee/" + username), {
       email: email,
-      password: password,
-      accountType: "Donee",
     })
       .then()
       .catch((error) => {
