@@ -46,7 +46,6 @@ export default function DonorLogin() {
 
   const [check, setCheck] = useState(false);
 
-  const donorsList = [];
   async function isDonor() {
     const dbRef = ref(db);
     await get(child(dbRef, "hope/usertype/donor/"))
@@ -55,9 +54,7 @@ export default function DonorLogin() {
           snapshot.forEach(function (childSnapshot) {
             var key = childSnapshot.key;
             var childData = childSnapshot.val();
-            donorsList.push(childData.email.email);
-            console.log(childData);
-            if (childData.email.email == email) {
+            if (childData.email == email) {
               setCheck(true);
             }
           });
@@ -67,7 +64,6 @@ export default function DonorLogin() {
       .catch((error) => {
         console.error(error);
       });
-    return check;
   }
 
   const handleLogin = () => {
@@ -96,13 +92,16 @@ export default function DonorLogin() {
               ]
             );
           } else {
-            if (isDonor()) {
+            isDonor();
+            if (check) {
               console.log("Logged in with:", user.email);
               navigation.navigate("DonorPortal");
             } else {
               Alert.alert(
                 "This email is not registered for Donor Account Type!"
               );
+              setEmail("");
+              setPassword("");
             }
           }
         })
@@ -129,6 +128,7 @@ export default function DonorLogin() {
             activeOutlineColor={Colors.main}
             label={"Email"}
             value={email}
+            onBlur={isDonor}
             onChangeText={(text) => setEmail(text)}
           ></TextInput>
           <TextInput
