@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import React from "react";
 import {
@@ -15,6 +16,8 @@ import {
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
+import { db } from "../../firebase";
+import { onValue, ref, child, get } from "firebase/database";
 import { auth } from "../../firebase";
 import {
   sendEmailVerification,
@@ -36,6 +39,27 @@ export default function OrganizatonLogin() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [check, setCheck] = useState(false);
+
+  async function isOrganization() {
+    const dbRef = ref(db);
+    await get(child(dbRef, "hope/usertype/organization/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childSnapshot) {
+            var key = childSnapshot.key;
+            var childData = childSnapshot.val();
+            if (childData.email == email) {
+              setCheck(true);
+            }
+          });
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   const navigation = useNavigation();
   const handleLogin = () => {
@@ -61,8 +85,17 @@ export default function OrganizatonLogin() {
             ]
           );
         } else {
-          console.log("Logged in with:", user.email);
-          navigation.navigate("OrganizationPortal");
+          isOrganization();
+          if (check == true) {
+            console.log("Logged in with:", user.email);
+            navigation.navigate("OrganizationPortal");
+          } else {
+            Alert.alert(
+              "This email is not registered for Organization Account Type!"
+            );
+            setEmail("");
+            setPassword("");
+          }
         }
       })
       .catch((error) => alert(error.message));
@@ -82,6 +115,7 @@ export default function OrganizatonLogin() {
             activeOutlineColor={Colors.main}
             label={"Email"}
             value={email}
+            onBlur={isOrganization}
             onChangeText={(text) => setEmail(text)}
           ></TextInput>
           <TextInput
@@ -94,11 +128,11 @@ export default function OrganizatonLogin() {
             value={password}
             onChangeText={(text) => setPassword(text)}
           ></TextInput>
-          {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} > */}
-          <TouchableOpacity
+          <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+            {/* <TouchableOpacity
             style={styles.loginBtn}
             onPress={() => navigation.navigate("OrganizationPortal")}
-          >
+          > */}
             <Text style={styles.btnTxt} variant="titleMedium">
               Login
             </Text>
