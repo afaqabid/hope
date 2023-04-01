@@ -323,6 +323,7 @@ const styles = StyleSheet.create({
   inputFields: {
     height: 40,
     fontFamily: "Manrope-Regular",
+    backgroundColor: Colors.background,
   },
   registerBtn: {
     backgroundColor: Colors.main,

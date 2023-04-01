@@ -108,7 +108,6 @@ export default function OrganizatonLogin() {
               borderBottomColor: "black",
               borderBottomWidth: 1,
               width: "80%",
-              marginLeft: "10%",
               marginTop: 10,
               marginBottom: 10,
             }}
@@ -163,10 +162,12 @@ const styles = StyleSheet.create({
     width: "75%",
     height: 40,
     fontFamily: "Manrope-Regular",
+    backgroundColor: Colors.background,
     marginTop: 100,
   },
   passwordInput: {
     width: "75%",
+    backgroundColor: Colors.background,
     height: 40,
   },
   loginBtn: {

@@ -9,7 +9,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import {
   Provider as PaperProvider,
   Avatar,
@@ -18,11 +18,14 @@ import {
   Button,
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../../firebase";
+import { auth, firebaseConfig } from "../../firebase";
 import { useState, useEffect } from "react";
 import {
+  PhoneAuthProvider,
+  RecaptchaVerifier,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  signInWithCredential,
 } from "firebase/auth";
 import { db } from "../../firebase";
 import { ref, set, update } from "firebase/database";
@@ -185,7 +188,14 @@ export default function DonorRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={20}
-              label={"Name"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Name
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={name}
               onChangeText={(text) => {
                 setName(validateName(text));
@@ -198,7 +208,14 @@ export default function DonorRegistration() {
               mode={"outlined"}
               maxLength={8}
               keyboardType="numeric"
-              label={"Date Of Birth"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Date Of Birth
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={dob}
               onChangeText={(text) => setDob(text)}
               placeholder={"DDMMYYYY"}
@@ -209,7 +226,14 @@ export default function DonorRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={25}
-              label={"Email"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Email
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={email}
               onChangeText={(text) => setEmail(text)}
               keyboardType="email-address"
@@ -220,7 +244,14 @@ export default function DonorRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={10}
-              label={"Username"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Username
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={username}
               onChangeText={(text) => setUsername(text)}
             ></TextInput>
@@ -230,7 +261,14 @@ export default function DonorRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={16}
-              label={"Password"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Password
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={password}
               secureTextEntry
               onChangeText={(text) => setPassword(text)}
@@ -241,7 +279,14 @@ export default function DonorRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={16}
-              label={"Confirm Password"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Confirm Password
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={confirmPassword}
               secureTextEntry
               onChangeText={(text) => setConfirmPassword(text)}
@@ -251,18 +296,32 @@ export default function DonorRegistration() {
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
               mode={"outlined"}
-              maxLength={11}
-              label={"Phone #"}
+              maxLength={13}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Phone
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={phone}
               onChangeText={(text) => setPhone(text)}
-              keyboardType="numeric"
+              keyboardType="phone"
             ></TextInput>
             <TextInput
               style={styles.inputFields}
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
               mode={"outlined"}
-              label={"Address"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Address
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={address}
               onChangeText={(text) => setAddress(text)}
             ></TextInput>
@@ -271,7 +330,14 @@ export default function DonorRegistration() {
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
               mode={"outlined"}
-              label={"CNIC"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  CNIC
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               maxLength={13}
               value={cnic}
               onChangeText={(text) => setCNIC(text)}
@@ -283,13 +349,21 @@ export default function DonorRegistration() {
               activeOutlineColor={Colors.main}
               maxLength={8}
               mode={"outlined"}
-              label={"CNIC Issue Date"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  CNIC Issue Date
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={cnicIssueDate}
               onChangeText={(text) => setCNICIssueDate(text)}
               placeholder={"DDMMYYYY"}
               keyboardType="numeric"
             ></TextInput>
-            <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}>
+            <TouchableOpacity style={styles.registerBtn}>
+              {/* <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}> */}
               <Text style={styles.btnTxt} variant="titleMedium">
                 Register
               </Text>
@@ -321,6 +395,7 @@ const styles = StyleSheet.create({
   inputFields: {
     height: 40,
     fontFamily: "Manrope-Regular",
+    backgroundColor: Colors.background,
   },
   registerBtn: {
     backgroundColor: Colors.main,

@@ -17,6 +17,8 @@ import {
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
+import { db } from "../../firebase";
+import { onValue, ref, child, get } from "firebase/database";
 import { auth } from "../../firebase";
 import {
   sendEmailVerification,
@@ -42,7 +44,31 @@ export default function DonorLogin() {
 
   const navigation = useNavigation();
 
-  const isDonor = () => {};
+  const [check, setCheck] = useState(false);
+
+  const donorsList = [];
+  async function isDonor() {
+    const dbRef = ref(db);
+    await get(child(dbRef, "hope/usertype/donor/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childSnapshot) {
+            var key = childSnapshot.key;
+            var childData = childSnapshot.val();
+            donorsList.push(childData.email.email);
+            console.log(childData);
+            if (childData.email.email == email) {
+              setCheck(true);
+            }
+          });
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return check;
+  }
 
   const handleLogin = () => {
     if (email.trim() == "" || password.trim() == "") {
@@ -70,8 +96,14 @@ export default function DonorLogin() {
               ]
             );
           } else {
-            console.log("Logged in with:", user.email);
-            navigation.navigate("DonorPortal");
+            if (isDonor()) {
+              console.log("Logged in with:", user.email);
+              navigation.navigate("DonorPortal");
+            } else {
+              Alert.alert(
+                "This email is not registered for Donor Account Type!"
+              );
+            }
           }
         })
         .catch((error) => alert(error.message));
@@ -173,10 +205,12 @@ const styles = StyleSheet.create({
     height: 40,
     fontFamily: "Manrope-Regular",
     marginTop: 100,
+    backgroundColor: Colors.background,
   },
   passwordInput: {
     width: "75%",
     height: 40,
+    backgroundColor: Colors.background,
   },
   loginBtn: {
     backgroundColor: Colors.main,

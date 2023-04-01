@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     width: "75%",
     height: 40,
     fontFamily: "Manrope-Regular",
+    backgroundColor: Colors.background,
     marginTop: 100,
   },
   passwordInput: {
