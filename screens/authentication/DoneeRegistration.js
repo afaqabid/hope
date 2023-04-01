@@ -18,7 +18,11 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { auth, db } from "../../firebase";
 import { useState, useEffect } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
 import { useFonts } from "expo-font";
 import { ref, set } from "firebase/database";
 import Colors from "../../assets/constants/Colors";
@@ -110,6 +114,15 @@ export default function DoneeRegistration() {
   const saveAuthenticationDetails = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
+        saveDetailsToDatabase();
+        updateProfile(auth.currentUser, {
+          displayName: username,
+        })
+          .then()
+          .catch((error) => {
+            // An error occurred
+            // ...
+          });
         sendEmailVerification(auth.currentUser)
           .then()
           .catch((error) => {
@@ -117,6 +130,7 @@ export default function DoneeRegistration() {
           });
         const user = userCredentials.user;
         console.log("Registered with:", user.email);
+
         Alert.alert(
           "Congratulations!",
           "You've been registered as a Donee, Please verify through the link sent to your registered email!",
@@ -127,6 +141,7 @@ export default function DoneeRegistration() {
   };
 
   const handleSignUp = () => {
+    var check = true;
     if (
       name.trim() == "" ||
       dob.trim() == "" ||
@@ -134,26 +149,89 @@ export default function DoneeRegistration() {
       username.trim() == "" ||
       password.trim() == "" ||
       confirmPassword.trim() == "" ||
-      phone.trim() == "" ||
       address.trim() == "" ||
-      cnic.trim() == "" ||
-      cnicIssueDate.trim() == ""
+      cnic.trim() == ""
     ) {
       alert("Please Enter All Fields!");
-    } else {
-      if (password == confirmPassword) {
-        saveDetailsToDatabase();
-        saveAuthenticationDetails();
-      } else {
-        alert("Password & ConfirmPassword doesn't match!");
-      }
+      check = false;
+    }
+    if (!validateDate(dob) || !validateDate(cnicIssueDate)) {
+      alert("Invalid Date Format!");
+      check = false;
+    }
+    if (password != confirmPassword) {
+      alert("Password & ConfirmPassword doesn't match!");
+      check = false;
+    }
+    if (check) {
+      saveAuthenticationDetails();
     }
   };
 
+  function validateNumber(input) {
+    const regExp = /^\d+$/; // Regular expression to match only digits
+    return regExp.test(input); // Return true if input matches the regular expression
+  }
+
   const validateName = (text) => {
-    const result = text.replace(/[^a-z]/gi, "");
+    const result = text.replace(/[^a-zA-Z\s-]/g, "");
     return result;
   };
+
+  function validateDate(text) {
+    // Check if the dob is a string
+    if (typeof text !== "string") {
+      return false;
+    }
+
+    // Check if the dob is in the format "DDMMYYYY"
+    const regex = /^\d{8}$/;
+    if (!regex.test(text)) {
+      return false;
+    }
+
+    // Extract the year, month, and day from the string
+    const day = parseInt(text.substr(0, 2));
+    const month = parseInt(text.substr(2, 2));
+    const year = parseInt(text.substr(4, 4));
+
+    // Check if the year, month, and day are valid
+    if (
+      isNaN(year) ||
+      year < 1900 ||
+      year > new Date().getFullYear() ||
+      isNaN(month) ||
+      month < 1 ||
+      month > 12 ||
+      isNaN(day) ||
+      day < 1 ||
+      day > new Date(year, month, 0).getDate()
+    ) {
+      return false;
+    }
+
+    // Check if the dob is in the past
+    const tempDate = new Date(year, month - 1, day);
+    const now = new Date();
+    if (tempDate > now) {
+      return false;
+    }
+
+    // Check if the year is a leap year
+    const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
+    // Check if the month and day are valid for the given year
+    if (isLeapYear && month === 2 && day > 29) {
+      return false;
+    } else if (!isLeapYear && month === 2 && day > 28) {
+      return false;
+    } else if ([4, 6, 9, 11].includes(month) && day > 30) {
+      return false;
+    }
+
+    // All checks passed, the dob is valid
+    return true;
+  }
 
   return (
     <PaperProvider>
