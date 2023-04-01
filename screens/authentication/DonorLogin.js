@@ -106,7 +106,12 @@ export default function DonorLogin() {
             }
           }
         })
-        .catch((error) => alert(error.message));
+        .catch((error) => {
+          console.log(error.code);
+          if (error.code == "auth/invalid-email") {
+            alert("Invalid Email!");
+          }
+        });
     }
   };
 
@@ -137,10 +142,6 @@ export default function DonorLogin() {
             onChangeText={(text) => setPassword(text)}
           ></TextInput>
           <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-            {/* <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => navigation.navigate("DonorPortal")}
-          > */}
             <Text style={styles.btnTxt} variant="titleMedium">
               Login
             </Text>
