@@ -26,6 +26,7 @@ import ActiveRequestsPosts from "./screens/requests/donee/ActiveRequestPost";
 import PreviousRequestsPosts from "./screens/requests/donee/PreviousRequestsPosts";
 import ResetPassword from "./screens/authentication/ResetPassword";
 import DonationDetails from "./screens/donations/DonationDetails";
+import RequestDetails from "./screens/requests/RequestDetails";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -94,6 +95,7 @@ export default function App() {
         />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="DonationDetails" component={DonationDetails} />
+        <Stack.Screen name="RequestDetails" component={RequestDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );
