@@ -26,6 +26,7 @@ import {
 } from "firebase/auth";
 import { useFonts } from "expo-font";
 import Colors from "../../assets/constants/Colors";
+import { child, get, ref } from "firebase/database";
 
 export default function DoneeLogin() {
   let [fontLoaded] = useFonts({
@@ -43,6 +44,8 @@ export default function DoneeLogin() {
 
   const navigation = useNavigation();
 
+  const [check, setCheck] = useState(false);
+
   async function isDonee() {
     const dbRef = ref(db);
     await get(child(dbRef, "hope/usertype/donee/"))
@@ -51,8 +54,8 @@ export default function DoneeLogin() {
           snapshot.forEach(function (childSnapshot) {
             var key = childSnapshot.key;
             var childData = childSnapshot.val();
-            console.log(childData);
-            if (childData.email.email == email) {
+            console.log(childData.email, email);
+            if (childData.email == email) {
               setCheck(true);
             }
           });
@@ -62,7 +65,6 @@ export default function DoneeLogin() {
       .catch((error) => {
         console.error(error);
       });
-    return check;
   }
 
   const handleLogin = () => {
@@ -88,12 +90,15 @@ export default function DoneeLogin() {
             ]
           );
         } else {
-          if (isDonee()) {
+          isDonee();
+          if (check) {
             console.log("Logged in with:", user.email);
             navigation.navigate("DoneePortal");
           } else {
             Alert.alert("This email is not registered for Donee Account Type!");
           }
+          setEmail("");
+          setPassword("");
         }
       })
       .catch((error) => alert(error.message));
@@ -112,6 +117,7 @@ export default function DoneeLogin() {
             activeOutlineColor="#293241"
             label={"Email"}
             value={email}
+            onBlur={isDonee}
             onChangeText={(text) => setEmail(text)}
           ></TextInput>
           <TextInput
