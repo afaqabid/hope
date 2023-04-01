@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   View,
   Image,
+  LogBox,
 } from "react-native";
 import React from "react";
 import { Button, Provider as PaperProvider } from "react-native-paper";
 import { useFonts } from "expo-font";
 import Colors from "../assets/constants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 class PostHead {
   constructor(imgUrl, title, desc, time, date, status, doneeName) {
@@ -34,6 +36,19 @@ export default function RequestHead() {
     "Manrope-SemiBold": require("../assets/fonts/Manrope-SemiBold.ttf"),
   });
 
+  const navigation = useNavigation();
+  const showDetails = (request) => {
+    navigation.navigate("RequestDetails", {
+      requestTitle: request.title,
+      requestDesc: request.desc,
+      requestDoneeName: request.doneeName,
+      requestTime: request.time,
+      requestDate: request.date,
+      requestStatus: request.status,
+      requestImgUrl: request.imgUrl,
+    });
+  };
+
   var requestsPostsList = [];
   var i = 0;
   var size = 10;
@@ -49,9 +64,10 @@ export default function RequestHead() {
     );
     requestsPostsList.push(x);
   }
+  LogBox.ignoreAllLogs = "true";
   return (
     <PaperProvider>
-      {requestsPostsList.map((c) => (
+      {requestsPostsList.map((request) => (
         <>
           <View style={styles.requestPostCard}>
             <View style={styles.card}>
@@ -59,27 +75,34 @@ export default function RequestHead() {
                 <View style={styles.leftCard}>
                   <Image
                     source={{
-                      uri: c.imgUrl,
+                      uri: request.imgUrl,
                     }}
                     style={styles.postImg}
                   />
                 </View>
                 <View style={styles.rightCard}>
-                  <Text style={styles.postTitle}>{c.title}</Text>
-                  <Text style={styles.postDesc}>{c.desc}</Text>
-                  <Text style={styles.postDoneeName}>{x.doneeName}</Text>
+                  <Text style={styles.postTitle}>{request.title}</Text>
+                  <Text style={styles.postDesc}>{request.desc}</Text>
+                  <Text style={styles.postDoneeName}>{request.doneeName}</Text>
                   <View style={styles.timeAndDateCard}>
-                    <Text style={styles.postTime}>{c.time}</Text>
-                    <Text style={styles.postDate}>{c.date}</Text>
+                    <Text style={styles.postTime}>{request.time}</Text>
+                    <Text style={styles.postDate}>{request.date}</Text>
                   </View>
-                  <Text style={styles.postStatus}>{"Status: " + c.status}</Text>
+                  <Text style={styles.postStatus}>
+                    {"Status: " + request.status}
+                  </Text>
                   <View style={styles.btnCard}>
-                    <Button style={styles.btnShowDetails}>
+                    <Button
+                      style={styles.btnShowDetails}
+                      onPress={() => showDetails(request)}
+                    >
                       <Text style={styles.btnShowDetailsTxt}>Show Details</Text>
                     </Button>
                     <Button
                       style={styles.btnMsg}
-                      onPress={() => alert("Send Message for " + c.doneeName)}
+                      onPress={() =>
+                        alert("Send Message for " + request.doneeName)
+                      }
                     >
                       <Text style={styles.btnMsgTxt}>Send Message</Text>
                     </Button>
