@@ -26,6 +26,8 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithCredential,
+  updateCurrentUser,
+  updateProfile,
 } from "firebase/auth";
 import { db } from "../../firebase";
 import { ref, set, update } from "firebase/database";
@@ -115,21 +117,20 @@ export default function DonorRegistration() {
       .catch((error) => {
         alert(error);
       });
-
-    // set(ref(db, 'hope/users/donor/' + username + '/donations'), {
-    //   accountHolderName: "",
-    //   accountNumber: "",
-    // })
-    // .then()
-    // .catch((error)=>{
-    //   alert(error)
-    // })
   };
 
   const saveAuthenticationDetails = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         saveDetailsToDatabase();
+        updateProfile(auth.currentUser, {
+          displayName: username,
+        })
+          .then()
+          .catch((error) => {
+            // An error occurred
+            // ...
+          });
         sendEmailVerification(auth.currentUser)
           .then()
           .catch((error) => {
@@ -147,6 +148,7 @@ export default function DonorRegistration() {
   };
 
   const handleSignUp = () => {
+    var check = true;
     if (
       name.trim() == "" ||
       dob.trim() == "" ||
@@ -154,28 +156,92 @@ export default function DonorRegistration() {
       username.trim() == "" ||
       password.trim() == "" ||
       confirmPassword.trim() == "" ||
-      phone.trim() == "" ||
       address.trim() == "" ||
-      cnic.trim() == "" ||
-      cnicIssueDate.trim() == ""
+      cnic.trim() == ""
     ) {
       alert("Please Enter All Fields!");
-    } else {
-      if (password == confirmPassword) {
-        saveAuthenticationDetails();
-      } else {
-        alert("Password & ConfirmPassword doesn't match!");
-      }
+      check = false;
+    }
+    if (!validateDate(dob) || !validateDate(cnicIssueDate)) {
+      alert("Invalid Date Format!");
+      check = false;
+    }
+    if (password != confirmPassword) {
+      alert("Password & ConfirmPassword doesn't match!");
+      check = false;
+    }
+    if (check) {
+      saveAuthenticationDetails();
     }
   };
 
+  function validateNumber(input) {
+    const regExp = /^\d+$/; // Regular expression to match only digits
+    return regExp.test(input); // Return true if input matches the regular expression
+  }
+
   const validateName = (text) => {
-    const result = text.replace(/[^a-z]/gi, "");
+    const result = text.replace(/[^a-zA-Z\s-]/g, "");
     return result;
   };
+
+  function validateDate(text) {
+    // Check if the dob is a string
+    if (typeof text !== "string") {
+      return false;
+    }
+
+    // Check if the dob is in the format "DDMMYYYY"
+    const regex = /^\d{8}$/;
+    if (!regex.test(text)) {
+      return false;
+    }
+
+    // Extract the year, month, and day from the string
+    const day = parseInt(text.substr(0, 2));
+    const month = parseInt(text.substr(2, 2));
+    const year = parseInt(text.substr(4, 4));
+
+    // Check if the year, month, and day are valid
+    if (
+      isNaN(year) ||
+      year < 1900 ||
+      year > new Date().getFullYear() ||
+      isNaN(month) ||
+      month < 1 ||
+      month > 12 ||
+      isNaN(day) ||
+      day < 1 ||
+      day > new Date(year, month, 0).getDate()
+    ) {
+      return false;
+    }
+
+    // Check if the dob is in the past
+    const tempDate = new Date(year, month - 1, day);
+    const now = new Date();
+    if (tempDate > now) {
+      return false;
+    }
+
+    // Check if the year is a leap year
+    const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
+    // Check if the month and day are valid for the given year
+    if (isLeapYear && month === 2 && day > 29) {
+      return false;
+    } else if (!isLeapYear && month === 2 && day > 28) {
+      return false;
+    } else if ([4, 6, 9, 11].includes(month) && day > 30) {
+      return false;
+    }
+
+    // All checks passed, the dob is valid
+    return true;
+  }
+
   return (
     <PaperProvider>
-      {/* <HideKeyboard> */}
       <SafeAreaView style={styles.container}>
         <View style={styles.mainContainer}>
           <KeyboardAwareScrollView scrollEnabled={false}>
@@ -296,7 +362,7 @@ export default function DonorRegistration() {
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
               mode={"outlined"}
-              maxLength={13}
+              maxLength={11}
               label={
                 <Text style={{ backgroundColor: Colors.background }}>
                   Phone
@@ -306,8 +372,10 @@ export default function DonorRegistration() {
                 </Text>
               }
               value={phone}
-              onChangeText={(text) => setPhone(text)}
-              keyboardType="phone"
+              onChangeText={(text) => {
+                setPhone(validateNumber(text));
+              }}
+              keyboardType="numeric"
             ></TextInput>
             <TextInput
               style={styles.inputFields}
@@ -362,8 +430,7 @@ export default function DonorRegistration() {
               placeholder={"DDMMYYYY"}
               keyboardType="numeric"
             ></TextInput>
-            <TouchableOpacity style={styles.registerBtn}>
-              {/* <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}> */}
+            <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}>
               <Text style={styles.btnTxt} variant="titleMedium">
                 Register
               </Text>
@@ -371,11 +438,9 @@ export default function DonorRegistration() {
           </KeyboardAwareScrollView>
         </View>
       </SafeAreaView>
-      {/* </HideKeyboard> */}
     </PaperProvider>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
