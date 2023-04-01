@@ -16,12 +16,17 @@ import {
   Button,
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { useState, useEffect } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
 import { useFonts } from "expo-font";
 import Colors from "../../assets/constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { onValue, ref, child, get, set } from "firebase/database";
 
 export default function OrganizationRegistration() {
   let [fontLoaded] = useFonts({
@@ -42,8 +47,7 @@ export default function OrganizationRegistration() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [cnic, setCNIC] = useState("");
-  const [cnicIssueDate, setCNICIssueDate] = useState("");
+  const [certificateIssuanceDate, setCertificateIssuanceDate] = useState("");
   const [certificateNumber, setCertificateNumber] = useState("");
 
   const navigation = useNavigation();
@@ -65,6 +69,7 @@ export default function OrganizationRegistration() {
       buildIn: buildIn,
       name: name,
       certificateNumber: certificateNumber,
+      certificateIssuanceDate: certificateIssuanceDate,
     })
       .then()
       .catch((error) => {
@@ -80,10 +85,13 @@ export default function OrganizationRegistration() {
         alert(error);
       });
 
-    set(ref(db, "hope/users/organization/" + username + "/cnicDetails"), {
-      cnicNo: cnic,
-      cnicIssueDate: cnicIssueDate,
-    })
+    set(
+      ref(db, "hope/users/organization/" + username + "/certificateDetails"),
+      {
+        certificateNumber: certificateNumber,
+        certificateIssuanceDate: certificateIssuanceDate,
+      }
+    )
       .then()
       .catch((error) => {
         alert(error);
@@ -111,6 +119,16 @@ export default function OrganizationRegistration() {
   const saveAuthenticationDetails = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
+        saveDetailsToDatabase();
+        updateProfile(auth.currentUser, {
+          displayName: username,
+        })
+          .then()
+          .catch((error) => {
+            // An error occurred
+            // ...
+          });
+
         sendEmailVerification(auth.currentUser)
           .then()
           .catch((error) => {
@@ -133,6 +151,7 @@ export default function OrganizationRegistration() {
   };
 
   const handleSignUp = () => {
+    var check = true;
     if (
       name.trim() == "" ||
       buildIn.trim() == "" ||
@@ -140,26 +159,90 @@ export default function OrganizationRegistration() {
       username.trim() == "" ||
       password.trim() == "" ||
       confirmPassword.trim() == "" ||
-      phone.trim() == "" ||
       address.trim() == "" ||
-      cnic.trim() == "" ||
-      cnicIssueDate.trim() == ""
+      certificateNumber.trim() == "" ||
+      certificateIssuanceDate.trim == ""
     ) {
       alert("Please Enter All Fields!");
-    } else {
-      if (password == confirmPassword) {
-        saveDetailsToDatabase();
-        saveAuthenticationDetails();
-      } else {
-        alert("Password & ConfirmPassword doesn't match!");
-      }
+      check = false;
+    }
+    if (!validateDate(buildIn) || !validateDate(certificateIssuanceDate)) {
+      alert("Invalid Date Format!");
+      check = false;
+    }
+    if (password != confirmPassword) {
+      alert("Password & ConfirmPassword doesn't match!");
+      check = false;
+    }
+    if (check) {
+      saveAuthenticationDetails();
     }
   };
 
+  function validateNumber(input) {
+    const regExp = /^\d+$/; // Regular expression to match only digits
+    return regExp.test(input); // Return true if input matches the regular expression
+  }
+
   const validateName = (text) => {
-    const result = text.replace(/[^a-z]/gi, "");
+    const result = text.replace(/[^a-zA-Z\s-]/g, "");
     return result;
   };
+
+  function validateDate(text) {
+    // Check if the dob is a string
+    if (typeof text !== "string") {
+      return false;
+    }
+
+    // Check if the dob is in the format "DDMMYYYY"
+    const regex = /^\d{8}$/;
+    if (!regex.test(text)) {
+      return false;
+    }
+
+    // Extract the year, month, and day from the string
+    const day = parseInt(text.substr(0, 2));
+    const month = parseInt(text.substr(2, 2));
+    const year = parseInt(text.substr(4, 4));
+
+    // Check if the year, month, and day are valid
+    if (
+      isNaN(year) ||
+      year < 1900 ||
+      year > new Date().getFullYear() ||
+      isNaN(month) ||
+      month < 1 ||
+      month > 12 ||
+      isNaN(day) ||
+      day < 1 ||
+      day > new Date(year, month, 0).getDate()
+    ) {
+      return false;
+    }
+
+    // Check if the dob is in the past
+    const tempDate = new Date(year, month - 1, day);
+    const now = new Date();
+    if (tempDate > now) {
+      return false;
+    }
+
+    // Check if the year is a leap year
+    const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
+    // Check if the month and day are valid for the given year
+    if (isLeapYear && month === 2 && day > 29) {
+      return false;
+    } else if (!isLeapYear && month === 2 && day > 28) {
+      return false;
+    } else if ([4, 6, 9, 11].includes(month) && day > 30) {
+      return false;
+    }
+
+    // All checks passed, the dob is valid
+    return true;
+  }
 
   return (
     <PaperProvider>
@@ -175,7 +258,14 @@ export default function OrganizationRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={20}
-              label={"Name"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Name
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={name}
               onChangeText={(text) => {
                 setName(validateName(text));
@@ -188,7 +278,14 @@ export default function OrganizationRegistration() {
               mode={"outlined"}
               maxLength={8}
               keyboardType="numeric"
-              label={"Date Of Birth"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Registration Date
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={buildIn}
               onChangeText={(text) => setBuildIn(text)}
               placeholder={"DDMMYYYY"}
@@ -199,7 +296,14 @@ export default function OrganizationRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={25}
-              label={"Email"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Email
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={email}
               onChangeText={(text) => setEmail(text)}
               keyboardType="email-address"
@@ -210,7 +314,14 @@ export default function OrganizationRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={10}
-              label={"Username"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Username
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={username}
               onChangeText={(text) => setUsername(text)}
             ></TextInput>
@@ -220,7 +331,14 @@ export default function OrganizationRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={16}
-              label={"Password"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Password
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={password}
               secureTextEntry
               onChangeText={(text) => setPassword(text)}
@@ -231,7 +349,14 @@ export default function OrganizationRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={16}
-              label={"Confirm Password"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Confirm Password
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={confirmPassword}
               secureTextEntry
               onChangeText={(text) => setConfirmPassword(text)}
@@ -242,19 +367,31 @@ export default function OrganizationRegistration() {
               activeOutlineColor={Colors.main}
               mode={"outlined"}
               maxLength={11}
-              label={"Phone #"}
+              keyboardType="numeric"
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Phone
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={phone}
               onChangeText={(text) => setPhone(text)}
-              keyboardType="numeric"
             ></TextInput>
             <TextInput
               style={styles.inputFields}
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
               mode={"outlined"}
-              maxLength={50}
-              multiline
-              label={"Address"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Address
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               value={address}
               onChangeText={(text) => setAddress(text)}
             ></TextInput>
@@ -262,12 +399,19 @@ export default function OrganizationRegistration() {
               style={styles.inputFields}
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
-              mode={"outlined"}
-              label={"CNIC"}
-              maxLength={13}
-              value={cnic}
-              onChangeText={(text) => setCNIC(text)}
               keyboardType="numeric"
+              mode={"outlined"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Certificate
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
+              value={certificateNumber}
+              onChangeText={(text) => setCertificateNumber(text)}
+              placeholder={"xxxxxxxx"}
             ></TextInput>
             <TextInput
               style={styles.inputFields}
@@ -275,22 +419,18 @@ export default function OrganizationRegistration() {
               activeOutlineColor={Colors.main}
               maxLength={8}
               mode={"outlined"}
-              label={"CNIC Issue Date"}
+              label={
+                <Text style={{ backgroundColor: Colors.background }}>
+                  Certificate Issuance Date
+                  <Text style={{ color: "red", backgroundColor: "white" }}>
+                    *
+                  </Text>
+                </Text>
+              }
               keyboardType="numeric"
-              value={cnicIssueDate}
-              onChangeText={(text) => setCNICIssueDate(text)}
+              value={certificateIssuanceDate}
+              onChangeText={(text) => setCertificateIssuanceDate(text)}
               placeholder={"DDMMYYYY"}
-            ></TextInput>
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              keyboardType="numeric"
-              mode={"outlined"}
-              label={"Certificate Number"}
-              value={certificateNumber}
-              onChangeText={(text) => setCertificateNumber(text)}
-              placeholder={"xxxxxxxx"}
             ></TextInput>
             <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}>
               <Text style={styles.btnTxt} variant="titleMedium">
