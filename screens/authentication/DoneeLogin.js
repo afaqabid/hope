@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   ScrollView,
+  Alert,
 } from "react-native";
 import React from "react";
 import {
@@ -41,6 +42,29 @@ export default function DoneeLogin() {
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
+
+  async function isDonee() {
+    const dbRef = ref(db);
+    await get(child(dbRef, "hope/usertype/donee/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childSnapshot) {
+            var key = childSnapshot.key;
+            var childData = childSnapshot.val();
+            console.log(childData);
+            if (childData.email.email == email) {
+              setCheck(true);
+            }
+          });
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return check;
+  }
+
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
@@ -64,15 +88,18 @@ export default function DoneeLogin() {
             ]
           );
         } else {
-          console.log("Logged in with:", user.email);
-          navigation.navigate("DoneePortal");
+          if (isDonee()) {
+            console.log("Logged in with:", user.email);
+            navigation.navigate("DoneePortal");
+          } else {
+            Alert.alert("This email is not registered for Donee Account Type!");
+          }
         }
       })
       .catch((error) => alert(error.message));
   };
   return (
     <PaperProvider>
-      {/* <HideKeyboard> */}
       <SafeAreaView style={styles.container}>
         <View style={styles.mainContainer}>
           <Text style={styles.heading} variant="displayMedium">
@@ -97,11 +124,11 @@ export default function DoneeLogin() {
             value={password}
             onChangeText={(text) => setPassword(text)}
           ></TextInput>
-          {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} > */}
-          <TouchableOpacity
+          <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+            {/* <TouchableOpacity
             style={styles.loginBtn}
             onPress={() => navigation.navigate("DoneePortal")}
-          >
+          > */}
             <Text style={styles.btnTxt} variant="titleMedium">
               Login
             </Text>
@@ -141,7 +168,6 @@ export default function DoneeLogin() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-      {/* </HideKeyboard> */}
     </PaperProvider>
   );
 }
