@@ -3,9 +3,9 @@
 // import * as firebase from "firebase";
 
 import { initializeApp } from "firebase/app";
-import {getAuth} from "firebase/auth"
-import {getDatabase} from "firebase/database"
-import {getStorage} from "firebase/storage"
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,7 +20,7 @@ const firebaseConfig = {
   storageBucket: "hope-makeliveseasier.appspot.com",
   messagingSenderId: "593452194882",
   appId: "1:593452194882:web:9299f61c48b034bb3ca1db",
-  measurementId: "G-4236BSR8TL"
+  measurementId: "G-4236BSR8TL",
 };
 
 // Initialize Firebase
@@ -33,12 +33,8 @@ const firebaseConfig = {
 //     app = firebase.app();
 // }
 
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 const storage = getStorage(app);
 export { auth, db, storage };
-
-
-
