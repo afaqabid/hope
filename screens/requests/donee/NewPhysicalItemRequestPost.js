@@ -11,7 +11,12 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Provider as PaperProvider, Text, Button } from "react-native-paper";
+import {
+  Provider as PaperProvider,
+  Text,
+  Button,
+  SegmentedButtons,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
@@ -29,6 +34,7 @@ export default function NewPhysicalItemRequestPost() {
     "Manrope-Regular": require("../../../assets/fonts/Manrope-Regular.ttf"),
     "Manrope-SemiBold": require("../../../assets/fonts/Manrope-SemiBold.ttf"),
   });
+  const [segBtnValue, setSegBtnValue] = useState("");
 
   const HideKeyboard = ({ children }) => (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -78,8 +84,6 @@ export default function NewPhysicalItemRequestPost() {
   //   }
   // }, [])
 
- 
-
   const uploadImage = async () => {
     // convert image into blob image
     const blobImage = await new Promise((resolve, reject) => {
@@ -102,7 +106,7 @@ export default function NewPhysicalItemRequestPost() {
     };
     // upload image on storage
     // Upload file and metadata to the object 'images/mountains.jpg'
-    const storageRef = ref(storage, "DonationPostImages/" + Date.now());
+    const storageRef = ref(storage, "RequestPostImages/" + Date.now());
     const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
 
     // Listen for state changes, errors, and completion of the upload.
@@ -163,7 +167,7 @@ export default function NewPhysicalItemRequestPost() {
     }
   };
 
- const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   async function uploadPost() {
@@ -179,7 +183,7 @@ export default function NewPhysicalItemRequestPost() {
         await uploadImage();
       }
       if (imgUrl != null) {
-        set(dbRef(db, "hope/donations/" + auth.currentUser.displayName), {
+        set(dbRef(db, "hope/requests/" + auth.currentUser.displayName), {
           imgUrl: imgUrl,
           title: title,
           username: auth.currentUser.displayName,
@@ -199,7 +203,6 @@ export default function NewPhysicalItemRequestPost() {
       }
     }
   }
-  
 
   return (
     <PaperProvider>
@@ -227,7 +230,7 @@ export default function NewPhysicalItemRequestPost() {
               <TextInput
                 value={title}
                 onChangeText={(title) => setTitle(title)}
-                style={styles.donationTitle}
+                style={styles.requestTitle}
                 placeholder="Write Request Title Here."
               ></TextInput>
               <Text style={styles.titleTxt}>Select Category</Text>
@@ -316,7 +319,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
 
-  donationTitle: {
+  requestTitle: {
     height: 45,
     fontFamily: "Manrope-Regular",
     width: "95%",
