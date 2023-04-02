@@ -7,11 +7,13 @@ import {
   Image,
   Alert,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Provider as PaperProvider } from "react-native-paper";
 import { useFonts } from "expo-font";
 import Colors from "../assets/constants/Colors";
 import { useNavigation } from "@react-navigation/native";
+import { db } from "../firebase";
+import { onValue, ref, child, get } from "firebase/database";
 
 class PostHead {
   constructor(imgUrl, title, desc, time, date, status, donorName) {
@@ -37,6 +39,8 @@ export default function DonationHead() {
   });
 
   const navigation = useNavigation();
+
+  const [check, setCheck] = useState(false);
 
   const showDetails = (donation) => {
     navigation.navigate("DonationDetails", {
@@ -74,23 +78,45 @@ export default function DonationHead() {
   // };
 
   var donationsPostsList = [];
-  var i = 0;
-  var size = 10;
-  for (i = 0; i < size; i++) {
-    var x = new PostHead(
-      "https://firebasestorage.googleapis.com/v0/b/hope-makeliveseasier.appspot.com/o/DonationPostImages%2F1677939646898?alt=media&token=aa0b3308-f242-4b2e-99d6-0ac40713e951",
-      "Name: " + (i + 1),
-      "Description: " + (i + 1),
-      "Time: " + (i + 1),
-      "Date: " + (i + 1),
-      "Active",
-      "Donor Name: " + (i + 1)
-    );
-    donationsPostsList.push(x);
+  const [list, setList] = useState([]);
+  var obj;
+
+  const [test, setTest] = useState([]);
+  async function loadData() {
+    const dbRef = ref(db);
+    await get(child(dbRef, "hope/donations/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childSnapshot) {
+            var key = childSnapshot.key;
+            var childData = childSnapshot.val();
+            obj = new PostHead(
+              childData.imgUrl,
+              childData.title,
+              childData.description,
+              "11:11",
+              "Apr 03, 2023",
+              "Active",
+              childData.username
+            );
+            donationsPostsList.push(obj);
+            setList(donationsPostsList);
+            setTest(list);
+            setCheck(true);
+          });
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
+  useEffect(() => {
+    loadData();
+  }, []);
   return (
     <PaperProvider>
-      {donationsPostsList.map((donation) => (
+      {test.map((donation) => (
         <>
           <View style={styles.donationPostCard}>
             <View style={styles.card}>
@@ -106,7 +132,7 @@ export default function DonationHead() {
                 <View style={styles.rightCard}>
                   <Text style={styles.postTitle}>{donation.title}</Text>
                   <Text style={styles.postDesc}>{donation.desc}</Text>
-                  <Text style={styles.postDonorName}>{x.donorName}</Text>
+                  <Text style={styles.postDonorName}>{donation.donorName}</Text>
                   <View style={styles.timeAndDateCard}>
                     <Text style={styles.postTime}>{donation.time}</Text>
                     <Text style={styles.postDate}>{donation.date}</Text>
@@ -140,7 +166,7 @@ export default function DonationHead() {
 
 const styles = StyleSheet.create({
   donationPostCard: {
-    height: "9.2%",
+    height: 180,
     width: "95%",
     marginTop: 8,
     marginLeft: 10,
@@ -155,16 +181,16 @@ const styles = StyleSheet.create({
   },
 
   postTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     fontFamily: "Manrope-Bold",
   },
   postDesc: {
-    fontSize: 16,
+    fontSize: 12,
     fontFamily: "Manrope-Light",
   },
   postTime: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: "Manrope-Regular",
   },
   postDate: {
@@ -173,8 +199,8 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   postImg: {
-    height: "90%",
-    width: "90%",
+    height: "100%",
+    width: "100%",
   },
   postStatus: {
     fontSize: 12,
@@ -203,7 +229,6 @@ const styles = StyleSheet.create({
   timeAndDateCard: {
     display: "flex",
     flexDirection: "row",
-    marginTop: 10,
   },
   btnCard: {
     display: "flex",
