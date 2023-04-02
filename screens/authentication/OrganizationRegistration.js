@@ -149,9 +149,10 @@ export default function OrganizationRegistration() {
       })
       .catch((error) => alert(error.message));
   };
-
   const handleSignUp = () => {
     var check = true;
+    var check1 = true;
+    var str = "";
     if (
       name.trim() == "" ||
       buildIn.trim() == "" ||
@@ -163,19 +164,30 @@ export default function OrganizationRegistration() {
       certificateNumber.trim() == "" ||
       certificateIssuanceDate.trim == ""
     ) {
-      alert("Please Enter All Fields!");
-      check = false;
+      check = true;
+      check1 = false;
     } else {
       if (!validateDate(buildIn) || !validateDate(certificateIssuanceDate)) {
-        alert("Invalid Date Format!");
+        str = str + "Invalid Date Format!\n";
         check = false;
+        check1 = true;
       }
       if (password != confirmPassword) {
-        alert("Password & ConfirmPassword doesn't match!");
+        str = str + "Password & ConfirmPassword Doesn't Match!\n";
         check = false;
+        check1 = true;
+      }
+      if (!validateEmail(email)) {
+        str = str + "Invalid Email Format!\n";
+        check = false;
+        check1 = true;
       }
     }
-    if (check) {
+    if (!check1) {
+      alert("Please Enter All Fields!");
+    } else if (!check) {
+      alert(str);
+    } else {
       saveAuthenticationDetails();
     }
   };
