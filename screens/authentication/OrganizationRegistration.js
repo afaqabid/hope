@@ -165,14 +165,15 @@ export default function OrganizationRegistration() {
     ) {
       alert("Please Enter All Fields!");
       check = false;
-    }
-    if (!validateDate(buildIn) || !validateDate(certificateIssuanceDate)) {
-      alert("Invalid Date Format!");
-      check = false;
-    }
-    if (password != confirmPassword) {
-      alert("Password & ConfirmPassword doesn't match!");
-      check = false;
+    } else {
+      if (!validateDate(buildIn) || !validateDate(certificateIssuanceDate)) {
+        alert("Invalid Date Format!");
+        check = false;
+      }
+      if (password != confirmPassword) {
+        alert("Password & ConfirmPassword doesn't match!");
+        check = false;
+      }
     }
     if (check) {
       saveAuthenticationDetails();
