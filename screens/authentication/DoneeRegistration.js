@@ -194,6 +194,11 @@ export default function DoneeRegistration() {
     }
   };
 
+  function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
   function validateNumber(input) {
     const regExp = /^\d+$/; // Regular expression to match only digits
     return regExp.test(input); // Return true if input matches the regular expression
