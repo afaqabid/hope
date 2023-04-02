@@ -199,60 +199,85 @@ export default function NewPhysicalItemRequestPost() {
       }
     }
   }
+  
+
   return (
     <PaperProvider>
-      <HideKeyboard>
-        <SafeAreaView style={styles.mainContainer}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "position" : "height"}
-            style={{ flex: 1 }}
-          >
-            <ScrollView>
-              <View style={styles.imageContainer}>
-                <Text style={styles.titleTxt}>Images</Text>
-                {image && (
-                  <Image
-                    source={{ uri: image }}
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                )}
+      <SafeAreaView style={styles.mainContainer}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "position" : "height"}
+          style={{ flex: 1 }}
+        >
+          <ScrollView>
+            <View style={styles.imageContainer}>
+              <Text style={styles.titleTxt}>Images</Text>
+              {image && (
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              )}
+            </View>
+            {/* <Button style={styles.btnCancel}>
+              <Text style={styles.btnTxtCancel} onPress={Pickimage}>Upload Image</Text>
+            </Button> */}
+            <ButtonNative title="Upload Image" onPress={pickImage} />
+            <View style={styles.detailsContainer}>
+              <Text style={styles.titleTxt}>Title</Text>
+              <TextInput
+                value={title}
+                onChangeText={(title) => setTitle(title)}
+                style={styles.donationTitle}
+                placeholder="Write Request Title Here."
+              ></TextInput>
+              <Text style={styles.titleTxt}>Select Category</Text>
+              <SegmentedButtons
+                value={segBtnValue}
+                onValueChange={setSegBtnValue}
+                style={{
+                  width: 350,
+                  height: 35,
+                  marginTop: 3,
+                }}
+                buttons={[
+                  {
+                    value: "food",
+                    label: "Food",
+                  },
+                  {
+                    value: "clothes",
+                    label: "Clothes",
+                  },
+                  { value: "goods", label: "Goods" },
+                ]}
+              />
+              <Text style={styles.titleTxt}>Description</Text>
+              <TextInput
+                value={description}
+                multiline={true}
+                style={styles.description}
+                placeholder="Write Request Description Here."
+                onChangeText={(text) => setDescription(text)}
+              ></TextInput>
+              <View style={styles.btnContainer}>
+                <Button style={styles.btnPost} onPress={uploadPost}>
+                  <Text style={styles.btnTxtPost}>Post</Text>
+                </Button>
+                <Button style={styles.btnCancel}>
+                  <Text
+                    style={styles.btnTxtCancel}
+                    onPress={() => {
+                      navigation.navigate("NewRequestPost");
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </Button>
               </View>
-              {/* <Button style={styles.btnCancel}>
-                <Text style={styles.btnTxtCancel} onPress={Pickimage}>Upload Image</Text>
-              </Button> */}
-              <ButtonNative title="Upload Image" onPress={pickImage} />
-              <View style={styles.detailsContainer}>
-                <Text style={styles.titleTxt}>Request Title</Text>
-                <TextInput
-                  style={styles.donationTitle}
-                  placeholder="Write Request Title Here."
-                ></TextInput>
-                <Text style={styles.titleTxt}>Description</Text>
-                <TextInput
-                  multiline={true}
-                  style={styles.description}
-                  placeholder="Write Request Description Here."
-                ></TextInput>
-                <View style={styles.btnContainer}>
-                  <Button style={styles.btnPost} onPress={uploadPost}>
-                    <Text style={styles.btnTxtPost}>Post</Text>
-                  </Button>
-                  <Button style={styles.btnCancel}>
-                    <Text
-                      style={styles.btnTxtCancel}
-                      onPress={() => {
-                        navigation.navigate("NewRequestPost");
-                      }}
-                    >
-                      Cancel
-                    </Text>
-                  </Button>
-                </View>
-              </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </HideKeyboard>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </PaperProvider>
   );
 }
