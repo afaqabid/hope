@@ -45,7 +45,7 @@ export default function DoneeRegistration() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phoneNum, setPhoneNum] = useState("");
   const [address, setAddress] = useState("");
   const [cnic, setCNIC] = useState("");
   const [cnicIssueDate, setCNICIssueDate] = useState("");
@@ -142,6 +142,8 @@ export default function DoneeRegistration() {
 
   const handleSignUp = () => {
     var check = true;
+    var check1 = true;
+    var str = "";
     if (
       name.trim() == "" ||
       dob.trim() == "" ||
@@ -149,22 +151,45 @@ export default function DoneeRegistration() {
       username.trim() == "" ||
       password.trim() == "" ||
       confirmPassword.trim() == "" ||
+      phoneNum.trim() == "" ||
       address.trim() == "" ||
       cnic.trim() == ""
     ) {
-      alert("Please Enter All Fields!");
-      check = false;
+      check = true;
+      check1 = false;
     } else {
       if (!validateDate(dob) || !validateDate(cnicIssueDate)) {
-        alert("Invalid Date Format!");
+        str = str + "Invalid Date Format!\n";
         check = false;
+        check1 = true;
       }
       if (password != confirmPassword) {
-        alert("Password & ConfirmPassword doesn't match!");
+        str = str + "Password & ConfirmPassword Doesn't Match!\n";
         check = false;
+        check1 = true;
+      }
+      if (cnic.length != 13) {
+        str = str + "CNIC Length Doesn't Match!\n";
+        check = false;
+        check1 = true;
+      }
+      if (phoneNum.length != 11) {
+        console.log(phoneNum.length);
+        str = str + "Phone Length Doesn't Match!\n";
+        check = false;
+        check1 = true;
+      }
+      if (!validateEmail(email)) {
+        str = str + "Invalid Email Format!\n";
+        check = false;
+        check1 = true;
       }
     }
-    if (check) {
+    if (!check1) {
+      alert("Please Enter All Fields!");
+    } else if (!check) {
+      alert(str);
+    } else {
       saveAuthenticationDetails();
     }
   };
@@ -366,8 +391,8 @@ export default function DoneeRegistration() {
                   </Text>
                 </Text>
               }
-              value={phone}
-              onChangeText={(text) => setPhone(text)}
+              value={phoneNum}
+              onChangeText={(text) => setPhoneNum(text)}
               keyboardType="numeric"
             ></TextInput>
             <TextInput
