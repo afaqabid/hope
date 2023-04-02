@@ -87,7 +87,7 @@ export default function DoneePortal() {
   };
 
   const handleProfile = () => {
-    navigation.navigate("UserProfile");
+    navigation.navigate("DoneeUserProfile");
   };
 
   return (
