@@ -38,7 +38,8 @@ export default function NewPhysicalItemRequestPost() {
 
   const navigation = useNavigation();
 
-  const [image, setImage] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   // useEffect(  async()=>{
   //   if(Platform.OS !==web){
@@ -49,7 +50,33 @@ export default function NewPhysicalItemRequestPost() {
   //     }
   //   }
   // }, [])
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
 
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  let postLoc = "Waiting..";
+  let longitude = 0;
+  let latitude = 0;
+  if (errorMsg) {
+    postLoc = errorMsg;
+  } else if (location) {
+    postLoc = `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`;
+    longitude = location.coords.longitude;
+    latitude = location.coords.latitude;
+  }
+
+  const [image, setImage] = useState(null);
+  const [imgUrl, setImgUrl] = useState(null);
+ 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
