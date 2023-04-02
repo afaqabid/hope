@@ -24,6 +24,15 @@ export default function NewMonetaryRequestPost() {
 
       const navigation = useNavigation();
 
+      const postRequest = () => {
+        if (title.trim() == "" || description.trim() == "" || amount < 0) {
+          alert("Please Insert All Fields!\nMinimum amount is 100 Rupees.");
+        } else {
+          alert("Posted Donation Request Successfully!");
+          navigation.navigate("DoneePortal");
+        }
+      };
+
   return (
     <PaperProvider>
       <HideKeyboard>
