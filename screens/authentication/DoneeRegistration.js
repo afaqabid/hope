@@ -154,14 +154,15 @@ export default function DoneeRegistration() {
     ) {
       alert("Please Enter All Fields!");
       check = false;
-    }
-    if (!validateDate(dob) || !validateDate(cnicIssueDate)) {
-      alert("Invalid Date Format!");
-      check = false;
-    }
-    if (password != confirmPassword) {
-      alert("Password & ConfirmPassword doesn't match!");
-      check = false;
+    } else {
+      if (!validateDate(dob) || !validateDate(cnicIssueDate)) {
+        alert("Invalid Date Format!");
+        check = false;
+      }
+      if (password != confirmPassword) {
+        alert("Password & ConfirmPassword doesn't match!");
+        check = false;
+      }
     }
     if (check) {
       saveAuthenticationDetails();
