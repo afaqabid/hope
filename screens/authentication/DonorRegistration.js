@@ -85,7 +85,7 @@ export default function DonorRegistration() {
       address: address,
       dob: dob,
       name: name,
-      phone: phone,
+      phone: phoneNum,
     })
       .then()
       .catch((error) => {
