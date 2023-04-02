@@ -68,6 +68,7 @@ export default function DoneeRegistration() {
       address: address,
       dob: dob,
       name: name,
+      phone: phoneNum,
     })
       .then()
       .catch((error) => {
