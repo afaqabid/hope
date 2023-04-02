@@ -167,30 +167,38 @@ export default function NewPhysicalItemDonationPost() {
   const [description, setDescription] = useState("");
 
   async function uploadPost() {
-    if (imgUrl == null) {
-      await uploadImage();
-    }
-    if (imgUrl != null) {
-      set(dbRef(db, "hope/donations/" + auth.currentUser.displayName), {
-        imgUrl: imgUrl,
-        title: title,
-        username: auth.currentUser.displayName,
-        category: segBtnValue,
-        description: description,
-        longitude: longitude,
-        latitude: latitude,
-      })
-        .then()
-        .catch((error) => {
-          alert(error);
-        });
-      alert("Post Uploaded Successfully!");
-      navigation.navigate("DonorPortal");
+    if (
+      image == null ||
+      title.trim() == "" ||
+      description.trim() == "" ||
+      segBtnValue.trim() == ""
+    ) {
+      alert("Please fill all fields");
     } else {
-      alert("Wait! Image is uploading!");
+      if (imgUrl == null) {
+        await uploadImage();
+      }
+      if (imgUrl != null) {
+        set(dbRef(db, "hope/donations/" + auth.currentUser.displayName), {
+          imgUrl: imgUrl,
+          title: title,
+          username: auth.currentUser.displayName,
+          category: segBtnValue,
+          description: description,
+          longitude: longitude,
+          latitude: latitude,
+        })
+          .then()
+          .catch((error) => {
+            alert(error);
+          });
+        alert("Post Uploaded Successfully!");
+        navigation.navigate("DonorPortal");
+      } else {
+        alert("Wait! Image is uploading!");
+      }
     }
   }
-
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>

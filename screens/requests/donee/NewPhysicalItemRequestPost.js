@@ -38,7 +38,35 @@ export default function NewPhysicalItemRequestPost() {
 
   const navigation = useNavigation();
 
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  let postLoc = "Waiting..";
+  let longitude = 0;
+  let latitude = 0;
+  if (errorMsg) {
+    postLoc = errorMsg;
+  } else if (location) {
+    postLoc = `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`;
+    longitude = location.coords.longitude;
+    latitude = location.coords.latitude;
+  }
+
   const [image, setImage] = useState(null);
+  const [imgUrl, setImgUrl] = useState(null);
 
   // useEffect(  async()=>{
   //   if(Platform.OS !==web){
@@ -50,19 +78,7 @@ export default function NewPhysicalItemRequestPost() {
   //   }
   // }, [])
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
+ 
 
   const uploadImage = async () => {
     // convert image into blob image
@@ -133,67 +149,135 @@ export default function NewPhysicalItemRequestPost() {
     );
   };
 
-  const uploadPost = () => {
-    if (image != null) {
-      uploadImage();
-      // setImage(null);
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
   };
 
+ const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  async function uploadPost() {
+    if (
+      image == null ||
+      title.trim() == "" ||
+      description.trim() == "" ||
+      segBtnValue.trim() == ""
+    ) {
+      alert("Please fill all fields");
+    } else {
+      if (imgUrl == null) {
+        await uploadImage();
+      }
+      if (imgUrl != null) {
+        set(dbRef(db, "hope/donations/" + auth.currentUser.displayName), {
+          imgUrl: imgUrl,
+          title: title,
+          username: auth.currentUser.displayName,
+          category: segBtnValue,
+          description: description,
+          longitude: longitude,
+          latitude: latitude,
+        })
+          .then()
+          .catch((error) => {
+            alert(error);
+          });
+        alert("Post Uploaded Successfully!");
+        navigation.navigate("DonorPortal");
+      } else {
+        alert("Wait! Image is uploading!");
+      }
+    }
+  }
+  
+
   return (
     <PaperProvider>
-      <HideKeyboard>
-        <SafeAreaView style={styles.mainContainer}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "position" : "height"}
-            style={{ flex: 1 }}
-          >
-            <ScrollView>
-              <View style={styles.imageContainer}>
-                <Text style={styles.titleTxt}>Images</Text>
-                {image && (
-                  <Image
-                    source={{ uri: image }}
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                )}
+      <SafeAreaView style={styles.mainContainer}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "position" : "height"}
+          style={{ flex: 1 }}
+        >
+          <ScrollView>
+            <View style={styles.imageContainer}>
+              <Text style={styles.titleTxt}>Images</Text>
+              {image && (
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              )}
+            </View>
+            {/* <Button style={styles.btnCancel}>
+              <Text style={styles.btnTxtCancel} onPress={Pickimage}>Upload Image</Text>
+            </Button> */}
+            <ButtonNative title="Upload Image" onPress={pickImage} />
+            <View style={styles.detailsContainer}>
+              <Text style={styles.titleTxt}>Title</Text>
+              <TextInput
+                value={title}
+                onChangeText={(title) => setTitle(title)}
+                style={styles.donationTitle}
+                placeholder="Write Request Title Here."
+              ></TextInput>
+              <Text style={styles.titleTxt}>Select Category</Text>
+              <SegmentedButtons
+                value={segBtnValue}
+                onValueChange={setSegBtnValue}
+                style={{
+                  width: 350,
+                  height: 35,
+                  marginTop: 3,
+                }}
+                buttons={[
+                  {
+                    value: "food",
+                    label: "Food",
+                  },
+                  {
+                    value: "clothes",
+                    label: "Clothes",
+                  },
+                  { value: "goods", label: "Goods" },
+                ]}
+              />
+              <Text style={styles.titleTxt}>Description</Text>
+              <TextInput
+                value={description}
+                multiline={true}
+                style={styles.description}
+                placeholder="Write Request Description Here."
+                onChangeText={(text) => setDescription(text)}
+              ></TextInput>
+              <View style={styles.btnContainer}>
+                <Button style={styles.btnPost} onPress={uploadPost}>
+                  <Text style={styles.btnTxtPost}>Post</Text>
+                </Button>
+                <Button style={styles.btnCancel}>
+                  <Text
+                    style={styles.btnTxtCancel}
+                    onPress={() => {
+                      navigation.navigate("NewRequestPost");
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </Button>
               </View>
-              {/* <Button style={styles.btnCancel}>
-                <Text style={styles.btnTxtCancel} onPress={Pickimage}>Upload Image</Text>
-              </Button> */}
-              <ButtonNative title="Upload Image" onPress={pickImage} />
-              <View style={styles.detailsContainer}>
-                <Text style={styles.titleTxt}>Request Title</Text>
-                <TextInput
-                  style={styles.donationTitle}
-                  placeholder="Write Request Title Here."
-                ></TextInput>
-                <Text style={styles.titleTxt}>Description</Text>
-                <TextInput
-                  multiline={true}
-                  style={styles.description}
-                  placeholder="Write Request Description Here."
-                ></TextInput>
-                <View style={styles.btnContainer}>
-                  <Button style={styles.btnPost} onPress={uploadPost}>
-                    <Text style={styles.btnTxtPost}>Post</Text>
-                  </Button>
-                  <Button style={styles.btnCancel}>
-                    <Text
-                      style={styles.btnTxtCancel}
-                      onPress={() => {
-                        navigation.navigate("NewRequestPost");
-                      }}
-                    >
-                      Cancel
-                    </Text>
-                  </Button>
-                </View>
-              </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </HideKeyboard>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </PaperProvider>
   );
 }
