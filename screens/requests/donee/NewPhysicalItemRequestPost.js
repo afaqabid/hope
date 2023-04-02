@@ -41,15 +41,6 @@ export default function NewPhysicalItemRequestPost() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  // useEffect(  async()=>{
-  //   if(Platform.OS !==web){
-  //     const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-  //     if(status !== 'granted'){
-  //       alert("Permission Denied!");
-  //     }
-  //   }
-  // }, [])
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -76,20 +67,18 @@ export default function NewPhysicalItemRequestPost() {
 
   const [image, setImage] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
+
+  // useEffect(  async()=>{
+  //   if(Platform.OS !==web){
+  //     const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+  //     if(status !== 'granted'){
+  //       alert("Permission Denied!");
+  //     }
+  //   }
+  // }, [])
+
  
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
 
   const uploadImage = async () => {
     // convert image into blob image
@@ -160,6 +149,20 @@ export default function NewPhysicalItemRequestPost() {
     );
   };
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+  
   const uploadPost = () => {
     if (image != null) {
       uploadImage();
