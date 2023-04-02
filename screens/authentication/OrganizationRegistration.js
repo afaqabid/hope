@@ -257,6 +257,11 @@ export default function OrganizationRegistration() {
     return true;
   }
 
+  function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
   return (
     <PaperProvider>
       <SafeAreaView style={styles.container}>
