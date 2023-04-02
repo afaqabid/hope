@@ -27,6 +27,9 @@ import PreviousRequestsPosts from "./screens/requests/donee/PreviousRequestsPost
 import ResetPassword from "./screens/authentication/ResetPassword";
 import DonationDetails from "./screens/donations/DonationDetails";
 import RequestDetails from "./screens/requests/RequestDetails";
+import DonorUserProfile from "./screens/userProfile/DonorUserProfile";
+import DoneeUserProfile from "./screens/userProfile/DoneeUserProfile";
+import OrganizationUserProfile from "./screens/userProfile/OrganizationUserProfile";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -50,7 +53,12 @@ export default function App() {
           component={OrganizationPortal}
         />
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
-        <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="DonorUserProfile" component={DonorUserProfile} />
+        <Stack.Screen name="DoneeUserProfile" component={DoneeUserProfile} />
+        <Stack.Screen
+          name="OrganizationUserProfile"
+          component={OrganizationUserProfile}
+        />
         <Stack.Screen name="NewDonationPost" component={NewDonationPost} />
         <Stack.Screen
           name="NewPhysicalItemDonationPost"
