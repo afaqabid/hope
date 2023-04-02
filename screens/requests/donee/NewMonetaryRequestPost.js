@@ -33,36 +33,60 @@ export default function NewMonetaryRequestPost() {
         }
       };
 
-  return (
-    <PaperProvider>
-      <HideKeyboard>
-      <SafeAreaView style={styles.mainContainer}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : "height"} style={{flex:1}} >
-        <ScrollView>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.titleTxt}>Request Amount</Text>
-          <TextInput style={styles.donationTitle} placeholder="Enter Amount" ></TextInput>
-          <Text style={styles.titleTxt}>Request Title</Text>
-          <TextInput style={styles.donationTitle} placeholder="Write Request Title Here." ></TextInput>
-          <Text style={styles.titleTxt}>Description</Text>
-          <TextInput multiline={true} style={styles.description} placeholder="Write Request Description Here."></TextInput>
-          <View style={styles.btnContainer}>
-            <Button style={styles.btnPost}>
-              <Text style={styles.btnTxtPost}>Post</Text>
-            </Button>
-            <Button style={styles.btnCancel}>
-              <Text style={styles.btnTxtCancel} onPress={()=>{navigation.navigate('NewRequestPost')}}>Cancel</Text>
-            </Button>
-          </View>
-        </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-      </SafeAreaView>
-    </HideKeyboard>
-    </PaperProvider>
-    
-  )
-}
+      return (
+        <PaperProvider>
+          <SafeAreaView style={styles.mainContainer}>
+            <KeyboardAwareScrollView>
+              <ScrollView>
+                <View style={styles.detailsContainer}>
+                  <Text style={styles.titleTxt}>Request Amount</Text>
+                  <TextInput
+                    style={styles.donationTitle}
+                    placeholder="Enter Amount"
+                    keyboardType="numeric"
+                    onChangeText={(text) => {
+                      setAmount(text);
+                    }}
+                  ></TextInput>
+                  <Text style={styles.titleTxt}>Request Title</Text>
+                  <TextInput
+                    style={styles.donationTitle}
+                    placeholder="Write Request Title Here."
+                    onChangeText={(text) => {
+                      setTitle(text);
+                    }}
+                  ></TextInput>
+                  <Text style={styles.titleTxt}>Description</Text>
+                  <TextInput
+                    multiline={true}
+                    style={styles.description}
+                    placeholder="Write Donation Description Here."
+                    onChangeText={(text) => {
+                      setDescription(text);
+                    }}
+                  ></TextInput>
+                  <View style={styles.btnContainer}>
+                    <Button style={styles.btnPost} onPress={postDonation}>
+                      <Text style={styles.btnTxtPost}>Post</Text>
+                    </Button>
+                    <Button style={styles.btnCancel}>
+                      <Text
+                        style={styles.btnTxtCancel}
+                        onPress={() => {
+                          navigation.navigate("NewRequestPost");
+                        }}
+                      >
+                        Cancel
+                      </Text>
+                    </Button>
+                  </View>
+                </View>
+              </ScrollView>
+            </KeyboardAwareScrollView>
+          </SafeAreaView>
+        </PaperProvider>
+      );
+    }
 
 const styles = StyleSheet.create({
   mainContainer:{
