@@ -60,13 +60,13 @@ export default function NewMonetaryRequestPost() {
                   <TextInput
                     multiline={true}
                     style={styles.description}
-                    placeholder="Write Donation Description Here."
+                    placeholder="Write Request Description Here."
                     onChangeText={(text) => {
                       setDescription(text);
                     }}
                   ></TextInput>
                   <View style={styles.btnContainer}>
-                    <Button style={styles.btnPost} onPress={postDonation}>
+                    <Button style={styles.btnPost} onPress={postRequest}>
                       <Text style={styles.btnTxtPost}>Post</Text>
                     </Button>
                     <Button style={styles.btnCancel}>
