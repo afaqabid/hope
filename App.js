@@ -29,6 +29,10 @@ import RequestDetails from "./screens/requests/RequestDetails";
 import DonorUserProfile from "./screens/userProfile/DonorUserProfile";
 import DoneeUserProfile from "./screens/userProfile/DoneeUserProfile";
 import OrganizationUserProfile from "./screens/userProfile/OrganizationUserProfile";
+import UpdateDonorProfile from "./screens/updateUserProfile/UpdateDonorProfile";
+import UpdateDoneeProfile from "./screens/updateUserProfile/UpdateDoneeProfile";
+import UpdateOrganizationProfile from "./screens/updateUserProfile/UpdateOrganizationProfile";
+
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -103,6 +107,18 @@ export default function App() {
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="DonationDetails" component={DonationDetails} />
         <Stack.Screen name="RequestDetails" component={RequestDetails} />
+        <Stack.Screen
+          name="UpdateDonorProfile"
+          component={UpdateDonorProfile}
+        />
+        <Stack.Screen
+          name="UpdateDoneeProfile"
+          component={UpdateDoneeProfile}
+        />
+        <Stack.Screen
+          name="UpdateOrganizationProfile"
+          component={UpdateOrganizationProfile}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

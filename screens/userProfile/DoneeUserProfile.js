@@ -101,7 +101,7 @@ export default function DoneeRegistration() {
               {name}
             </Text>
           </View>
-
+  
           <View style={styles.userDetailRow}>
             <Text style={styles.userDetails} variant="displayMedium">
               Date Of Birth:
@@ -110,7 +110,7 @@ export default function DoneeRegistration() {
               {dob}
             </Text>
           </View>
-
+  
           <View style={styles.userDetailRow}>
             <Text style={styles.userDetails} variant="displayMedium">
               Email:
@@ -119,7 +119,7 @@ export default function DoneeRegistration() {
               {email}
             </Text>
           </View>
-
+  
           <View style={styles.userDetailRow}>
             <Text style={styles.userDetails} variant="displayMedium">
               Address:
@@ -128,7 +128,7 @@ export default function DoneeRegistration() {
               {address}
             </Text>
           </View>
-
+  
           <View style={styles.userDetailRow}>
             <Text style={styles.userDetails} variant="displayMedium">
               CNIC:
@@ -137,7 +137,7 @@ export default function DoneeRegistration() {
               {cnic}
             </Text>
           </View>
-
+  
           <View style={styles.userDetailRow}>
             <Text style={styles.userDetails} variant="displayMedium">
               CNIC Issue Date:
@@ -147,9 +147,30 @@ export default function DoneeRegistration() {
             </Text>
           </View>
         </View>
+
+
+        <View
+            style={{
+              borderBottomColor: "black",
+              borderBottomWidth: 1,
+              width: "800%",
+              marginTop: 10,
+              marginBottom: 10,
+            }}
+          ></View>
+          <TouchableOpacity
+            style={styles.updateDoneeBtn}
+            onPress={() => navigation.navigate("UpdateDoneeProfile")}
+          >
+            <Text style={styles.btnTxtReg} variant="titleMedium">
+            Update Donee Profile
+            </Text>
+          </TouchableOpacity>
+
       </SafeAreaView>
     </PaperProvider>
   );
+  
 }
 const styles = StyleSheet.create({
   container: {
@@ -182,5 +203,28 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Manrope-Light",
     color: Colors.main,
+  },
+  detailsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+  updateButton: {
+    marginVertical: 20,
+    backgroundColor: Colors.primary,
+  },
+  updateDoneeBtn: {
+    backgroundColor: Colors.background,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    borderRadius: 5,
+    paddingLeft: 16,
+    paddingRight: 16,
+    width: "100%",
+    height: 50,
+    borderColor: Colors.main,
+    borderWidth: 2,
   },
 });
