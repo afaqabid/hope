@@ -13,6 +13,7 @@ import { Provider as PaperProvider, Text, Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function NewMonetaryRequestPost() {
   let [fontLoaded] = useFonts({
