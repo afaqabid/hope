@@ -323,7 +323,7 @@ export default function DonorRegistration() {
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
               mode={"outlined"}
-              maxLength={25}
+              maxLength={35}
               label={
                 <Text style={{ backgroundColor: Colors.background }}>
                   Email
@@ -341,7 +341,7 @@ export default function DonorRegistration() {
               outlineColor={Colors.main}
               activeOutlineColor={Colors.main}
               mode={"outlined"}
-              maxLength={10}
+              maxLength={18}
               label={
                 <Text style={{ backgroundColor: Colors.background }}>
                   Username
