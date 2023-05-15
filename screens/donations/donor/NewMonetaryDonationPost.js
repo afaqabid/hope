@@ -1,19 +1,33 @@
 import {
   Keyboard,
+  Button as ButtonNative,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
+  Image,
   TouchableOpacity,
   View,
   TextInput,
   TouchableWithoutFeedback,
 } from "react-native";
-import React, { useState } from "react";
-import { Provider as PaperProvider, Text, Button } from "react-native-paper";
+import React, { useEffect, useState } from "react";
+import {
+  Provider as PaperProvider,
+  Text,
+  Button,
+  SegmentedButtons,
+  Banner,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { auth, db, storage } from "../../../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import * as ImagePicker from "expo-image-picker";
+import Colors from "../../../assets/constants/Colors";
+import * as Location from "expo-location";
+import { ref as dbRef, push, set } from "firebase/database";
+
 
 export default function NewMonetaryDonationPost() {
   let [fontLoaded] = useFonts({
@@ -37,50 +51,92 @@ export default function NewMonetaryDonationPost() {
   );
 
   const navigation = useNavigation();
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-  const postDonation = () => {
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, 
+  []);
+
+  let postLoc = "Waiting..";
+  let longitude = 0;
+  let latitude = 0;
+  if (errorMsg) {
+    postLoc = errorMsg;
+  } else if (location) {
+    postLoc = `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`;
+    longitude = location.coords.longitude;
+    latitude = location.coords.latitude;
+  }
+   
+
+  async function uploadPost() {
     if (title.trim() == "" || description.trim() == "" || amount < 0) {
       alert("Please Insert All Fields!\nMinimum amount is 100 Rupees.");
     } else {
-      alert("Posted Donation Request Successfully!");
-      navigation.navigate("DonorPortal");
+      console.log("Here!");
+        var tempRef = dbRef(db, "hope/donations/" + auth.currentUser.displayName); 
+        var newPostRef = push(tempRef);
+        set(newPostRef, {
+          imgUrl: imgUrl,
+          title: title,
+          username: auth.currentUser.displayName,
+          amount: amount,
+          description: description,
+          longitude: longitude,
+          latitude: latitude,
+        })
+          .then()
+          .catch((error) => {
+            alert(error);
+          });
+        alert("Post Uploaded Successfully!");
+        navigation.navigate("DonorPortal");
     }
-  };
+  }
 
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>
-        <KeyboardAwareScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "position" : "height"}
+          style={{ flex: 1 }}
+        >
           <ScrollView>
             <View style={styles.detailsContainer}>
               <Text style={styles.titleTxt}>Donation Amount</Text>
               <TextInput
+               value={amount}
+               onChangeText={(amount) => setAmount(amount)}
                 style={styles.donationTitle}
                 placeholder="Enter Amount"
                 keyboardType="numeric"
-                onChangeText={(text) => {
-                  setAmount(text);
-                }}
               ></TextInput>
               <Text style={styles.titleTxt}>Donation Title</Text>
-              <TextInput
+              <TextInput value={title}
+                onChangeText={(title) => setTitle(title)}
                 style={styles.donationTitle}
                 placeholder="Write Donation Title Here."
-                onChangeText={(text) => {
-                  setTitle(text);
-                }}
               ></TextInput>
               <Text style={styles.titleTxt}>Description</Text>
-              <TextInput
+              <TextInput 
+               value={description}
                 multiline={true}
                 style={styles.description}
                 placeholder="Write Donation Description Here."
-                onChangeText={(text) => {
-                  setDescription(text);
-                }}
+                onChangeText={(text) => setDescription(text)}
               ></TextInput>
               <View style={styles.btnContainer}>
-                <Button style={styles.btnPost} onPress={postDonation}>
+                <Button style={styles.btnPost}  onPress={uploadPost}>
                   <Text style={styles.btnTxtPost}>Post</Text>
                 </Button>
                 <Button style={styles.btnCancel}>
@@ -96,7 +152,7 @@ export default function NewMonetaryDonationPost() {
               </View>
             </View>
           </ScrollView>
-        </KeyboardAwareScrollView>
+          </KeyboardAvoidingView>
       </SafeAreaView>
     </PaperProvider>
   );
