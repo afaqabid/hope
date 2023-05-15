@@ -33,7 +33,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export default function UpdateDonorProfile() {
   let [fontLoaded] = useFonts({
-    // ...your font loading code here...
+    "Manrope-Bold": require("../../assets/fonts/Manrope-Bold.ttf"),
+    "Manrope-ExtraBold": require("../../assets/fonts/Manrope-ExtraBold.ttf"),
+    "Manrope-ExtraLight": require("../../assets/fonts/Manrope-ExtraLight.ttf"),
+    "Manrope-Light": require("../../assets/fonts/Manrope-Light.ttf"),
+    "Manrope-Medium": require("../../assets/fonts/Manrope-Medium.ttf"),
+    "Manrope-Regular": require("../../assets/fonts/Manrope-Regular.ttf"),
+    "Manrope-SemiBold": require("../../assets/fonts/Manrope-SemiBold.ttf"),
   });
 
   const HideKeyboard = ({ children }) => (
@@ -50,6 +56,8 @@ export default function UpdateDonorProfile() {
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
   const [cnic, setCNIC] = useState("");
   const [cnicIssueDate, setCNICIssueDate] = useState("");
@@ -57,9 +65,11 @@ export default function UpdateDonorProfile() {
   const navigation = useNavigation();
 
   const saveDetailsToDatabase = () => {
-    update(ref(db, `hope/users/donor/${auth.currentUser.uid}`), {
+    update(ref(db, `hope/users/donor/${auth.currentUser.username}`), {
       name: name,
       dob: dob,
+      password: password,
+      confirmPassword,
       phone: phoneNum,
       address: address,
     })
@@ -105,8 +115,8 @@ export default function UpdateDonorProfile() {
 
 
   const handleUpdate = () => {
-    if (!name || !dob || !phoneNum || !address || !cnic || !cnicIssueDate) {
-      // Display an error message or handle the incomplete fields case
+    if (!name || !dob || !phoneNum || !password || confirmPassword || !address || !cnic || !cnicIssueDate) {
+      // Display an error message
       alert('Please enter all fields');
       return;
     }}
@@ -143,7 +153,7 @@ export default function UpdateDonorProfile() {
                         onChangeText={(text) => setDob(text)}
                         style={styles.textInput}
                       />
-                      {/* Email field removed */}
+                     
                       <TextInput
                         label="Phone Number"
                         mode="outlined"
@@ -156,6 +166,20 @@ export default function UpdateDonorProfile() {
                         mode="outlined"
                         value={address}
                         onChangeText={(text) => setAddress(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="Password"
+                        mode="outlined"
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="Confirm Password"
+                        mode="outlined"
+                        value={confirmPassword}
+                        onChangeText={(text) => setConfirmPassword(text)}
                         style={styles.textInput}
                       />
                       <TextInput
