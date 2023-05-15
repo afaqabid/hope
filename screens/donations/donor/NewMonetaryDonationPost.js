@@ -40,6 +40,20 @@ export default function NewMonetaryDonationPost() {
     "Manrope-SemiBold": require("../../../assets/fonts/Manrope-SemiBold.ttf"),
   });
 
+  const [amount, setAmount] = useState(0);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const HideKeyboard = ({ children }) => (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {children}
+    </TouchableWithoutFeedback>
+  );
+
+  const navigation = useNavigation();
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>
