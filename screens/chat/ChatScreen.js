@@ -17,8 +17,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
 export default function ChatScreen({ route }) {
-  const username = route.params.selectedUsername;
-  const userImg = route.params.userImg;
+  console.log(route);
+  const username = route.params.donationDonorName;
+  const donationTitle = route.params.donationTitle
+  const userImg = route.params.donationImgUrl;
+  console.log(userImg);
+
   return (
     <PaperProvider>
       <KeyboardAvoidingView
@@ -28,15 +32,25 @@ export default function ChatScreen({ route }) {
           <Appbar.Header style={styles.header}>
             <Avatar.Image
               size={55}
-              source={require("../../assets/person.png")}
+              source={userImg}
               style={{ backgroundColor: "transparent" }}
             />
+            <View>
             <Text
               variant="titleLarge"
               style={{ marginLeft: 10, fontWeight: "bold", color: "#1C702B" }}
             >
+              {donationTitle}
+            </Text>
+            <Text
+              variant="titleMedium"
+              style={{ marginLeft: 10, fontWeight: "bold", color: "#1C702B" }}
+            >
               {username}
             </Text>
+
+            </View>
+
           </Appbar.Header>
 
           <View style={styles.mainScreen}>
