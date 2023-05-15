@@ -79,6 +79,30 @@ export default function NewMonetaryDonationPost() {
   }
    
 
+  async function uploadPost() {
+    if (title.trim() == "" || description.trim() == "" || amount < 0) {
+      alert("Please Insert All Fields!\nMinimum amount is 100 Rupees.");
+    } else {
+      console.log("Here!");
+        var tempRef = dbRef(db, "hope/donations/" + auth.currentUser.displayName); 
+        var newPostRef = push(tempRef);
+        set(newPostRef, {
+          imgUrl: imgUrl,
+          title: title,
+          username: auth.currentUser.displayName,
+          amount: amount,
+          description: description,
+          longitude: longitude,
+          latitude: latitude,
+        })
+          .then()
+          .catch((error) => {
+            alert(error);
+          });
+        alert("Post Uploaded Successfully!");
+        navigation.navigate("DonorPortal");
+    }
+  }
 
   return (
     <PaperProvider>
