@@ -26,8 +26,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import Colors from "../../../assets/constants/Colors";
 import * as Location from "expo-location";
-import { ref as dbRef, set } from "firebase/database";
-
+import { ref as dbRef, push, set } from "firebase/database";
 
 export default function NewScheduleDonationPost() {
   let [fontLoaded] = useFonts({
@@ -166,13 +165,17 @@ export default function NewScheduleDonationPost() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [donationDate, setDonationDate] = useState("");
+  const [donationTime, setDonationTime] = useState("");
 
   async function uploadPost() {
     if (
       image == null ||
       title.trim() == "" ||
       description.trim() == "" ||
-      segBtnValue.trim() == ""
+      segBtnValue.trim() == "" ||
+      donationDate.trim() == "" ||
+      donationTime.trim() == ""
     ) {
       alert("Please fill all fields");
     } else {
@@ -180,7 +183,10 @@ export default function NewScheduleDonationPost() {
         await uploadImage();
       }
       if (imgUrl != null) {
-        set(dbRef(db, "hope/donations/" + auth.currentUser.displayName), {
+        console.log("Here!");
+        var tempRef = dbRef(db, "hope/donations/" + auth.currentUser.displayName);
+        var newPostRef = push(tempRef);
+        set(newPostRef, {
           imgUrl: imgUrl,
           title: title,
           username: auth.currentUser.displayName,
@@ -188,6 +194,9 @@ export default function NewScheduleDonationPost() {
           description: description,
           longitude: longitude,
           latitude: latitude,
+          scheduled: true,
+          dateScheduled: donationDate,
+          timeScheduled: donationTime
         })
           .then()
           .catch((error) => {
@@ -195,6 +204,23 @@ export default function NewScheduleDonationPost() {
           });
         alert("Post Uploaded Successfully!");
         navigation.navigate("DonorPortal");
+
+        //    -----------------------------------------------------------------
+        // set(dbRef(db, "hope/donations/" + auth.currentUser.displayName), {
+        //   imgUrl: imgUrl,
+        //   title: title,
+        //   username: auth.currentUser.displayName,
+        //   category: segBtnValue,
+        //   description: description,
+        //   longitude: longitude,
+        //   latitude: latitude,
+        // })
+        //   .then()
+        //   .catch((error) => {
+        //     alert(error);
+        //   });
+        // alert("Post Uploaded Successfully!");
+        // navigation.navigate("DonorPortal");
       } else {
         alert("Wait! Image is uploading!");
       }
@@ -222,19 +248,34 @@ export default function NewScheduleDonationPost() {
             </Button> */}
             <ButtonNative title="Upload Image" onPress={pickImage} />
             <View style={styles.detailsContainer}>
+              <View style={styles.dateAndTimeCard}>
+                <View style={styles.dateCard}>
+                  <Text style={styles.titleTxt}>Date</Text>
+                  <TextInput
+                    value={donationDate}
+                    onChangeText={(donationDate) => setDonationDate(donationDate)}
+                    style={styles.donationDate}
+                    placeholder="DDMMYYYY"
+                  ></TextInput>
+
+                </View>
+                <View style={styles.timeCard}>
+                  <Text style={styles.titleTxt}>Time</Text>
+                  <TextInput
+                    value={donationTime}
+                    onChangeText={(donationTime) => setDonationTime(donationTime)}
+                    style={styles.donationTime}
+                    placeholder="In 24hrs"
+                  ></TextInput>
+
+                </View>
+              </View>
               <Text style={styles.titleTxt}>Title</Text>
               <TextInput
                 value={title}
                 onChangeText={(title) => setTitle(title)}
                 style={styles.donationTitle}
                 placeholder="Write Donation Title Here."
-              ></TextInput>
-             <Text style={styles.titleTxt}>Date</Text>
-              <TextInput
-                value={Date}
-                onChangeText={(Date) => setTitle(Date)}
-                style={styles.donationTitle}
-                placeholder="Write Donation date Here."
               ></TextInput>
               <Text style={styles.titleTxt}>Select Category</Text>
               <SegmentedButtons
@@ -296,7 +337,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FDFAF6",
   },
   imageContainer: {
-    height: "60%",
+    height: "50%",
     backgroundColor: "white",
     width: "100%",
     margin: 0,
@@ -305,8 +346,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 
+  dateAndTimeCard:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:"space-between",
+    width:'80%',
+    height:'25%',
+  },
+
   detailsContainer: {
-    height: "55%",
+    height: "50%",
     backgroundColor: "transparent",
     width: "100%",
     margin: 10,
@@ -321,6 +370,28 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginBottom: 0,
   },
+
+  donationDate: {
+    height: 40,
+    fontFamily: "Manrope-Regular",
+    fontSize: 18,
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 5,
+    width: 120,
+  },
+
+  donationTime: {
+    height: 40,
+    fontFamily: "Manrope-Regular",
+    fontSize: 18,
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 5,
+    width: 120,
+  },
+
+
 
   donationTitle: {
     height: 45,
@@ -339,7 +410,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     backgroundColor: "white",
     padding: 10,
-    height: 150,
+    height: 120,
     borderRadius: 5,
   },
 
