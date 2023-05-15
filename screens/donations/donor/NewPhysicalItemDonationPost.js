@@ -26,7 +26,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import Colors from "../../../assets/constants/Colors";
 import * as Location from "expo-location";
-import { ref as dbRef, set } from "firebase/database";
+import { ref as dbRef, push, set } from "firebase/database";
 
 export default function NewPhysicalItemDonationPost() {
   let [fontLoaded] = useFonts({
@@ -179,7 +179,10 @@ export default function NewPhysicalItemDonationPost() {
         await uploadImage();
       }
       if (imgUrl != null) {
-        set(dbRef(db, "hope/donations/" + auth.currentUser.displayName), {
+        console.log("Here!");
+        var tempRef = dbRef(db, "hope/donations/" + auth.currentUser.displayName); 
+        var newPostRef = push(tempRef);
+        set(newPostRef, {
           imgUrl: imgUrl,
           title: title,
           username: auth.currentUser.displayName,
@@ -194,6 +197,23 @@ export default function NewPhysicalItemDonationPost() {
           });
         alert("Post Uploaded Successfully!");
         navigation.navigate("DonorPortal");
+
+  //    -----------------------------------------------------------------
+        // set(dbRef(db, "hope/donations/" + auth.currentUser.displayName), {
+        //   imgUrl: imgUrl,
+        //   title: title,
+        //   username: auth.currentUser.displayName,
+        //   category: segBtnValue,
+        //   description: description,
+        //   longitude: longitude,
+        //   latitude: latitude,
+        // })
+        //   .then()
+        //   .catch((error) => {
+        //     alert(error);
+        //   });
+        // alert("Post Uploaded Successfully!");
+        // navigation.navigate("DonorPortal");
       } else {
         alert("Wait! Image is uploading!");
       }
