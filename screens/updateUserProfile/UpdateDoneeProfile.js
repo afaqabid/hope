@@ -70,7 +70,7 @@ export default function UpdateDoneeProfile() {
   const navigation = useNavigation();
 
   const saveDetailsToDatabase = () => {
-    set(ref(db, "hope/usertype/donee/" + username), {
+    update(ref(db, `hope/users/donee/${auth.currentUser.username}`), {
       email: auth.currentUser.email,
     })
       .then()
@@ -78,8 +78,8 @@ export default function UpdateDoneeProfile() {
         alert(error);
       });
     
-    set(ref(db, "hope/users/donee/" + username), {
-      username: auth.currentUser.username,
+      update(ref(db, `hope/users/donor/${auth.currentUser.username}`), {
+      // username: auth.currentUser.username,
       email: auth.currentUser.email,
       password: password,
       address: address,
@@ -92,16 +92,8 @@ export default function UpdateDoneeProfile() {
         alert(error);
       });
 
-    set(ref(db, "hope/users/donee/" + username + "/location"), {
-      latitude: "",
-      longitude: "",
-    })
-      .then()
-      .catch((error) => {
-        alert(error);
-      });
-
-    set(ref(db, "hope/users/donee/" + username + "/cnicDetails"), {
+    
+    update(ref(db, "hope/users/donee/" + username + "/cnicDetails"), {
       cnicNo: cnic,
       cnicIssueDate: cnicIssueDate,
     })
@@ -110,7 +102,7 @@ export default function UpdateDoneeProfile() {
         alert(error);
       });
 
-    set(ref(db, "hope/users/donee/" + username + "/bankDetails"), {
+    update(ref(db, "hope/users/donee/" + username + "/bankDetails"), {
       accountHolderName: "",
       accountNumber: "",
     })
@@ -142,128 +134,28 @@ export default function UpdateDoneeProfile() {
           });
           
         const user = userCredentials.user;
-        console.log("Registered with:", user.email);
       })
       .catch((error) => alert(error.message));
   };
 
-  const handleSignUp = () => {
-    var check = true;
-    var check1 = true;
-    var str = "";
-    if (
-      name.trim() == "" ||
-      dob.trim() == "" ||
-      password.trim() == "" ||
-      confirmPassword.trim() == "" ||
-      phoneNum.trim() == "" ||
-      address.trim() == "" ||
-      cnic.trim() == ""
-    ) {
-      check = true;
-      check1 = false;
-    } else {
-      if (!validateDate(dob) || !validateDate(cnicIssueDate)) {
-        str = str + "Invalid Date Format!\n";
-        check = false;
-        check1 = true;
-      }
-      if (password != confirmPassword) {
-        str = str + "Password & ConfirmPassword Doesn't Match!\n";
-        check = false;
-        check1 = true;
-      }
-      if (cnic.length != 13) {
-        str = str + "CNIC Length Doesn't Match!\n";
-        check = false;
-        check1 = true;
-      }
-      if (phoneNum.length != 11) {
-        console.log(phoneNum.length);
-        str = str + "Phone Length Doesn't Match!\n";
-        check = false;
-        check1 = true;
-      }
+  const handleUpdate = () => {
+    if (!name || !dob || !phoneNum || !password || confirmPassword || !address || !cnic || !cnicIssueDate) {
+      // Display an error message
+      alert('Please enter all fields');
+      return;
+    }}
 
-    }
-    if (!check1) {
-      alert("Please Enter All Fields!");
-    } else if (!check) {
-      alert(str);
-    } else {
-      saveAuthenticationDetails();
-    }
-  };
-
-  function validateNumber(input) {
-    const regExp = /^\d+$/; // Regular expression to match only digits
-    return regExp.test(input); // Return true if input matches the regular expression
-  }
-
-  const validateName = (text) => {
-    const result = text.replace(/[^a-zA-Z\s-]/g, "");
-    return result;
-  };
-
-  function validateDate(text) {
-    // Check if the dob is a string
-    if (typeof text !== "string") {
-      return false;
-    }
-
-    // Check if the dob is in the format "DDMMYYYY"
-    const regex = /^\d{8}$/;
-    if (!regex.test(text)) {
-      return false;
-    }
-
-    // Extract the year, month, and day from the string
-    const day = parseInt(text.substr(0, 2));
-    const month = parseInt(text.substr(2, 2));
-    const year = parseInt(text.substr(4, 4));
-
-    // Check if the year, month, and day are valid
-    if (
-      isNaN(year) ||
-      year < 1900 ||
-      year > new Date().getFullYear() ||
-      isNaN(month) ||
-      month < 1 ||
-      month > 12 ||
-      isNaN(day) ||
-      day < 1 ||
-      day > new Date(year, month, 0).getDate()
-    ) {
-      return false;
-    }
-
-    // Check if the dob is in the past
-    const tempDate = new Date(year, month - 1, day);
-    const now = new Date();
-    if (tempDate > now) {
-      return false;
-    }
-
-    // Check if the year is a leap year
-    const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-
-    // Check if the month and day are valid for the given year
-    if (isLeapYear && month === 2 && day > 29) {
-      return false;
-    } else if (!isLeapYear && month === 2 && day > 28) {
-      return false;
-    } else if ([4, 6, 9, 11].includes(month) && day > 30) {
-      return false;
-    }
-
-    // All checks passed, the dob is valid
-    return true;
-  }
-
+    saveAuthenticationDetails();
+    
   return (
     <PaperProvider>
       <SafeAreaView style={styles.container}>
-        <View style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
+                    <Avatar.Icon
+                      style={styles.avatar}
+                      size={100}
+                      icon="account"
+                    />
           <KeyboardAwareScrollView scrollEnabled={false}>
             <Text style={styles.heading} variant="displayMedium">
               Update Donee Profile
@@ -452,7 +344,7 @@ export default function UpdateDoneeProfile() {
               placeholder={"DDMMYYYY"}
               keyboardType="numeric"
             ></TextInput>
-            <TouchableOpacity style={styles.registerBtn} onPress={handleSignUp}>
+            <TouchableOpacity style={styles.registerBtn} onPress={handleUpdate}>
               <Text style={styles.btnTxt} variant="titleMedium">
                 Update
               </Text>
