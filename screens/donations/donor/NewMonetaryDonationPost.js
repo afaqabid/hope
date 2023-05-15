@@ -107,7 +107,10 @@ export default function NewMonetaryDonationPost() {
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>
-        <KeyboardAwareScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "position" : "height"}
+          style={{ flex: 1 }}
+        >
           <ScrollView>
             <View style={styles.detailsContainer}>
               <Text style={styles.titleTxt}>Donation Amount</Text>
@@ -149,7 +152,7 @@ export default function NewMonetaryDonationPost() {
               </View>
             </View>
           </ScrollView>
-        </KeyboardAwareScrollView>
+          </KeyboardAvoidingView>
       </SafeAreaView>
     </PaperProvider>
   );
