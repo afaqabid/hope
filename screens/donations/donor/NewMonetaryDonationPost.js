@@ -1,19 +1,33 @@
 import {
   Keyboard,
+  Button as ButtonNative,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
+  Image,
   TouchableOpacity,
   View,
   TextInput,
   TouchableWithoutFeedback,
 } from "react-native";
-import React, { useState } from "react";
-import { Provider as PaperProvider, Text, Button } from "react-native-paper";
+import React, { useEffect, useState } from "react";
+import {
+  Provider as PaperProvider,
+  Text,
+  Button,
+  SegmentedButtons,
+  Banner,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { auth, db, storage } from "../../../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import * as ImagePicker from "expo-image-picker";
+import Colors from "../../../assets/constants/Colors";
+import * as Location from "expo-location";
+import { ref as dbRef, push, set } from "firebase/database";
+
 
 export default function NewMonetaryDonationPost() {
   let [fontLoaded] = useFonts({
@@ -26,27 +40,6 @@ export default function NewMonetaryDonationPost() {
     "Manrope-SemiBold": require("../../../assets/fonts/Manrope-SemiBold.ttf"),
   });
 
-  const [amount, setAmount] = useState(0);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
-  const HideKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      {children}
-    </TouchableWithoutFeedback>
-  );
-
-  const navigation = useNavigation();
-
-  const postDonation = () => {
-    if (title.trim() == "" || description.trim() == "" || amount < 0) {
-      alert("Please Insert All Fields!\nMinimum amount is 100 Rupees.");
-    } else {
-      alert("Posted Donation Request Successfully!");
-      navigation.navigate("DonorPortal");
-    }
-  };
-
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>
@@ -55,32 +48,28 @@ export default function NewMonetaryDonationPost() {
             <View style={styles.detailsContainer}>
               <Text style={styles.titleTxt}>Donation Amount</Text>
               <TextInput
+               value={amount}
+               onChangeText={(amount) => setAmount(amount)}
                 style={styles.donationTitle}
                 placeholder="Enter Amount"
                 keyboardType="numeric"
-                onChangeText={(text) => {
-                  setAmount(text);
-                }}
               ></TextInput>
               <Text style={styles.titleTxt}>Donation Title</Text>
-              <TextInput
+              <TextInput value={title}
+                onChangeText={(title) => setTitle(title)}
                 style={styles.donationTitle}
                 placeholder="Write Donation Title Here."
-                onChangeText={(text) => {
-                  setTitle(text);
-                }}
               ></TextInput>
               <Text style={styles.titleTxt}>Description</Text>
-              <TextInput
+              <TextInput 
+               value={description}
                 multiline={true}
                 style={styles.description}
                 placeholder="Write Donation Description Here."
-                onChangeText={(text) => {
-                  setDescription(text);
-                }}
+                onChangeText={(text) => setDescription(text)}
               ></TextInput>
               <View style={styles.btnContainer}>
-                <Button style={styles.btnPost} onPress={postDonation}>
+                <Button style={styles.btnPost}  onPress={uploadPost}>
                   <Text style={styles.btnTxtPost}>Post</Text>
                 </Button>
                 <Button style={styles.btnCancel}>
