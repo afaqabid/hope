@@ -90,19 +90,28 @@ export default function DonationHead() {
           snapshot.forEach(function (childSnapshot) {
             var key = childSnapshot.key;
             var childData = childSnapshot.val();
-            obj = new PostHead(
-              childData.imgUrl,
-              childData.title,
-              childData.description,
-              "11:11",
-              "Apr 03, 2023",
-              "Active",
-              childData.username
-            );
-            donationsPostsList.push(obj);
-            setList(donationsPostsList);
-            setTest(list);
-            setCheck(true);
+            // console.log(childData);
+            for (let key in childData)
+            {
+              obj = new PostHead(
+                childData[key].imgUrl,
+                childData[key].title,
+                childData[key].description,
+                "11:11",
+                "Apr 03, 2023",
+                "Active",
+                childData[key].username
+              );
+              donationsPostsList.push(obj);
+              setList(donationsPostsList);
+              setTest(list);
+              setCheck(true);
+                console.log(childData[key]);
+            }
+
+
+
+
           });
         } else {
         }
