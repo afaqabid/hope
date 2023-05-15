@@ -217,10 +217,11 @@ export default function UpdateDonorProfile() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      padding: 16,
+      padding: 50,
+      backgroundColor: Colors.main,
       },
       avatar: {
-      backgroundColor: Colors.primary,
+      backgroundColor: Colors.background,
       marginBottom: 16,
       },
       title: {
@@ -235,6 +236,7 @@ export default function UpdateDonorProfile() {
       marginBottom: 16,
       },
       button: {
+        backgroundColor: Colors.main,
       marginTop: 16,
       marginBottom: 32,
       },
