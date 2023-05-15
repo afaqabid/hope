@@ -54,6 +54,32 @@ export default function NewMonetaryDonationPost() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, 
+  []);
+
+  let postLoc = "Waiting..";
+  let longitude = 0;
+  let latitude = 0;
+  if (errorMsg) {
+    postLoc = errorMsg;
+  } else if (location) {
+    postLoc = `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`;
+    longitude = location.coords.longitude;
+    latitude = location.coords.latitude;
+  }
+   
+
+
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>
