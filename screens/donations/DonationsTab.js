@@ -25,10 +25,13 @@ export default function DonationsTab() {
             var key = childSnapshot.key;
 
             var childData = childSnapshot.val();
-            locationList.push({
-              latitude: childData.latitude,
-              longitude: childData.longitude,
-            });
+            for( var key in childData)
+            {
+              locationList.push({
+                latitude: childData[key].latitude,
+                longitude: childData[key].longitude,
+              });
+            }
           });
         } else {
         }
