@@ -139,7 +139,7 @@ export default function UpdateDoneeProfile() {
   };
 
   const handleUpdate = () => {
-    if (!name || !dob || !phoneNum || !password || confirmPassword || !address || !cnic || !cnicIssueDate) {
+    if (!name || !dob || !phoneNum || !address || !password ||   !cnic || !cnicIssueDate) {
       // Display an error message
       alert('Please enter all fields');
       return;
