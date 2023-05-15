@@ -146,250 +146,121 @@ export default function UpdateDoneeProfile() {
     }}
 
     saveAuthenticationDetails();
-    
-  return (
-    <PaperProvider>
-      <SafeAreaView style={styles.container}>
-      <View style={styles.mainContainer}>
+
+  if (!fontLoaded) {
+      return null;
+      } else {
+        return (
+          <PaperProvider>
+            <KeyboardAvoidingView style={{ flex: 1 }}>
+              <ScrollView>
+                <SafeAreaView>
+                  <View style={styles.container}>
                     <Avatar.Icon
                       style={styles.avatar}
                       size={100}
                       icon="account"
                     />
-          <KeyboardAwareScrollView scrollEnabled={false}>
-            <Text style={styles.heading} variant="displayMedium">
-              Update Donee Profile
-            </Text>
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              mode={"outlined"}
-              maxLength={20}
-              label={
-                <Text style={{ backgroundColor: Colors.background }}>
-                  Name
-                  <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
-                  </Text>
-                </Text>
-              }
-              value={name}
-              onChangeText={(text) => {
-                setName(validateName(text));
-              }}
-            ></TextInput>
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              mode={"outlined"}
-              maxLength={8}
-              keyboardType="numeric"
-              label={
-                <Text style={{ backgroundColor: Colors.background }}>
-                  Date Of Birth
-                  <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
-                  </Text>
-                </Text>
-              }
-              value={dob}
-              onChangeText={(text) => setDob(text)}
-              placeholder={"DDMMYYYY"}
-            ></TextInput>
-
-              <TextInput
-            style={styles.inputFields}
-            outlineColor={Colors.main}
-            activeOutlineColor={Colors.main}
-            mode={"outlined"}
-            maxLength={25}
-            label={
-              <Text style={{ backgroundColor: Colors.background }}>
-                Email
-                <Text style={{ color: "red", backgroundColor: "white" }}>
-                  *
-                </Text>
-              </Text>
-            }
-            value={auth.currentUser.email}
-            onChangeText={(text) => setEmail(text)}
-            keyboardType="email-address"
-          ></TextInput>
-
-
-          <TextInput
-            style={styles.inputFields}
-            outlineColor={Colors.main}
-            activeOutlineColor={Colors.main}
-            mode={"outlined"}
-            maxLength={10}
-            label={
-              <Text style={{ backgroundColor: Colors.background }}>
-                Username
-                <Text style={{ color: "red", backgroundColor: "white" }}>
-                  *
-                </Text>
-              </Text>
-            }
-            value={username}
-            onChangeText={(text) => setUsername(text)}
-          ></TextInput>
-            
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              mode={"outlined"}
-              maxLength={16}
-              label={
-                <Text style={{ backgroundColor: Colors.background }}>
-                  Password
-                  <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
-                  </Text>
-                </Text>
-              }
-              value={password}
-              secureTextEntry
-              onChangeText={(text) => setPassword(text)}
-            ></TextInput>
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              mode={"outlined"}
-              maxLength={16}
-              label={
-                <Text style={{ backgroundColor: Colors.background }}>
-                  Confirm Password
-                  <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
-                  </Text>
-                </Text>
-              }
-              value={confirmPassword}
-              secureTextEntry
-              onChangeText={(text) => setConfirmPassword(text)}
-            ></TextInput>
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              mode={"outlined"}
-              label={
-                <Text style={{ backgroundColor: Colors.background }}>
-                  Phone
-                  <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
-                  </Text>
-                </Text>
-              }
-              maxLength={11}
-              value={phoneNum}
-              onChangeText={(text) => setPhoneNum(text)}
-              keyboardType="numeric"
-            ></TextInput>
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              mode={"outlined"}
-              label={
-                <Text style={{ backgroundColor: Colors.background }}>
-                  Address
-                  <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
-                  </Text>
-                </Text>
-              }
-              value={address}
-              onChangeText={(text) => setAddress(text)}
-            ></TextInput>
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              mode={"outlined"}
-              label={
-                <Text style={{ backgroundColor: Colors.background }}>
-                  CNIC
-                  <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
-                  </Text>
-                </Text>
-              }
-              maxLength={13}
-              value={cnic}
-              onChangeText={(text) => setCNIC(text)}
-              keyboardType="numeric"
-            ></TextInput>
-            <TextInput
-              style={styles.inputFields}
-              outlineColor={Colors.main}
-              activeOutlineColor={Colors.main}
-              maxLength={8}
-              mode={"outlined"}
-              label={
-                <Text style={{ backgroundColor: Colors.background }}>
-                  CNIC Issue Date
-                  <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
-                  </Text>
-                </Text>
-              }
-              value={cnicIssueDate}
-              onChangeText={(text) => setCNICIssueDate(text)}
-              placeholder={"DDMMYYYY"}
-              keyboardType="numeric"
-            ></TextInput>
-            <TouchableOpacity style={styles.registerBtn} onPress={handleUpdate}>
-              <Text style={styles.btnTxt} variant="titleMedium">
-                Update
-              </Text>
-            </TouchableOpacity>
-          </KeyboardAwareScrollView>
-        </View>
-      </SafeAreaView>
-    </PaperProvider>
-  );
-}
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  mainContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-  heading: {
-    textAlign: "center",
-    marginTop: "15%",
-    marginBottom: "15%",
-    fontFamily: "Manrope-ExtraBold",
-    color: Colors.main,
-  },
-  inputFields: {
-    height: 40,
-    fontFamily: "Manrope-Regular",
-    backgroundColor: Colors.background,
-  },
-  registerBtn: {
-    backgroundColor: Colors.main,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    paddingLeft: 16,
-    paddingRight: 16,
-    width: "70%",
-    height: 40,
-    marginTop: 10,
-    marginLeft: "15%",
-  },
-  btnTxt: {
-    color: Colors.white,
-    fontSize: 18,
-  },
-});
+                    <Text style={styles.title}>Update Donee Profile</Text>
+                    <View style={styles.formContainer}>
+                      <TextInput
+                        label="Name"
+                        mode="outlined"
+                        value={name}
+                        onChangeText={(text) => setName(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="Date of Birth"
+                        mode="outlined"
+                        value={dob}
+                        onChangeText={(text) => setDob(text)}
+                        style={styles.textInput}
+                      />
+                     
+                      <TextInput
+                        label="Phone Number"
+                        mode="outlined"
+                        value={phoneNum}
+                        onChangeText={(text) => setPhoneNum(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="Address"
+                        mode="outlined"
+                        value={address}
+                        onChangeText={(text) => setAddress(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="Password"
+                        mode="outlined"
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="Confirm Password"
+                        mode="outlined"
+                        value={confirmPassword}
+                        onChangeText={(text) => setConfirmPassword(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="CNIC"
+                        mode="outlined"
+                        value={cnic}
+                        onChangeText={(text) => setCNIC(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="CNIC Issue Date"
+                        mode="outlined"
+                        value={cnicIssueDate}
+                        onChangeText={(text) => setCNICIssueDate(text)}
+                        style={styles.textInput}
+                      />
+                      <Button
+                        mode="contained"
+                        onPress={handleUpdate}
+                        style={styles.button}
+                      >
+                        Update
+                      </Button>
+                    </View>
+                  </View>
+                </SafeAreaView>
+              </ScrollView>
+            </KeyboardAvoidingView>
+          </PaperProvider>
+        );
+      }}
+      const styles = StyleSheet.create({
+        container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 50,
+        backgroundColor: Colors.main,
+        },
+        avatar: {
+        backgroundColor: Colors.background,
+        marginBottom: 16,
+        },
+        title: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 16,
+        },
+        formContainer: {
+        width: "100%",
+        },
+        textInput: {
+        marginBottom: 16,
+        },
+        button: {
+          backgroundColor: Colors.main,
+        marginTop: 16,
+        marginBottom: 32,
+        },
+        });        
