@@ -7,7 +7,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Button, Provider as PaperProvider } from "react-native-paper";
 import { useFonts } from "expo-font";
 import Colors from "../assets/constants/Colors";
@@ -56,86 +56,111 @@ export default function ActiveDonationPostHead() {
   var donationsPostsList = [];
   const [list, setList] = useState([]);
   var obj;
-
+  
+  const [loading, setLoading] = useState(false);
+  
   const [test, setTest] = useState([]);
 
-  async function loadData() {
-    const dbRef = ref(db, "hope/donations/" + auth.currentUser.displayName);
-    await onValue(dbRef, (snapshot) => {
-      snapshot.forEach((childSnapshot) => {
-        const childKey = childSnapshot.key;
-        const childData = childSnapshot.val();
-        obj = new PostHead(
-          childData.imgUrl,
-          childData.title,
-          childData.description,
-          "11:11",
-          "Apr 03, 2023",
-          "Active",
-          childData.username
-        );
-          donationsPostsList.push(obj);
-          setList(donationsPostsList);
-          setTest(list);
-          setCheck(true);
-  });
-    }, {
-      onlyOnce: true
-    });
   
-  }
   useEffect(() => {
     console.log("Hello");
+ 
+    async function loadData() {
+      const dbRef = ref(db, "hope/donations/afaqabid");
+      // const dbRef = ref(db, "hope/donations/" + auth.currentUser.displayName);
+      onValue(dbRef, (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          const childKey = childSnapshot.key;
+          const childData = childSnapshot.val();
+ 
+          obj = new PostHead(
+            childData.imgUrl,
+            childData.title,
+            childData.description,
+            "11:11",
+            "Apr 03, 2023",
+            "Active",
+            childData.username
+          );
+            donationsPostsList.push(obj);
+            setList(donationsPostsList);
+            setTest(list);
+            setCheck(true);
+    });
+      }, {
+        onlyOnce: true
+      })
+      return true;
+    }
     loadData();
   }, []);
-  return (
-    <PaperProvider>
-      <Text style={styles.heading}>Active Donations</Text>
-      {test.map((donation) => (
-        <>
-          <View style={styles.donationPostCard}>
-            <View style={styles.card}>
-              <View style={styles.mainCard}>
-                <View style={styles.leftCard}>
-                  <Image
-                    source={{
-                      uri: donation.imgUrl,
-                    }}
-                    style={styles.postImg}
-                  />
-                </View>
-                <View style={styles.rightCard}>
-                  <Text style={styles.postTitle}>{donation.title}</Text>
-                  <Text style={styles.postDesc}>{donation.desc}</Text>
-                  <Text style={styles.postDonorName}>{donation.donorName}</Text>
-                  <View style={styles.timeAndDateCard}>
-                    <Text style={styles.postTime}>{donation.time}</Text>
-                    <Text style={styles.postDate}>{donation.date}</Text>
+
+  console.log(test);
+
+  if(test.length == 0)
+  {
+    return (
+      <PaperProvider>
+        <Text style={styles.heading}>Active Donations</Text>
+        <Text style={styles.heading}>There are no Active Donations.</Text>
+      </PaperProvider>
+    );
+  
+  }
+  else
+  {
+    return (
+      <PaperProvider>
+        <Text style={styles.heading}>Active Donations</Text>
+        {test.map((donation) => (
+          <>
+            <View style={styles.donationPostCard}>
+              <View style={styles.card}>
+                <View style={styles.mainCard}>
+                  <View style={styles.leftCard}>
+                    <Image
+                      source={{
+                        uri: donation.imgUrl,
+                      }}
+                      style={styles.postImg}
+                    />
                   </View>
-                  <Text style={styles.postStatus}>
-                    {"Status: " + donation.status}
-                  </Text>
-                  <View style={styles.btnCard}>
-                    <Button
-                      style={styles.btnShowDetails}
-                    >
-                      <Text style={styles.btnShowDetailsTxt}>Mark As Done</Text>
-                    </Button>
-                    <Button
-                      style={styles.btnMsg}
-                      // onPress={() => sendMessage(donation)}
-                    >
-                      <Text style={styles.btnMsgTxt}>Cancel</Text>
-                    </Button>
+                  <View style={styles.rightCard}>
+                    <Text style={styles.postTitle}>{donation.title}</Text>
+                    <Text style={styles.postDesc}>{donation.desc}</Text>
+                    <Text style={styles.postDonorName}>{donation.donorName}</Text>
+                    <View style={styles.timeAndDateCard}>
+                      <Text style={styles.postTime}>{donation.time}</Text>
+                      <Text style={styles.postDate}>{donation.date}</Text>
+                    </View>
+                    <Text style={styles.postStatus}>
+                      {"Status: " + donation.status}
+                    </Text>
+                    <View style={styles.btnCard}>
+                      <Button
+                        style={styles.btnShowDetails}
+                      >
+                        <Text style={styles.btnShowDetailsTxt}>Mark As Done</Text>
+                      </Button>
+                      <Button
+                        style={styles.btnMsg}
+                        // onPress={() => sendMessage(donation)}
+                      >
+                        <Text style={styles.btnMsgTxt}>Cancel</Text>
+                      </Button>
+                    </View>
                   </View>
                 </View>
               </View>
             </View>
-          </View>
-        </>
-      ))}
-    </PaperProvider>
-  );
+          </>
+        ))}
+      </PaperProvider>
+    );
+  
+  }
+
+
 }
 
 const styles = StyleSheet.create({
