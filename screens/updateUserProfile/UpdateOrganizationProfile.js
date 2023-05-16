@@ -116,6 +116,14 @@ export default function UpdateDoneeProfile() {
         alert(error);
       });
       
+      update(ref(db, "hope/users/organization/" + username + "/location"), {
+        certificateIssuanceDate: certificateIssuanceDate,
+        certificateNumber: certificateNumber,
+      })
+        .then()
+        .catch((error) => {
+          alert(error);
+        }); 
   };
 
   
@@ -145,7 +153,7 @@ export default function UpdateDoneeProfile() {
   };
 
   const handleUpdate = () => {
-    if (!name || !dob || !phoneNum || !address || !password ||   !cnic || !cnicIssueDate) {
+    if (!name || !buildIn || !address || !password ||!confirmPassword || !phone || !certificateIssuanceDate || !certificateNumber) {
       // Display an error message
       alert('Please enter all fields');
       return;
@@ -177,20 +185,13 @@ export default function UpdateDoneeProfile() {
                         style={styles.textInput}
                       />
                       <TextInput
-                        label="Date of Birth"
+                        label="Build In"
                         mode="outlined"
-                        value={dob}
-                        onChangeText={(text) => setDob(text)}
+                        value={buildIn}
+                        onChangeText={(text) => setBuildIn(text)}
                         style={styles.textInput}
                       />
-                     
-                      <TextInput
-                        label="Phone Number"
-                        mode="outlined"
-                        value={phoneNum}
-                        onChangeText={(text) => setPhoneNum(text)}
-                        style={styles.textInput}
-                      />
+                    
                       <TextInput
                         label="Address"
                         mode="outlined"
@@ -213,17 +214,24 @@ export default function UpdateDoneeProfile() {
                         style={styles.textInput}
                       />
                       <TextInput
-                        label="CNIC"
+                        label="Phone"
                         mode="outlined"
-                        value={cnic}
-                        onChangeText={(text) => setCNIC(text)}
+                        value={phone}
+                        onChangeText={(text) => setPhone(text)}
                         style={styles.textInput}
                       />
                       <TextInput
-                        label="CNIC Issue Date"
+                        label="Certificate Issuance Date"
                         mode="outlined"
-                        value={cnicIssueDate}
-                        onChangeText={(text) => setCNICIssueDate(text)}
+                        value={certificateIssuanceDate}
+                        onChangeText={(text) => setCertificateIssuanceDate(text)}
+                        style={styles.textInput}
+                      />
+                      <TextInput
+                        label="Certificate Number"
+                        mode="outlined"
+                        value={certificateNumber}
+                        onChangeText={(text) => setCertificateNumber(text)}
                         style={styles.textInput}
                       />
                       <Button
