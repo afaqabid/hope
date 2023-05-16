@@ -30,7 +30,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { db } from "../../firebase";
-import { ref, set, update } from "firebase/database";
+import { query, ref, set, update } from "firebase/database";
 import { useFonts } from "expo-font";
 import Colors from "../../assets/constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -68,8 +68,8 @@ export default function DonorRegistration() {
   const [cnicIssueDate, setCNICIssueDate] = useState("");
 
   const navigation = useNavigation();
-
   const saveDetailsToDatabase = () => {
+
     set(ref(db, "hope/usertype/donor/" + username), {
       email: email,
     })
@@ -109,7 +109,6 @@ export default function DonorRegistration() {
       .catch((error) => {
         alert(error);
       });
-
     set(ref(db, "hope/users/donor/" + username + "/bankDetails"), {
       accountHolderName: "",
       accountNumber: "",
@@ -451,7 +450,7 @@ export default function DonorRegistration() {
                 <Text style={{ backgroundColor: Colors.background }}>
                   CNIC Issue Date
                   <Text style={{ color: "red", backgroundColor: "white" }}>
-                    *
+                    * 
                   </Text>
                 </Text>
               }

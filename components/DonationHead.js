@@ -12,8 +12,8 @@ import { Button, Provider as PaperProvider } from "react-native-paper";
 import { useFonts } from "expo-font";
 import Colors from "../assets/constants/Colors";
 import { useNavigation } from "@react-navigation/native";
-import { db } from "../firebase";
-import { onValue, ref, child, get } from "firebase/database";
+import { auth, db } from "../firebase";
+import { onValue, child, get, set, push, ref } from "firebase/database";
 
 class PostHead {
   constructor(imgUrl, title, desc, time, date, status, donorName) {
@@ -53,29 +53,53 @@ export default function DonationHead() {
       donationImgUrl: donation.imgUrl,
     });
   };
-  // const sendMessage = (donation) => {
-  //   Alert.alert(
-  //     "Send Message",
-  //     " Do you want to send message to " + donation.donorName,
-  //     [
-  //       {
-  //         text: "Yes",
-  //         onPress: () => {
-  //           navigation.navigate("DonationDetails", {
-  //             donationTitle: donation.title,
-  //             donationDesc: donation.desc,
-  //             donationDonorName: donation.donorName,
-  //             donationTime: donation.time,
-  //             donationDate: donation.date,
-  //             donationStatus: donation.status,
-  //             donationImgUrl: donation.imgUrl,
-  //           });
-  //         },
-  //       },
-  //       { text: "No" },
-  //     ]
-  //   );
-  // };
+  const sendMessage = (donation) => {
+    Alert.alert(
+      "Send Message",
+      " Do you want to send message to " + donation.donorName,
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+
+
+
+            var tempRef = ref(db, "hope/chats/donors/" + donation.donorName); 
+            var newChat = push(tempRef);
+            set(newChat, {
+              doneeName: auth.currentUser.displayName,
+            })
+              .then()
+              .catch((error) => {
+                alert(error);
+              });
+
+
+              tempRef = ref(db, "hope/chats/donees/" + auth.currentUser.displayName); 
+              newChat = push(tempRef);
+              set(newChat, {
+                donorName: donation.donorName,
+              })
+                .then()
+                .catch((error) => {
+                  alert(error);
+                });
+
+            navigation.navigate("ChatScreen", {
+              donationTitle: donation.title,
+              donationDesc: donation.desc,
+              donationDonorName: donation.donorName,
+              donationTime: donation.time,
+              donationDate: donation.date,
+              donationStatus: donation.status,
+              donationImgUrl: donation.imgUrl,
+            });
+          },
+        },
+        { text: "No" },
+      ]
+    );
+  };
 
   var donationsPostsList = [];
   const [list, setList] = useState([]);
@@ -91,6 +115,7 @@ export default function DonationHead() {
             var key = childSnapshot.key;
             var childData = childSnapshot.val();
             // console.log(childData);
+            console.log(childData);
             for (let key in childData)
             {
               obj = new PostHead(
@@ -108,10 +133,6 @@ export default function DonationHead() {
               setCheck(true);
                 console.log(childData[key]);
             }
-
-
-
-
           });
         } else {
         }
@@ -121,6 +142,7 @@ export default function DonationHead() {
       });
   }
   useEffect(() => {
+    console.log("hello");
     loadData();
   }, []);
   return (
@@ -158,7 +180,7 @@ export default function DonationHead() {
                     </Button>
                     <Button
                       style={styles.btnMsg}
-                      // onPress={() => sendMessage(donation)}
+                      onPress={() => sendMessage(donation)}
                     >
                       <Text style={styles.btnMsgTxt}>Send Message</Text>
                     </Button>
