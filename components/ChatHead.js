@@ -52,6 +52,7 @@ export default function ChatHead() {
                     navigation.navigate('ChatScreen', {
                         selectedUsername:user.username,
                         selectedUserImg:user.userImg,
+                        selectedUserId:'rehmozahmadrana007@gmail.com'
                     });
                 }}>
                     <View style={styles.chatCard}>

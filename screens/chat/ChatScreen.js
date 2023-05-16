@@ -15,63 +15,111 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { GiftedChat } from "react-native-gifted-chat";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useCallback } from "react";
+import { auth, db, dbStore } from "../../firebase";
+import { addDoc, collection, doc, onSnapshot, orderBy, setDoc, subcollection } from "firebase/firestore";
+import { useLayoutEffect } from "react";
+import { query } from "firebase/database";
+
+
 
 export default function ChatScreen({ route }) {
+  console.log(route.params);
+  const [messages, setMessages] = useState([]);
+
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: 1,
+  //       text: 'Hello developer',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 2,
+  //         name: 'React Native',
+  //         avatar: 'https://placeimg.com/140/140/any',
+  //       },
+  //     },
+  //   ])
+  // }, [])
+ 
+  // useLayoutEffect(()=>{
+  //   const unsubscribe = db.collection('chats').orderBy('createdAt', desc).onSnapshot(snapshot=>setMessages(
+  //     snapshot.docs.map(doc=>({
+  //       _id:doc.data()._id,
+  //       createdAt:doc.data().createdAt.toDate(),
+  //       text:doc.data().text,
+  //       user:doc.data().user
+
+  //     }))
+  //   ))
+  //   return unsubscribe;
+  // }, [])
+
+
+  useLayoutEffect(() => {
+    const q = query(collection(dbStore, "chats"+"/"+"afaqabid" +"/" + "rehmozahmad"), orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setMessages(
+        snapshot.docs.map((doc) => ({
+          _id: doc.data()._id,
+          createdAt: doc.data().createdAt.toDate(),
+          text: doc.data().text,
+          user: doc.data().user,
+          name: doc.data().name
+        }))
+      );
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    const {
+      _id,
+      createdAt,
+      text,
+      user,
+
+    } = messages[0]
+
+  //   addDoc(collection(dbStore, "chats"), {
+  //     _id,
+  //     createdAt,
+  //     text,
+  //     user
+  // });
+
+  addDoc(collection(dbStore, "chats"+"/"+"afaqabid" +"/" + "rehmozahmad"), {
+    _id,
+    createdAt,
+    text,
+    user
+});
+
+
+
+  }
+  
+  , [])
   console.log(route);
-  const username = route.params.donationDonorName;
-  const donationTitle = route.params.donationTitle
-  const userImg = route.params.donationImgUrl;
-  console.log(userImg);
 
   return (
-    <PaperProvider>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : "height"}
-      >
-        <View style={styles.mainContainer}>
-          <Appbar.Header style={styles.header}>
-            <Avatar.Image
-              size={55}
-              source={userImg}
-              style={{ backgroundColor: "transparent" }}
-            />
-            <View>
-            <Text
-              variant="titleLarge"
-              style={{ marginLeft: 10, fontWeight: "bold", color: "#1C702B" }}
-            >
-              {donationTitle}
-            </Text>
-            <Text
-              variant="titleMedium"
-              style={{ marginLeft: 10, fontWeight: "bold", color: "#1C702B" }}
-            >
-              {username}
-            </Text>
-
-            </View>
-
-          </Appbar.Header>
-
-          <View style={styles.mainScreen}>
-            <ScrollView></ScrollView>
-          </View>
-          <View style={styles.inputScreen}>
-            <TextInput
-              style={styles.userInput}
-              placeholder="Write your message here ..."
-            ></TextInput>
-            <IconButton
-              icon="send"
-              size={30}
-              iconColor={"#1C702B"}
-              onPress={() => console.log("Pressed")}
-            />
-          </View>
-        </View>
-      </KeyboardAvoidingView>
-    </PaperProvider>
-  );
+    <GiftedChat
+      messages={messages}
+      showAvatarForEveryMessage={true}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: auth.currentUser.email,
+        name: auth.currentUser.displayName
+      }}
+    />  );
 }
 
 const styles = StyleSheet.create({
