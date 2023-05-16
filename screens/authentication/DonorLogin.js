@@ -21,7 +21,6 @@ import { db } from "../../firebase";
 import { onValue, ref, child, get } from "firebase/database";
 import { auth } from "../../firebase";
 import {
-  getAdditionalUserInfo,
   sendEmailVerification,
   signInWithEmailAndPassword,
 } from "firebase/auth";
@@ -95,10 +94,7 @@ export default function DonorLogin() {
           } else {
             isDonor();
             if (check) {
-              console.log("Logged in 1 with:", user.displayName);
-              console.log("Logged in 2 with:", user.email);
-              console.log("Logged in 3 with:", user.currentUser);
-              var childData = childSnapshot.val();
+              console.log("Logged in with:", user.email);
               navigation.navigate("DonorPortal");
             } else {
               Alert.alert(
