@@ -70,6 +70,7 @@ export default function UpdateDoneeProfile() {
   const navigation = useNavigation();
 
   const saveDetailsToDatabase = () => {
+    console.log(email);
     update(ref(db, `hope/users/organization/${auth.currentUser.username}`), {
       email: auth.currentUser.email,
     })
@@ -79,16 +80,8 @@ export default function UpdateDoneeProfile() {
       });
     
       update(ref(db, `hope/users/organization/${auth.currentUser.username}`), {
-      // username: auth.currentUser.username,
       address: address,
-      // email: auth.currentUser.email,
-      // password: password,
-      // confirmPassword: confirmPassword,
-      
       buildIn: buildIn,
-      // username: username,
-      // phone: phone,
-      // address: address,
       certificateIssuanceDate: certificateIssuanceDate,
       certificateNumber: certificateNumber,
     })
@@ -144,7 +137,8 @@ export default function UpdateDoneeProfile() {
         sendEmailVerification(auth.currentUser)
           .then()
           .catch((error) => {
-            alert(error.message);
+            alert(error.message)
+            console.log(email);
           });
           
         const user = userCredentials.user;
@@ -175,7 +169,7 @@ export default function UpdateDoneeProfile() {
                       size={100}
                       icon="account"
                     />
-                    <Text style={styles.title}>Update Donee Profile</Text>
+                    <Text style={styles.title}>Update Organization Profile</Text>
                     <View style={styles.formContainer}>
                       <TextInput
                         label="Name"
