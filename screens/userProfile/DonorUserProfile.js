@@ -61,7 +61,7 @@ export default function DonorRegistration() {
   async function loadData() {
     const dbRef = ref(db);
 
-    get(child(dbRef, "hope/users/donor/" + "afaqabid"))
+    get(child(dbRef, "hope/users/donor/" +  auth.currentUser.displayName))
       .then((snapshot) => {
         if (snapshot.exists()) {
           console.log(snapshot.val());

@@ -65,7 +65,11 @@ export default function UpdateDonorProfile() {
   const navigation = useNavigation();
 
   const saveDetailsToDatabase = () => {
-    update(ref(db, `hope/users/donor/${auth.currentUser.username}`), {
+    console.log("hammadx");
+    console.log(`hope/users/donor/${auth.username}`);
+    console.log(`hope/users/donor/${auth.currentUser.username}`);
+
+    update(ref(db, `hope/users/donor/${auth.username}`), {
       name: name,
       dob: dob,
       password: password,
@@ -80,7 +84,7 @@ export default function UpdateDonorProfile() {
         alert(error);
       });
 
-    update(ref(db, `hope/users/donor/${auth.currentUser.uid}/cnicDetails`), {
+    update(ref(db, `hope/users/donor/${auth.currentUser.username}/cnicDetails`), {
       cnicNo: cnic,
       cnicIssueDate: cnicIssueDate,
     })
