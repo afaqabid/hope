@@ -39,7 +39,12 @@ export default function DonorDonationsTab() {
           <Text style={styles.btnTxt}>Active Donations</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => {
+            navigation.navigate("DonateToOrganization");
+          }}
+        >
           <Text style={styles.btnTxt}>Donate to Organization</Text>
         </TouchableOpacity>
 
