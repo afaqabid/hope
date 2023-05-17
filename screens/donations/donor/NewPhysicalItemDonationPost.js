@@ -190,6 +190,10 @@ export default function NewPhysicalItemDonationPost() {
           description: description,
           longitude: longitude,
           latitude: latitude,
+          date: new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getMonth(),
+          time: new Date().getHours() + ":" + new Date().getMinutes(),
+          status:"active",
+          doneeName:""
         })
           .then()
           .catch((error) => {
