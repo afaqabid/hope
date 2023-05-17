@@ -64,10 +64,10 @@ export default function DonationHead() {
 
 
 
-            var tempRef = ref(db, "hope/chats/donors/" + donation.donorName); 
+            var tempRef = ref(db, "hope/chats/" + donation.donorName); 
             var newChat = push(tempRef);
             set(newChat, {
-              doneeName: auth.currentUser.displayName,
+              username: auth.currentUser.displayName,
             })
               .then()
               .catch((error) => {
@@ -75,20 +75,21 @@ export default function DonationHead() {
               });
 
 
-              tempRef = ref(db, "hope/chats/donees/" + auth.currentUser.displayName); 
+              tempRef = ref(db, "hope/chats/" + auth.currentUser.displayName); 
               newChat = push(tempRef);
               set(newChat, {
-                donorName: donation.donorName,
+                username: donation.donorName,
               })
                 .then()
                 .catch((error) => {
                   alert(error);
                 });
 
+
             navigation.navigate("ChatScreen", {
               donationTitle: donation.title,
               donationDesc: donation.desc,
-              donationDonorName: donation.donorName,
+              selectedUsername: donation.donorName,
               donationTime: donation.time,
               donationDate: donation.date,
               donationStatus: donation.status,
@@ -191,6 +192,12 @@ export default function DonationHead() {
           </View>
         </>
       ))}
+              <Button onPress={loadData}>
+          Show
+        </Button>
+        <Button onPress={loadData}>
+          Show
+        </Button>
     </PaperProvider>
   );
 }
