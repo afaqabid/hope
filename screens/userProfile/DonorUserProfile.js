@@ -159,7 +159,7 @@ export default function DonorRegistration() {
           ></View>
           <TouchableOpacity
             style={styles.updateDonorBtn}
-            onPress={() => navigation.navigate("UpdateDonorProfile")}
+            // onPress={() => navigation.navigate("UpdateDonorProfile")}
           >
             <Text style={styles.btnTxtReg} variant="titleMedium">
             Update Donor Profile
