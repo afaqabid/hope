@@ -70,6 +70,7 @@ export default function OrganizationRegistration() {
       name: name,
       certificateNumber: certificateNumber,
       certificateIssuanceDate: certificateIssuanceDate,
+      totalBalance: 0,
     })
       .then()
       .catch((error) => {
