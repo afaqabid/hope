@@ -5,13 +5,15 @@ import {
   TouchableOpacity,
   View,
   Image,
-  LogBox,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Provider as PaperProvider } from "react-native-paper";
 import { useFonts } from "expo-font";
 import Colors from "../assets/constants/Colors";
 import { useNavigation } from "@react-navigation/native";
+import { auth, db } from "../firebase";
+import { onValue, child, get, set, push, ref } from "firebase/database";
 
 class PostHead {
   constructor(imgUrl, title, desc, time, date, status, doneeName) {
@@ -37,6 +39,9 @@ export default function RequestHead() {
   });
 
   const navigation = useNavigation();
+
+  const [check, setCheck] = useState(false);
+
   const showDetails = (request) => {
     navigation.navigate("RequestDetails", {
       requestTitle: request.title,
@@ -48,26 +53,98 @@ export default function RequestHead() {
       requestImgUrl: request.imgUrl,
     });
   };
+  const sendMessage = (request) => {
+    Alert.alert(
+      "Send Message",
+      " Do you want to send message to " + request.doneeName,
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            var tempRef = ref(db, "hope/chats/" + request.doneeName); 
+            var newChat = push(tempRef);
+            set(newChat, {
+              username: auth.currentUser.displayName,
+            })
+              .then()
+              .catch((error) => {
+                alert(error);
+              });
+
+
+              tempRef = ref(db, "hope/chats/" + auth.currentUser.displayName); 
+              newChat = push(tempRef);
+              set(newChat, {
+                username: request.doneeName,
+              })
+                .then()
+                .catch((error) => {
+                  alert(error);
+                });
+
+
+            navigation.navigate("ChatScreen", {
+              requestTitle: request.title,
+              requestDesc: request.desc,
+              selectedUsername: request.doneeName,
+              requestTime: request.time,
+              requestDate: request.date,
+              requestStatus: request.status,
+              requestImgUrl: request.imgUrl,
+            });
+          },
+        },
+        { text: "No" },
+      ]
+    );
+  };
 
   var requestsPostsList = [];
-  var i = 0;
-  var size = 10;
-  for (i = 0; i < size; i++) {
-    var x = new PostHead(
-      "https://firebasestorage.googleapis.com/v0/b/hope-makeliveseasier.appspot.com/o/DonationPostImages%2F1677939646898?alt=media&token=aa0b3308-f242-4b2e-99d6-0ac40713e951",
-      "Name: " + (i + 1),
-      "Description: " + (i + 1),
-      "Time: " + (i + 1),
-      "Date: " + (i + 1),
-      "Active",
-      "Donee Name: " + (i + 1)
-    );
-    requestsPostsList.push(x);
+  const [list, setList] = useState([]);
+  var obj;
+
+  const [test, setTest] = useState([]);
+  async function loadData() {
+    const dbRef = ref(db);
+    await get(child(dbRef, "hope/requests/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childSnapshot) {
+            var key = childSnapshot.key;
+            var childData = childSnapshot.val();
+            console.log(childData);
+            for (let key in childData)
+            {
+              obj = new PostHead(
+                childData[key].imgUrl,
+                childData[key].title,
+                childData[key].description,
+                "11:11",
+                "Apr 03, 2023",
+                "Active",
+                childData[key].username
+              );
+              requestsPostsList.push(obj);
+              setList(requestsPostsList);
+              setTest(list);
+              setCheck(true);
+                console.log(childData[key]);
+            }
+          });
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
-  LogBox.ignoreAllLogs = "true";
+  useEffect(() => {
+    console.log("hello");
+    loadData();
+  }, []);
   return (
     <PaperProvider>
-      {requestsPostsList.map((request) => (
+      {test.map((request) => (
         <>
           <View style={styles.requestPostCard}>
             <View style={styles.card}>
@@ -100,9 +177,7 @@ export default function RequestHead() {
                     </Button>
                     <Button
                       style={styles.btnMsg}
-                      onPress={() =>
-                        alert("Send Message for " + request.doneeName)
-                      }
+                      onPress={() => sendMessage(request)}
                     >
                       <Text style={styles.btnMsgTxt}>Send Message</Text>
                     </Button>
@@ -113,36 +188,41 @@ export default function RequestHead() {
           </View>
         </>
       ))}
+              <Button onPress={loadData}>
+          Show
+        </Button>
+
     </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   requestPostCard: {
-    height: "9.5%",
+    height: 180,
     width: "95%",
     marginTop: 8,
     marginLeft: 10,
-    padding: 5,
+    padding: 10,
     borderRadius: 5,
     display: "flex",
     flexDirection: "row",
+    backgroundColor: "rgba(253, 250, 246, 0.5)",
   },
   card: {
     width: 220,
   },
 
   postTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     fontFamily: "Manrope-Bold",
   },
   postDesc: {
-    fontSize: 16,
+    fontSize: 12,
     fontFamily: "Manrope-Light",
   },
   postTime: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: "Manrope-Regular",
   },
   postDate: {
@@ -151,8 +231,8 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   postImg: {
-    height: "90%",
-    width: "90%",
+    height: "100%",
+    width: "100%",
   },
   postStatus: {
     fontSize: 12,
@@ -181,7 +261,6 @@ const styles = StyleSheet.create({
   timeAndDateCard: {
     display: "flex",
     flexDirection: "row",
-    marginTop: 10,
   },
   btnCard: {
     display: "flex",
