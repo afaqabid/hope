@@ -191,6 +191,11 @@ export default function DonorRegistration() {
         check = false;
         check1 = true;
       }
+      if (!validateCnicIssueDate(dob,cnicIssueDate)) {
+        str = str + "Your age is less than 18 years!\n";
+        check = false;
+        check1 = true;
+      }
     }
     if (!check1) {
       alert("Please Enter All Fields!");
@@ -270,6 +275,26 @@ export default function DonorRegistration() {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }
+
+  function validateCnicIssueDate(dobText,cnicIssueDateText) {
+    // Extract the years from the string
+    const dobYear = parseInt(dobText.substr(4, 4));
+
+    const cnicYear = parseInt(cnicIssueDateText.substr(4, 4));
+
+    const cnicVerifyData = dobYear + 18;
+    
+    console.log(cnicYear);
+    console.log(cnicVerifyData);
+    if(cnicYear < cnicVerifyData)
+    {
+      console.log(cnicYear);
+      console.log(dobYear);
+      return false;
+    }
+    return true;
+  }
+
 
   return (
     <PaperProvider>
