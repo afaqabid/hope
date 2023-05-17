@@ -11,7 +11,7 @@ import ChatScreen from "./screens/chat/ChatScreen";
 import DoneePortal from "./screens/donee/DoneePortal";
 import DonorPortal from "./screens/donor/DonorPortal";
 import OrganizationPortal from "./screens/organization/OrganizationPortal";
-import NewDonationPost from "./screens/donations/donor/NewDonationPost";
+import NewDonationPost  from "./screens/donations/donor/NewDonationPost";
 import NewPhysicalItemDonationPost from "./screens/donations/donor/NewPhysicalItemDonationPost";
 import NewMonetaryDonationPost from "./screens/donations/donor/NewMonetaryDonationPost";
 import NewScheduleDonationPost from "./screens/donations/donor/NewScheduleDonationPost";
