@@ -28,7 +28,6 @@ import Colors from "../../../assets/constants/Colors";
 import * as Location from "expo-location";
 import { ref as dbRef, push, set } from "firebase/database";
 
-
 export default function NewMonetaryDonationPost() {
   let [fontLoaded] = useFonts({
     "Manrope-Bold": require("../../../assets/fonts/Manrope-Bold.ttf"),
@@ -40,9 +39,7 @@ export default function NewMonetaryDonationPost() {
     "Manrope-SemiBold": require("../../../assets/fonts/Manrope-SemiBold.ttf"),
   });
 
-  const [amount, setAmount] = useState(0);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [segBtnValue, setSegBtnValue] = useState("");
 
   const HideKeyboard = ({ children }) => (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -51,6 +48,7 @@ export default function NewMonetaryDonationPost() {
   );
 
   const navigation = useNavigation();
+
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -61,11 +59,11 @@ export default function NewMonetaryDonationPost() {
         setErrorMsg("Permission to access location was denied");
         return;
       }
+
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
-  }, 
-  []);
+  }, []);
 
   let postLoc = "Waiting..";
   let longitude = 0;
@@ -77,23 +75,33 @@ export default function NewMonetaryDonationPost() {
     longitude = location.coords.longitude;
     latitude = location.coords.latitude;
   }
-   
+
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState(0);
 
   async function uploadPost() {
-    if (title.trim() == "" || description.trim() == "" || amount < 0) {
-      alert("Please Insert All Fields!\nMinimum amount is 100 Rupees.");
+    if (
+      title.trim() == "" ||
+      description.trim() == ""
+    ) {
+      alert("Please fill all fields");
     } else {
-      console.log("Here!");
         var tempRef = dbRef(db, "hope/donations/" + auth.currentUser.displayName); 
         var newPostRef = push(tempRef);
         set(newPostRef, {
-          imgUrl: imgUrl,
+          imgUrl:"https://img.freepik.com/free-vector/stack-money-gold-coins-3d-cartoon-style-icon-coins-with-dollar-sign-wad-cash-currency-flat-vector-illustration-wealth-investment-success-savings-economy-profit-concept_74855-26108.jpg",
           title: title,
           username: auth.currentUser.displayName,
-          amount: amount,
           description: description,
+          category: "money",
           longitude: longitude,
           latitude: latitude,
+          date: new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getMonth(),
+          time: new Date().getHours() + ":" + new Date().getMinutes(),
+          status:"active",
+          doneeName:""
         })
           .then()
           .catch((error) => {
@@ -101,42 +109,41 @@ export default function NewMonetaryDonationPost() {
           });
         alert("Post Uploaded Successfully!");
         navigation.navigate("DonorPortal");
+
     }
   }
-
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "position" : "height"}
-          style={{ flex: 1 }}
-        >
+      <Text style={styles.titleTxt}>Monetary Donation</Text>
           <ScrollView>
             <View style={styles.detailsContainer}>
-              <Text style={styles.titleTxt}>Donation Amount</Text>
+              <Text style={styles.titleTxt}>Title</Text>
               <TextInput
-               value={amount}
-               onChangeText={(amount) => setAmount(amount)}
-                style={styles.donationTitle}
-                placeholder="Enter Amount"
-                keyboardType="numeric"
-              ></TextInput>
-              <Text style={styles.titleTxt}>Donation Title</Text>
-              <TextInput value={title}
+                value={title}
                 onChangeText={(title) => setTitle(title)}
                 style={styles.donationTitle}
                 placeholder="Write Donation Title Here."
               ></TextInput>
+              <Text style={styles.titleTxt}>Enter Amount</Text>
+              <TextInput
+                value={amount}
+                onChangeText={(amount) => setAmount(amount)}
+                style={styles.donationTitle}
+                keyboardType="numeric"
+                placeholder="Enter Donation Amount Here."
+              ></TextInput>
+
               <Text style={styles.titleTxt}>Description</Text>
-              <TextInput 
-               value={description}
+              <TextInput
+                value={description}
                 multiline={true}
                 style={styles.description}
                 placeholder="Write Donation Description Here."
                 onChangeText={(text) => setDescription(text)}
               ></TextInput>
               <View style={styles.btnContainer}>
-                <Button style={styles.btnPost}  onPress={uploadPost}>
+                <Button style={styles.btnPost} onPress={uploadPost}>
                   <Text style={styles.btnTxtPost}>Post</Text>
                 </Button>
                 <Button style={styles.btnCancel}>
@@ -152,7 +159,6 @@ export default function NewMonetaryDonationPost() {
               </View>
             </View>
           </ScrollView>
-          </KeyboardAvoidingView>
       </SafeAreaView>
     </PaperProvider>
   );
@@ -165,23 +171,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FDFAF6",
   },
-  imageContainer: {
-    height: "80%",
-    backgroundColor: "white",
-    width: "100%",
-    margin: 0,
-    borderRadius: 10,
-    padding: 10,
-  },
-
   detailsContainer: {
-    marginTop: "40%",
-    height: "60%",
+    height: "55%",
     backgroundColor: "transparent",
     width: "100%",
     margin: 10,
     borderRadius: 10,
     display: "flex",
+    marginTop:"20%"
   },
 
   titleTxt: {
@@ -209,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     backgroundColor: "white",
     padding: 10,
-    height: 200,
+    height: 150,
     borderRadius: 5,
   },
 
