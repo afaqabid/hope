@@ -1,30 +1,29 @@
 import {
   StyleSheet,
-  TouchableHighlight,
+  Text,
+  Touchable,
   TouchableOpacity,
   View,
   Image,
+  Alert,
 } from "react-native";
-import React from "react";
-import {
-  Avatar,
-  Divider,
-  Text,
-  Provider as PaperProvider,
-  Button,
-} from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import { Button, Provider as PaperProvider } from "react-native-paper";
 import { useFonts } from "expo-font";
+import Colors from "../assets/constants/Colors";
+import { useFocusEffect, useIsFocused, useNavigation } from "@react-navigation/native";
+import { auth, db } from "../firebase";
+import { onValue, ref, child, get } from "firebase/database";
 
 class PostHead {
-  constructor(imgUrl, title, desc, time, date, status, donorName) {
+  constructor(imgUrl, title, desc, time, date, status, doneeName) {
     this.imgUrl = imgUrl;
     this.title = title;
     this.desc = desc;
     this.time = time;
     this.date = date;
     this.status = status;
-    this.donorName = donorName;
+    this.doneeName = doneeName;
   }
 }
 
@@ -39,86 +38,95 @@ export default function PreviousRequestPostHead() {
     "Manrope-SemiBold": require("../assets/fonts/Manrope-SemiBold.ttf"),
   });
 
-  var previousPostsList = [];
-  var i = 0;
-  var size = 10;
-  for (i = 0; i < size; i++) {
-    var x = new PostHead(
-      "https://firebasestorage.googleapis.com/v0/b/hope-makeliveseasier.appspot.com/o/DonationPostImages%2F1677939646898?alt=media&token=aa0b3308-f242-4b2e-99d6-0ac40713e951",
-      "Name: " + (i + 1),
-      "Description: " + (i + 1),
-      "Time: " + (i + 1),
-      "Date: " + (i + 1),
-      "Active",
-      "Donor Name: " + (i + 1)
-    );
-    previousPostsList.push(x);
-  }
+  const navigation = useNavigation();
+
+  const [check, setCheck] = useState(false);
+
+  const showDetails = (request) => {
+    navigation.navigate("RequestDetails", {
+      requestTitle: request.title,
+      requestDesc: request.desc,
+      requestDoneeName: request.doneeName,
+      requestTime: request.time,
+      requestDate: request.date,
+      requestStatus: request.status,
+      requestImgUrl: request.imgUrl,
+    });
+  };
+  var requestsPostsList = [];
+  const [list, setList] = useState([]);
+  var obj;
+  
+  const [test, setTest] = useState([]);
+  
+
+  async function loadData() {
+    const dbRef = ref(db, "hope/requests/" + auth.currentUser.displayName);
+    await onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        obj = new PostHead(
+          childData.imgUrl,
+          childData.title,
+          childData.description,
+          "11:11",
+          "Apr 03, 2023",
+          "Active",
+          childData.username
+        );
+        requestsPostsList.push(obj);
+          setList(requestsPostsList);
+          setTest(list);
+          setCheck(true);
+        });
+      }, {
+        onlyOnce: true
+      });
+      
+    }
+  useEffect(() => {
+    console.log("Hello");
+    loadData();
+  }, []);
+
   return (
     <PaperProvider>
       <Text style={styles.heading}>Previous Requests</Text>
-      {previousPostsList.map((x) => (
+      {test.map((request) => (
         <>
-          <View style={styles.previousPostCard}>
+          <View style={styles.requestPostCard}>
             <View style={styles.card}>
               <View style={styles.mainCard}>
                 <View style={styles.leftCard}>
                   <Image
                     source={{
-                      uri: x.imgUrl,
+                      uri: request.imgUrl,
                     }}
                     style={styles.postImg}
                   />
                 </View>
                 <View style={styles.rightCard}>
-                  <Text style={styles.postTitle}>{x.title}</Text>
-                  <Text style={styles.postDesc}>{x.desc}</Text>
+                  <Text style={styles.postTitle}>{request.title}</Text>
+                  <Text style={styles.postDesc}>{request.desc}</Text>
+                  <Text style={styles.postDonorName}>{request.donorName}</Text>
                   <View style={styles.timeAndDateCard}>
-                    <Text style={styles.postTime}>{x.time}</Text>
-                    <Text style={styles.postDate}>{x.date}</Text>
+                    <Text style={styles.postTime}>{request.time}</Text>
+                    <Text style={styles.postDate}>{request.date}</Text>
                   </View>
-                  <Text style={styles.postStatus}>{"Status: " + x.status}</Text>
-                  <Text style={styles.postdonorName}>{x.donorName}</Text>
+                  <Text style={styles.postStatus}>
+                    {"Status: " + request.status}
+                  </Text>
                 </View>
               </View>
             </View>
           </View>
         </>
-      ))}
+      ))
+      }
 
-      {/* <View style={styles.previousPostCard}>
-        <View style={styles.card}>
-          <View style={styles.mainCard}>
-            <View style={styles.leftCard}>
-              <Image
-                source={{
-                  uri: "https://firebasestorage.googleapis.com/v0/b/hope-makeliveseasier.appspot.com/o/DonationPostImages%2F1677939646898?alt=media&token=aa0b3308-f242-4b2e-99d6-0ac40713e951",
-                }}
-                style={styles.postImg}
-              />
-            </View>
-            <View style={styles.rightCard}>
-              <Text style={styles.postTitle}>{"Donating a Wheelchair"}</Text>
-              <Text style={styles.postDesc}>
-                {"This wheelchair is only used for 10 Months...."}
-              </Text>
-              <View style={styles.timeAndDateCard}>
-                <Text style={styles.postTime}>{"11:11 AM"}</Text>
-                <Text style={styles.postDate}>{"March 24, 2023"}</Text>
-              </View>
-              <Text style={styles.postStatus}>{"Status: " + "previous"}</Text>
-              <View style={styles.btnCard}>
-                <Button style={styles.btnPost}>
-                  <Text style={styles.btnTxtPost}>Mark as Done</Text>
-                </Button>
-                <Button style={styles.btnCancel}>
-                  <Text style={styles.btnTxtCancel}>Cancel</Text>
-                </Button>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View> */}
+    <Button onPress={loadData}>Show</Button>
+
     </PaperProvider>
   );
 }
@@ -129,10 +137,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Manrope-ExtraBold",
   },
-  previousPostCard: {
-    height: "9%",
+  requestPostCard: {
+    height: 180,
     width: "95%",
-    marginTop: 10,
+    marginTop: 8,
     marginLeft: 10,
     padding: 10,
     borderRadius: 5,
@@ -145,16 +153,16 @@ const styles = StyleSheet.create({
   },
 
   postTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     fontFamily: "Manrope-Bold",
   },
   postDesc: {
-    fontSize: 16,
+    fontSize: 12,
     fontFamily: "Manrope-Light",
   },
   postTime: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: "Manrope-Regular",
   },
   postDate: {
@@ -163,18 +171,18 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   postImg: {
-    height: "90%",
-    width: "90%",
+    height: "100%",
+    width: "100%",
   },
   postStatus: {
     fontSize: 12,
     fontFamily: "Manrope-Regular",
   },
-  postdonorName: {
-    marginTop: "2%",
+  postDonorName: {
     fontSize: 14,
     fontFamily: "Manrope-ExtraBold",
   },
+
   mainCard: {
     display: "flex",
     flexDirection: "row",
@@ -182,9 +190,9 @@ const styles = StyleSheet.create({
   leftCard: {
     width: "60%",
     height: "100%",
-    // backgroundColor: "blue",
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: "-2%",
   },
   rightCard: {
     width: "95%",
@@ -193,11 +201,44 @@ const styles = StyleSheet.create({
   timeAndDateCard: {
     display: "flex",
     flexDirection: "row",
-    marginTop: 10,
   },
-  timeAndDateCard: {
+  btnCard: {
     display: "flex",
     flexDirection: "row",
+  },
+  btnMsg: {
+    // backgroundColor: "#1C702B",
+    backgroundColor: Colors.main,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    height: 35,
+    minWidth: "45%",
     marginTop: 10,
+    marginLeft: 5,
+  },
+  btnMsgTxt: {
+    color: Colors.background,
+    fontSize: 13,
+    fontFamily: "Manrope-Bold",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnShowDetails: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    height: 35,
+    minWidth: "45%",
+    marginTop: 10,
+    borderWidth: 0.5,
+    borderColor: Colors.main,
+  },
+  btnShowDetailsTxt: {
+    color: Colors.main,
+    fontSize: 13,
+    fontFamily: "Manrope-Bold",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
