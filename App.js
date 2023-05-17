@@ -32,6 +32,7 @@ import OrganizationUserProfile from "./screens/userProfile/OrganizationUserProfi
 import UpdateDonorProfile from "./screens/updateUserProfile/UpdateDonorProfile";
 import UpdateDoneeProfile from "./screens/updateUserProfile/UpdateDoneeProfile";
 import UpdateOrganizationProfile from "./screens/updateUserProfile/UpdateOrganizationProfile";
+import DonateToOrganization from "./screens/donations/donor/DonateToOrganization";
 
 
 const Stack = createNativeStackNavigator();
@@ -88,6 +89,11 @@ export default function App() {
           name="NewScheduleRequestPost"
           component={NewScheduleRequestPost}
         />
+        <Stack.Screen
+          name="DonateToOrganization"
+          component={DonateToOrganization}
+        />
+
         <Stack.Screen
           name="ActiveDonationsPosts"
           component={ActiveDonationsPosts}
