@@ -16,7 +16,7 @@ import { auth, db } from "../firebase";
 import { onValue, ref, child, get } from "firebase/database";
 
 class PostHead {
-  constructor(imgUrl, title, desc, time, date, status, donorName) {
+  constructor(imgUrl, title, desc, time, date, status, donorName, doneeName) {
     this.imgUrl = imgUrl;
     this.title = title;
     this.desc = desc;
@@ -24,6 +24,7 @@ class PostHead {
     this.date = date;
     this.status = status;
     this.donorName = donorName;
+    this.doneeName = doneeName;
   }
 }
 
@@ -56,39 +57,46 @@ export default function PreviousDonationPostHead() {
   var donationsPostsList = [];
   const [list, setList] = useState([]);
   var obj;
-
+  
   const [test, setTest] = useState([]);
+  
 
   async function loadData() {
     const dbRef = ref(db, "hope/donations/" + auth.currentUser.displayName);
-
-    await onValue(dbRef, (snapshot) => {
+    onValue(dbRef, (snapshot) => {
       snapshot.forEach((childSnapshot) => {
         const childKey = childSnapshot.key;
         const childData = childSnapshot.val();
+
         obj = new PostHead(
           childData.imgUrl,
           childData.title,
           childData.description,
-          "11:11",
-          "Apr 03, 2023",
-          "Active",
-          childData.username
+          childData.time,
+          childData.date,
+          childData.status,
+          childData.username,
+          childData.doneeName
+
         );
+        if(childData.status == "completed")
+        {
           donationsPostsList.push(obj);
           setList(donationsPostsList);
           setTest(list);
           setCheck(true);
-  });
+        }
+      });
     }, {
       onlyOnce: true
-    });
-  
+    })
+    return true;
   }
   useEffect(() => {
     console.log("Hello");
     loadData();
   }, []);
+
   return (
     <PaperProvider>
       <Text style={styles.heading}>Previous Donations</Text>
@@ -116,12 +124,19 @@ export default function PreviousDonationPostHead() {
                   <Text style={styles.postStatus}>
                     {"Status: " + donation.status}
                   </Text>
+                  <Text style={styles.postStatus}>
+                    {"Donee Name: " + donation.doneeName}
+                  </Text>
                 </View>
               </View>
             </View>
           </View>
         </>
-      ))}
+      ))
+      }
+
+    <Button onPress={loadData}>Show</Button>
+
     </PaperProvider>
   );
 }
