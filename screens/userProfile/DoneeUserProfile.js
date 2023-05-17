@@ -160,7 +160,7 @@ export default function DoneeRegistration() {
           ></View>
           <TouchableOpacity
             style={styles.updateDoneeBtn}
-            onPress={() => navigation.navigate("UpdateDoneeProfile")}
+            // onPress={() => navigation.navigate("UpdateDoneeProfile")}
           >
             <Text style={styles.btnTxtReg} variant="titleMedium">
             Update Donee Profile
