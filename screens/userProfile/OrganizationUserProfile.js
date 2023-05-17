@@ -164,7 +164,7 @@ export default function OrganizationRegistration() {
           ></View>
           <TouchableOpacity
             style={styles.updateDoneeBtn}
-            onPress={() => navigation.navigate("UpdateOrganizationProfile")}
+            // onPress={() => navigation.navigate("UpdateOrganizationProfile")}
           >
             <Text style={styles.btnTxtReg} variant="titleMedium">
             Update Organization Profile
