@@ -1,19 +1,32 @@
 import {
   Keyboard,
+  Button as ButtonNative,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
+  Image,
   TouchableOpacity,
   View,
   TextInput,
   TouchableWithoutFeedback,
 } from "react-native";
-import React from "react";
-import { Provider as PaperProvider, Text, Button } from "react-native-paper";
+import React, { useEffect, useState } from "react";
+import {
+  Provider as PaperProvider,
+  Text,
+  Button,
+  SegmentedButtons,
+  Banner,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { auth, db, storage } from "../../../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import * as ImagePicker from "expo-image-picker";
+import Colors from "../../../assets/constants/Colors";
+import * as Location from "expo-location";
+import { ref as dbRef, push, set } from "firebase/database";
 
 export default function NewMonetaryRequestPost() {
   let [fontLoaded] = useFonts({
@@ -26,6 +39,8 @@ export default function NewMonetaryRequestPost() {
     "Manrope-SemiBold": require("../../../assets/fonts/Manrope-SemiBold.ttf"),
   });
 
+  const [segBtnValue, setSegBtnValue] = useState("");
+
   const HideKeyboard = ({ children }) => (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       {children}
@@ -34,49 +49,97 @@ export default function NewMonetaryRequestPost() {
 
   const navigation = useNavigation();
 
-  const postRequest = () => {
-    if (title.trim() == "" || description.trim() == "" || amount < 0) {
-      alert("Please Insert All Fields!\nMinimum amount is 100 Rupees.");
-    } else {
-      alert("Posted Request Successfully!");
-      navigation.navigate("DoneePortal");
-    }
-  };
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  let postLoc = "Waiting..";
+  let longitude = 0;
+  let latitude = 0;
+  if (errorMsg) {
+    postLoc = errorMsg;
+  } else if (location) {
+    postLoc = `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`;
+    longitude = location.coords.longitude;
+    latitude = location.coords.latitude;
+  }
+
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState(0);
+
+  async function uploadPost() {
+    if (
+      title.trim() == "" ||
+      description.trim() == ""
+    ) {
+      alert("Please fill all fields");
+    } else {
+        var tempRef = dbRef(db, "hope/requests/" + auth.currentUser.displayName); 
+        var newPostRef = push(tempRef);
+        set(newPostRef, {
+          imgUrl:"https://img.freepik.com/free-vector/stack-money-gold-coins-3d-cartoon-style-icon-coins-with-dollar-sign-wad-cash-currency-flat-vector-illustration-wealth-investment-success-savings-economy-profit-concept_74855-26108.jpg",
+          title: title,
+          username: auth.currentUser.displayName,
+          description: description,
+          category: "money",
+          longitude: longitude,
+          latitude: latitude,
+        })
+          .then()
+          .catch((error) => {
+            alert(error);
+          });
+        alert("Post Uploaded Successfully!");
+        navigation.navigate("DoneePortal");
+
+    }
+  }
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>
-        <KeyboardAwareScrollView>
+      <Text style={styles.titleTxt}>Monetary Request</Text>
           <ScrollView>
             <View style={styles.detailsContainer}>
-              <Text style={styles.titleTxt}>Request Amount</Text>
+              <Text style={styles.titleTxt}>Title</Text>
               <TextInput
-                style={styles.requestTitle}
-                placeholder="Enter Amount"
-                keyboardType="numeric"
-                onChangeText={(text) => {
-                  setAmount(text);
-                }}
-              ></TextInput>
-              <Text style={styles.titleTxt}>Request Title</Text>
-              <TextInput
+                value={title}
+                onChangeText={(title) => setTitle(title)}
                 style={styles.requestTitle}
                 placeholder="Write Request Title Here."
-                onChangeText={(text) => {
-                  setTitle(text);
-                }}
               ></TextInput>
+              <Text style={styles.titleTxt}>Enter Amount</Text>
+              <TextInput
+                value={amount}
+                onChangeText={(amount) => setAmount(amount)}
+                style={styles.requestTitle}
+                keyboardType="numeric"
+                placeholder="Enter Request Amount Here."
+              ></TextInput>
+
               <Text style={styles.titleTxt}>Description</Text>
               <TextInput
+                value={description}
                 multiline={true}
                 style={styles.description}
                 placeholder="Write Request Description Here."
-                onChangeText={(text) => {
-                  setDescription(text);
-                }}
+                onChangeText={(text) => setDescription(text)}
               ></TextInput>
               <View style={styles.btnContainer}>
-                <Button style={styles.btnPost} onPress={postRequest}>
+                <Button style={styles.btnPost} onPress={uploadPost}>
                   <Text style={styles.btnTxtPost}>Post</Text>
                 </Button>
                 <Button style={styles.btnCancel}>
@@ -92,7 +155,6 @@ export default function NewMonetaryRequestPost() {
               </View>
             </View>
           </ScrollView>
-        </KeyboardAwareScrollView>
       </SafeAreaView>
     </PaperProvider>
   );
@@ -105,23 +167,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FDFAF6",
   },
-  imageContainer: {
-    height: "80%",
-    backgroundColor: "white",
-    width: "100%",
-    margin: 0,
-    borderRadius: 10,
-    padding: 10,
-  },
-
   detailsContainer: {
-    marginTop: "40%",
-    height: "60%",
+    height: "55%",
     backgroundColor: "transparent",
     width: "100%",
     margin: 10,
     borderRadius: 10,
     display: "flex",
+    marginTop:"20%"
   },
 
   titleTxt: {
@@ -149,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     backgroundColor: "white",
     padding: 10,
-    height: 200,
+    height: 150,
     borderRadius: 5,
   },
 
