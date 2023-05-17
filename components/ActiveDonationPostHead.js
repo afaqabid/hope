@@ -55,62 +55,51 @@ export default function ActiveDonationPostHead() {
   };
   var donationsPostsList = [];
   const [list, setList] = useState([]);
+  const [shown, setShown] = useState(false);
+
   var obj;
-  
+
   const [loading, setLoading] = useState(false);
-  
+
   const [test, setTest] = useState([]);
 
-  
+  async function loadData() {
+    const dbRef = ref(db, "hope/donations/" + auth.currentUser.displayName);
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+
+        obj = new PostHead(
+          childData.imgUrl,
+          childData.title,
+          childData.description,
+          childData.time,
+          childData.date,
+          childData.status,
+          childData.username
+        );
+        if(childData.status == "active")
+        {
+          donationsPostsList.push(obj);
+          setList(donationsPostsList);
+          setTest(list);
+          setCheck(true);
+        }
+      });
+    }, {
+      onlyOnce: true
+    })
+    return true;
+  }
+
   useEffect(() => {
-    console.log("Hello");
- 
-    async function loadData() {
-      const dbRef = ref(db, "hope/donations/afaqabid");
-      // const dbRef = ref(db, "hope/donations/" + auth.currentUser.displayName);
-      onValue(dbRef, (snapshot) => {
-        snapshot.forEach((childSnapshot) => {
-          const childKey = childSnapshot.key;
-          const childData = childSnapshot.val();
- 
-          obj = new PostHead(
-            childData.imgUrl,
-            childData.title,
-            childData.description,
-            "11:11",
-            "Apr 03, 2023",
-            "Active",
-            childData.username
-          );
-            donationsPostsList.push(obj);
-            setList(donationsPostsList);
-            setTest(list);
-            setCheck(true);
-    });
-      }, {
-        onlyOnce: true
-      })
-      return true;
-    }
     loadData();
   }, []);
 
-  console.log(test);
-
-  if(test.length == 0)
-  {
     return (
       <PaperProvider>
-        <Text style={styles.heading}>Active Donations</Text>
-        <Text style={styles.heading}>There are no Active Donations.</Text>
-      </PaperProvider>
-    );
-  
-  }
-  else
-  {
-    return (
-      <PaperProvider>
+        <View></View>
         <Text style={styles.heading}>Active Donations</Text>
         {test.map((donation) => (
           <>
@@ -144,7 +133,7 @@ export default function ActiveDonationPostHead() {
                       </Button>
                       <Button
                         style={styles.btnMsg}
-                        // onPress={() => sendMessage(donation)}
+                      // onPress={() => sendMessage(donation)}
                       >
                         <Text style={styles.btnMsgTxt}>Cancel</Text>
                       </Button>
@@ -155,14 +144,13 @@ export default function ActiveDonationPostHead() {
             </View>
           </>
         ))}
+        <Button onPress={loadData}>
+          Show
+        </Button>
       </PaperProvider>
     );
-  
+
   }
-
-
-}
-
 const styles = StyleSheet.create({
   heading: {
     fontSize: 20,
