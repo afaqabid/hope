@@ -16,6 +16,7 @@ import {
   Text,
   Button,
   SegmentedButtons,
+  Banner,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
@@ -23,6 +24,9 @@ import { useNavigation } from "@react-navigation/native";
 import { auth, db, storage } from "../../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
+import Colors from "../../../assets/constants/Colors";
+import * as Location from "expo-location";
+import { ref as dbRef, push, set } from "firebase/database";
 
 export default function NewPhysicalItemRequestPost() {
   let [fontLoaded] = useFonts({
@@ -34,6 +38,7 @@ export default function NewPhysicalItemRequestPost() {
     "Manrope-Regular": require("../../../assets/fonts/Manrope-Regular.ttf"),
     "Manrope-SemiBold": require("../../../assets/fonts/Manrope-SemiBold.ttf"),
   });
+
   const [segBtnValue, setSegBtnValue] = useState("");
 
   const HideKeyboard = ({ children }) => (
@@ -74,16 +79,6 @@ export default function NewPhysicalItemRequestPost() {
   const [image, setImage] = useState(null);
   const [imgUrl, setImgUrl] = useState(null);
 
-  // useEffect(  async()=>{
-  //   if(Platform.OS !==web){
-  //     const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-  //     if(status !== 'granted'){
-  //       alert("Permission Denied!");
-  //     }
-  //   }
-  // }, [])
-
   const uploadImage = async () => {
     // convert image into blob image
     const blobImage = await new Promise((resolve, reject) => {
@@ -110,7 +105,7 @@ export default function NewPhysicalItemRequestPost() {
     const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
 
     // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on(
+    await uploadTask.on(
       "state_changed",
       (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -148,6 +143,7 @@ export default function NewPhysicalItemRequestPost() {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
+          setImgUrl(downloadURL);
         });
       }
     );
@@ -183,7 +179,10 @@ export default function NewPhysicalItemRequestPost() {
         await uploadImage();
       }
       if (imgUrl != null) {
-        set(dbRef(db, "hope/requests/" + auth.currentUser.displayName), {
+        console.log("Here!");
+        var tempRef = dbRef(db, "hope/requests/" + auth.currentUser.displayName); 
+        var newPostRef = push(tempRef);
+        set(newPostRef, {
           imgUrl: imgUrl,
           title: title,
           username: auth.currentUser.displayName,
@@ -197,13 +196,12 @@ export default function NewPhysicalItemRequestPost() {
             alert(error);
           });
         alert("Post Uploaded Successfully!");
-        navigation.navigate("DonorPortal");
+        navigation.navigate("DoneePortal");
       } else {
         alert("Wait! Image is uploading!");
       }
     }
   }
-
   return (
     <PaperProvider>
       <SafeAreaView style={styles.mainContainer}>
@@ -336,7 +334,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     backgroundColor: "white",
     padding: 10,
-    height: 200,
+    height: 150,
     borderRadius: 5,
   },
 
